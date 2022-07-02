@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CompStore.Service\CompStore.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
