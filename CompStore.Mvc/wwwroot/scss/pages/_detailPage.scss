@@ -1,0 +1,55 @@
+#DesInfCom {
+    .col {
+        .bg-light {
+            .tab-content {
+                #tab-pane-2 {
+                    h4 {}
+
+                    .row {
+                        ul {
+                            display: flex;
+
+                            li {
+                                display: flex;
+                                border: none;
+                                padding: 0px;
+                                height: auto;
+
+                                .InfMainClass {
+                                    width: 400px;
+                                    display: flex;
+                                    align-items: baseline;
+
+                                    .InfMain {
+                                        color: #797979 !important;
+                                        display: inline-block !important;
+                                        align-items: center;
+                                        padding-right: 2px;
+                                        font-size: 17px;
+                                    }
+
+                                    .infoBottomLine {
+                                        width: auto;
+                                        flex-grow: 1;
+                                        border-top: 1px solid #d8d8d8;
+                                        margin: 5px;
+
+                                    }
+                                }
+
+                                .InfChild {
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                    color: #171717;
+                                    padding-left: 2px;
+                                    margin: 0 !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
