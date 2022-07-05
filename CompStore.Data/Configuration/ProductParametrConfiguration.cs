@@ -30,7 +30,6 @@ namespace CompStore.Data.Configuration
             builder.HasOne(x => x.ProcessorCache).WithMany(x => x.ProductParametrs).HasForeignKey(x => x.ProcessorCacheId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.ProcessorGhz).WithMany(x => x.ProductParametrs).HasForeignKey(x => x.ProcessorGhzId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.DaxiliYaddaş).WithMany(x => x.ProductParametrs).HasForeignKey(x => x.DaxiliYaddaşId).OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }

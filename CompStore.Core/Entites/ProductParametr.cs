@@ -42,5 +42,9 @@ namespace CompStore.Core.Entites
         public Teyinat Teyinat { get; set; }
         public ProcessorModel ProcessorModel { get; set; }
         public VideokartRam VideokartRam { get; set; }
+
+        public List<Product> Products { get; set; }
+
+
     }
 }
