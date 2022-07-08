@@ -1,5 +1,8 @@
 using CompStore.Core.Entites;
+using CompStore.Core.Repositories;
 using CompStore.Data;
+using CompStore.Data.Repository;
+using CompStore.Data.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +33,6 @@ namespace CompStore.Mvc
             services.AddControllersWithViews();
             //services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CategoryPostDtoValidator>());
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
-            
             services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 8;
@@ -39,7 +41,7 @@ namespace CompStore.Mvc
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = false;
             }).AddDefaultTokenProviders().AddEntityFrameworkStores<DataContext>();
-
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

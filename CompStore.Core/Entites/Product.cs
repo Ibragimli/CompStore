@@ -12,7 +12,7 @@ namespace CompStore.Core.Entites
         public int CategoryId { get; set; }
         public int ProductParametrId { get; set; }
         public string Name { get; set; }
-        public string? Description { get; set; }
+        public string Description { get; set; }
         public decimal? Price { get; set; }
         [Range(0, 100)]
         public decimal? DiscountPercent { get; set; }
