@@ -3,14 +3,18 @@ using CompStore.Core.Repositories;
 using CompStore.Data;
 using CompStore.Data.Repository;
 using CompStore.Data.UnitOfWork;
+using CompStore.Service.CustomExceptions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +63,35 @@ namespace CompStore.Mvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseExceptionHandler(error =>
+            {
+                error.Run(async context =>
+                {
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    var code = 500;
+                    string message = "Inter Server Error. Please Try Again Later!";
+
+                    if (contextFeature != null)
+                    {
+                        message = contextFeature.Error.Message;
+
+                        if (contextFeature.Error is ItemNotFoundException)
+                            code = 404;
+                    }
+
+                    context.Response.StatusCode = code;
+
+                    var errprJsonStr = JsonConvert.SerializeObject(new
+                    {
+                        code = code,
+                        message = message
+                    });
+
+                    await context.Response.WriteAsync(errprJsonStr);
+                });
+
+            });
 
             app.UseRouting();
 
