@@ -29,19 +29,12 @@ namespace CompStore.Service.Services.Implementations
 
             if (adminExist != null && adminExist.IsAdmin == true)
             {
-
                 var result = await _signInManager.PasswordSignInAsync(adminExist, adminLoginPostDto.Password, false, false);
-                if (!result.Succeeded)
-                {
-                   
-                    throw new UserNotFoundException("Username və ya Passoword yanlışdır!");
-
-                }
+                if (!result.Succeeded) throw new UserNotFoundException("Username və ya Passoword yanlışdır!");
+              
                 return true;
             }
             throw new UserNotFoundException("Username və ya Passoword yanlışdır!");
-
-
         }
 
 

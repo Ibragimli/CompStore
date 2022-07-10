@@ -21,8 +21,9 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IAdminLoginServices _adminLoginServices;
 
-        public AccountController(IAdminLoginServices adminLoginServices)
+        public AccountController(UserManager<AppUser> userManager,  IAdminLoginServices adminLoginServices)
         {
+            _userManager = userManager;
             _adminLoginServices = adminLoginServices;
         }
         public async Task<IActionResult> Login()
@@ -54,7 +55,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View();
             }
-           
+          
             return RedirectToAction("index", "dashboard");
         }
 
@@ -63,7 +64,6 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             _adminLoginServices.LogOut();
             return RedirectToAction("login", "account");
-
         }
 
 

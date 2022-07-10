@@ -36,11 +36,7 @@ namespace CompStore.Mvc.ServiceExtentions
 
                     context.Response.StatusCode = code;
 
-                    var errprJsonStr = JsonConvert.SerializeObject(new
-                    {
-                        code = code,
-                        message = message
-                    });
+                    var errprJsonStr = JsonConvert.SerializeObject(new { code = code, message = message });
 
                     await context.Response.WriteAsync(errprJsonStr);
                 });

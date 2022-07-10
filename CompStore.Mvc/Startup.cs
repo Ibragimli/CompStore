@@ -46,6 +46,7 @@ namespace CompStore.Mvc
             services.AddControllersWithViews();
             services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<AdminLoginPostDto>());
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+           
             services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 8;
@@ -54,11 +55,14 @@ namespace CompStore.Mvc
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = false;
             }).AddDefaultTokenProviders().AddEntityFrameworkStores<DataContext>();
+          
             services.AddAutoMapper(opt =>
             {
                 opt.AddProfile(new AppProfile());
             });
 
+
+            //Scopes
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAdminAccountRepository, AdminAccountRepository>();
             services.AddScoped<IAdminLoginServices, AdminLoginServices>();
