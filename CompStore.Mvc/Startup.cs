@@ -1,9 +1,18 @@
+using AutoMapper;
 using CompStore.Core.Entites;
 using CompStore.Core.Repositories;
 using CompStore.Data;
+using CompStore.Data.Repositories;
 using CompStore.Data.Repository;
 using CompStore.Data.UnitOfWork;
+using CompStore.Mvc.ServiceExtentions;
 using CompStore.Service.CustomExceptions;
+using CompStore.Service.Dtos;
+using CompStore.Service.HelperService.Interfaces;
+using CompStore.Service.Profiles;
+using CompStore.Service.Services.Implementations;
+using CompStore.Service.Services.Interfaces;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +44,7 @@ namespace CompStore.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CategoryPostDtoValidator>());
+            services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<AdminLoginPostDto>());
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
@@ -45,7 +54,21 @@ namespace CompStore.Mvc
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = false;
             }).AddDefaultTokenProviders().AddEntityFrameworkStores<DataContext>();
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile(new AppProfile());
+            });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAdminAccountRepository, AdminAccountRepository>();
+            services.AddScoped<IAdminLoginServices, AdminLoginServices>();
+
+
+
+            //services.AddSingleton(provider => new MapperConfiguration(mc =>
+            //{
+            //    mc.AddProfile(new MappingProfile(provider.GetService<IHelperAccessor>()));
+            //}).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,34 +87,7 @@ namespace CompStore.Mvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseExceptionHandler(error =>
-            {
-                error.Run(async context =>
-                {
-                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    var code = 500;
-                    string message = "Inter Server Error. Please Try Again Later!";
-
-                    if (contextFeature != null)
-                    {
-                        message = contextFeature.Error.Message;
-
-                        if (contextFeature.Error is ItemNotFoundException)
-                            code = 404;
-                    }
-
-                    context.Response.StatusCode = code;
-
-                    var errprJsonStr = JsonConvert.SerializeObject(new
-                    {
-                        code = code,
-                        message = message
-                    });
-
-                    await context.Response.WriteAsync(errprJsonStr);
-                });
-
-            });
+            app.AddExceptionHandlerService();
 
             app.UseRouting();
 

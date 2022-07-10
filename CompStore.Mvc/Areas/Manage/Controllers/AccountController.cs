@@ -1,5 +1,8 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Mvc.Areas.Manage.ViewModels;
+using CompStore.Service.CustomExceptions;
+using CompStore.Service.Dtos;
+using CompStore.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +19,11 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAdminLoginServices _adminLoginServices;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(IAdminLoginServices adminLoginServices)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            _adminLoginServices = adminLoginServices;
         }
         public async Task<IActionResult> Login()
         {
@@ -37,33 +38,30 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(AdminLoginViewModel adminVM)
+        public async Task<IActionResult> Login(AdminLoginPostDto adminLoginPostDto)
         {
-            AppUser adminExist = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == adminVM.Username);
-
-            if (adminExist != null && adminExist.IsAdmin == true)
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(adminExist, adminVM.Password, false, false);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", "Username və ya Passoword yanlışdır!");
-                    return View();
-                }
-                return RedirectToAction("index", "dashboard");
+                return View();
             }
-            ModelState.AddModelError("", "Password or Username incorrect! ");
-            return View();
+
+            try
+            {
+                await _adminLoginServices.Login(adminLoginPostDto);
+            }
+            catch (UserNotFoundException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
+           
+            return RedirectToAction("index", "dashboard");
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            _adminLoginServices.LogOut();
             return RedirectToAction("login", "account");
 
         }
@@ -81,5 +79,6 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
         //    return Ok(resultRole);
         //}
+
     }
 }

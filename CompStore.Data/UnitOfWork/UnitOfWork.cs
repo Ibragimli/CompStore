@@ -1,4 +1,5 @@
 ﻿using CompStore.Core.Repositories;
+using CompStore.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,13 +10,13 @@ namespace CompStore.Data.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _context;
-        //private IPropertyRepository _propertyRepository;
+        private IAdminAccountRepository _adminAccountRepository;
 
         public UnitOfWork(DataContext context)
         {
             _context = context;
         }
-        //public ICategoryRepository CategoryRepository => _categoryRepository = _categoryRepository ?? new CategoryRepository(_context);
+        public IAdminAccountRepository AdminAccountRepository => _adminAccountRepository = _adminAccountRepository ?? new AdminAccountRepository(_context);
 
         public async Task<int> CommitAsync()
         {

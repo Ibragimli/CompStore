@@ -7,6 +7,7 @@ namespace CompStore.Core.Repositories
 {
     public interface IUnitOfWork
     {
+        IAdminAccountRepository AdminAccountRepository { get; }
         Task<int> CommitAsync();
 
     }
