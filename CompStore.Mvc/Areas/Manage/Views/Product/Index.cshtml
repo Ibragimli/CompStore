@@ -1,0 +1,98 @@
+﻿@model ProductIndexViewModel
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Index</h4>
+
+
+
+        <!-- Bordered Table -->
+        <div class="card">
+            <div class="card-body">
+                @* Pagination *@
+                <div class="row">
+                    <div class="col-5">
+                        <form class="d-flex" onsubmit="return false">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-5" style="display:flex; justify-content:flex-end;">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                @if (Model.PagenatedProducts.HasPrev)
+                                {
+                                    <li class="page-item">
+                                        <a asp-action="index" asp-controller="product" asp-route-page="@(Model.PagenatedProducts.PageIndex-1)" class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= Model.PagenatedProducts.TotalPages; i++)
+                                {
+                                    <li aria-current="page" class="page-item" @(Model.PagenatedProducts.PageIndex == i ? "active" : "")>
+                                        <a asp-action="index" asp-controller="product" asp-route-page="@i" class="page-link">@i</a>
+                                    </li>
+                                }
+                                @if (Model.PagenatedProducts.HasNext)
+                                {
+                                    <li class="page-item">
+                                        <a asp-action="index" asp-controller="product" asp-route-page="@(Model.PagenatedProducts.PageIndex+1)" class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-2">
+                        <a asp-action="create" asp-controller="product"><i class="bx bx-trash me-1"></i> </a>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> </td>
+
+                                <td>Albert Cook</td>
+
+                                <td> </td>
+
+                                <td></td>
+
+                                <td><span class="badge bg-label-primary me-1">Active</span></td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <a asp-action="edit" asp-controller="product"><i class="bx bx-edit-alt me-1"></i> </a>
+                                        <a asp-action="delete" asp-controller="product"><i class="bx bx-trash me-1"></i> </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!--/ Bordered Table -->
+
+
+    </div>
+    <!-- / Content -->
+
+</div>

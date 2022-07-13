@@ -4,14 +4,16 @@ using CompStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompStore.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220711124556_datacontextfixed")]
+    partial class datacontextfixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,7 +221,7 @@ namespace CompStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GörüntüImkanıs");
+                    b.ToTable("GörüntüImkanı");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
