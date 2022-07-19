@@ -19,12 +19,9 @@ namespace CompStore.Mvc.Controllers
         }
         public IActionResult Detail(int id)
         {
-            var prd = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).ThenInclude(x => x.CategoryBrandIds).Where(x => x.IsDelete == false).FirstOrDefault(x => x.Id == id);
-            if (prd == null)
-            {
-                return RedirectToAction("notfound", "error");
+            var prd = _context.Products.Include(x => x.ProductImages).Include(x => x.CategoryBrandId).ThenInclude(x => x.Category).Where(x => x.IsDelete == false).FirstOrDefault(x => x.Id == id);
+            if (prd == null) return RedirectToAction("notfound", "error");
 
-            }
             DetailViewModel detailVM = new DetailViewModel
             {
                 Products = prd,

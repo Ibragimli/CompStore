@@ -4,14 +4,16 @@ using CompStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompStore.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220717124733_ProductAndModeladdCategoryBrandId")]
+    partial class ProductAndModeladdCategoryBrandId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -375,9 +377,6 @@ namespace CompStore.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModelId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -394,8 +393,6 @@ namespace CompStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryBrandIdId");
-
-                    b.HasIndex("ModelId");
 
                     b.HasIndex("ProductParametrId");
 
@@ -1041,12 +1038,6 @@ namespace CompStore.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CompStore.Core.Entites.Model", "Model")
-                        .WithMany("Products")
-                        .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("CompStore.Core.Entites.ProductParametr", "ProductParametr")
                         .WithMany("Products")
                         .HasForeignKey("ProductParametrId")
@@ -1054,8 +1045,6 @@ namespace CompStore.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("CategoryBrandId");
-
-                    b.Navigation("Model");
 
                     b.Navigation("ProductParametr");
                 });
@@ -1280,11 +1269,6 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.GörüntüImkanı", b =>
                 {
                     b.Navigation("ProductParametrs");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.OperationSystem", b =>

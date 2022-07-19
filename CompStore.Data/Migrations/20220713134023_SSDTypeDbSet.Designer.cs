@@ -4,14 +4,16 @@ using CompStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompStore.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220713134023_SSDTypeDbSet")]
+    partial class SSDTypeDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +231,7 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryBrandIdId")
+                    b.Property<int>("BrandId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -247,7 +249,7 @@ namespace CompStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryBrandIdId");
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Models");
                 });
@@ -358,7 +360,7 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryBrandIdId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -375,9 +377,6 @@ namespace CompStore.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModelId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -393,9 +392,7 @@ namespace CompStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryBrandIdId");
-
-                    b.HasIndex("ModelId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ProductParametrId");
 
@@ -1024,26 +1021,20 @@ namespace CompStore.Data.Migrations
 
             modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
                 {
-                    b.HasOne("CompStore.Core.Entites.CategoryBrandId", "CategoryBrandId")
+                    b.HasOne("CompStore.Core.Entites.Brand", "Brand")
                         .WithMany("Models")
-                        .HasForeignKey("CategoryBrandIdId")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("CategoryBrandId");
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Product", b =>
                 {
-                    b.HasOne("CompStore.Core.Entites.CategoryBrandId", "CategoryBrandId")
+                    b.HasOne("CompStore.Core.Entites.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryBrandIdId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CompStore.Core.Entites.Model", "Model")
-                        .WithMany("Products")
-                        .HasForeignKey("ModelId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -1053,9 +1044,7 @@ namespace CompStore.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("CategoryBrandId");
-
-                    b.Navigation("Model");
+                    b.Navigation("Category");
 
                     b.Navigation("ProductParametr");
                 });
@@ -1248,16 +1237,13 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.Brand", b =>
                 {
                     b.Navigation("CategoryBrandIds");
+
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Category", b =>
                 {
                     b.Navigation("CategoryBrandIds");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.CategoryBrandId", b =>
-                {
-                    b.Navigation("Models");
 
                     b.Navigation("Products");
                 });
@@ -1280,11 +1266,6 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.GörüntüImkanı", b =>
                 {
                     b.Navigation("ProductParametrs");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.OperationSystem", b =>

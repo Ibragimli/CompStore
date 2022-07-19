@@ -9,13 +9,16 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
     public class CreateViewModel
     {
         public Product Product { get; set; }
+        public Model Model { get; set; }
         public List<Category> Categorys { get; set; }
+        public List<CategoryBrandId> CategoryBrandIds { get; set; }
+        public CategoryBrandId CategoryBrand { get; set; }
+
         public List<ProductParametr> ProductParametrs { get; set; }
         public ProductParametr ProductParametr { get; set; }
         public List<Color> Colors { get; set; }
         public List<Model> Models { get; set; }
         public List<Brand> Brands { get; set; }
-        public CategoryBrandId CategoryBrandIds { get; set; }
         public List<ProcessorCache> ProcessorCaches { get; set; }
         public List<ProcessorGhz> ProcessorGhzs { get; set; }
         public List<ProcessorModel> ProcessorModels { get; set; }
@@ -28,8 +31,17 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
         public List<ScreenDiagonal> ScreenDiagonals { get; set; }
         public List<ScreenFrequency> ScreenFrequencies { get; set; }
         public List<Teyinat> Teyinats { get; set; }
+        public List<SSDType> SSDTypes { get; set; }
         public List<Videokart> Videokarts { get; set; }
         public List<VideokartRam> VideokartRams { get; set; }
         public List<GörüntüImkanı> GörüntüImkanıs { get; set; }
+    }
+    public class CreatePostViewModel
+    {
+        public Product Product { get; set; }
+        public ProductParametr ProductParametr { get; set; }
+        public Model Model { get; set; }
+        public CategoryBrandId CategoryBrand { get; set; }
+
     }
 }

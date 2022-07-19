@@ -13,7 +13,6 @@ namespace CompStore.Data.Configuration
         {
             builder.HasOne(x => x.Brand).WithMany(x => x.CategoryBrandIds).HasForeignKey(x => x.BrandId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.Category).WithMany(x => x.CategoryBrandIds).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }

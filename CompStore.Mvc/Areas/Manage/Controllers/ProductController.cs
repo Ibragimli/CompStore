@@ -24,26 +24,28 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             _env = env;
         }
 
-        // GET: Manage/Companies
+        // GET: Manage/Product
         public IActionResult Index(int page = 1)
         {
             var products = _context.Products.Include(x => x.ProductImages).AsQueryable();
             ProductIndexViewModel productIndexVM = new ProductIndexViewModel
             {
-                PagenatedProducts = PagenetedList<Product>.Create(products, page, 8),
+                PagenatedProducts = PagenetedList<Product>.Create(products, page, 5),
             };
             return View(productIndexVM);
         }
 
 
-        // GET: Manage/Companies/Create
+        // GET: Manage/Product/Create
         public IActionResult Create()
         {
             CreateViewModel createVM = new CreateViewModel
             {
                 Product = new Product(),
-                Categorys = _context.Categories.ToList(),
                 ProductParametrs = _context.ProductParametrs.ToList(),
+                CategoryBrandIds = _context.CategoryBrandIds.ToList(),
+                CategoryBrand = new CategoryBrandId(),
+                Categorys = _context.Categories.ToList(),
                 ProductParametr = new ProductParametr(),
                 Colors = _context.Colors.ToList(),
                 Models = _context.Models.ToList(),
@@ -63,30 +65,69 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 Teyinats = _context.Teyinats.ToList(),
                 Videokarts = _context.Videokarts.ToList(),
                 GörüntüImkanıs = _context.GörüntüImkanıs.ToList(),
+                SSDTypes = _context.SSDTypes.ToList(),
             };
             return View(createVM);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateViewModel createVM)
+        public async Task<IActionResult> Create(CreatePostViewModel createVM)
         {
+            CreateViewModel getCreateVM = new CreateViewModel
+            {
+                Product = new Product(),
+                ProductParametrs = _context.ProductParametrs.ToList(),
+                CategoryBrandIds = _context.CategoryBrandIds.ToList(),
+                CategoryBrand = new CategoryBrandId(),
+                Categorys = _context.Categories.ToList(),
+                ProductParametr = new ProductParametr(),
+                Colors = _context.Colors.ToList(),
+                Models = _context.Models.ToList(),
+                ProcessorCaches = _context.ProcessorCache.ToList(),
+                DaxiliYaddasHecms = _context.DaxiliYaddasHecms.ToList(),
+                OperationSystems = _context.OperationSystems.ToList(),
+                DaxiliYaddaşs = _context.DaxiliYaddaşs.ToList(),
+                ScreenDiagonals = _context.ScreenDiagonals.ToList(),
+                RamDDRs = _context.RamDDRs.ToList(),
+                Brands = _context.Brands.ToList(),
+                ProcessorGhzs = _context.ProcessorGhz.ToList(),
+                ProcessorModels = _context.ProcessorModel.ToList(),
+                RamGBs = _context.RamGBs.ToList(),
+                RamMhzs = _context.RamMhzs.ToList(),
+                ScreenFrequencies = _context.ScreenFrequencies.ToList(),
+                VideokartRams = _context.VideokartRams.ToList(),
+                Teyinats = _context.Teyinats.ToList(),
+                Videokarts = _context.Videokarts.ToList(),
+                GörüntüImkanıs = _context.GörüntüImkanıs.ToList(),
+                SSDTypes = _context.SSDTypes.ToList(),
+            };
             ///Required
-            //IsRequired(createVM);
-            //if (_context.Products.Any(x => x.Name == createVM.Name))
-            //{
-            //    ModelState.AddModelError("Name", "Name is already!");
-            //    return View();
-            //}
-            //if (!ModelState.IsValid) return View();
+            IsRequired(createVM.Product);
 
-            ////Check
-            //PosterImageCheck(product);
-            //ImagesCheck(product);
-            //if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View(getCreateVM);
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            DaxiliYaddaş newDaxiliYaddaş = createVM.ProductParametr.DaxiliYaddaş;
+            _context.Add(newDaxiliYaddaş);
+            _context.SaveChanges();
 
-            ////Create
-            //CreatePosterImage(product);
-            //CreateImage(product);
+            ProductParametr newParametr = createVM.ProductParametr;
+            newParametr.DaxiliYaddaşId = newDaxiliYaddaş.Id;
+            _context.Add(newParametr);
+            _context.SaveChanges();
+            var brandcatId = _context.CategoryBrandIds.FirstOrDefault(x => x.BrandId == createVM.CategoryBrand.BrandId && x.CategoryId == createVM.CategoryBrand.CategoryId);
+
+            createVM.Product.ProductParametrId = newParametr.Id;
+            createVM.Product.ModelId = createVM.Model.Id;
+            createVM.Product.CategoryBrandIdId = brandcatId.Id;
+
+            //Check
+            PosterImageCheck(createVM.Product);
+            ImagesCheck(createVM.Product);
+            if (!ModelState.IsValid) return View(getCreateVM);
+
+            //Create
+            CreatePosterImage(createVM.Product);
+            CreateImage(createVM.Product);
 
 
             //ViewCount count = new ViewCount
@@ -96,12 +137,13 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             //};
             //_context.ViewCounts.Add(count);
             //SaveChange
-            //SaveChange(product);
+            SaveChange(createVM.Product);
             SaveContext();
+            await transaction.CommitAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Manage/Companies/Edit/5
+        // GET: Manage/Product/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             if (!CompanyExists(id)) return RedirectToAction("notfound", "error");
@@ -142,20 +184,23 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
         }
 
-        // GET: Manage/Companies/Delete/5
+        // GET: Manage/Product/Delete/5
         public IActionResult Delete(int id)
         {
-            var company = _context.Products.Include(x => x.ProductImages).FirstOrDefault(x => x.Id == id);
-            if (company == null) return RedirectToAction("notfound", "error");
-            //var PosterImage = company.ProductImages.FirstOrDefault(x => x.PosterStatus == true);
-            //FileManager.Delete(_env.WebRootPath, "uploads/companies", PosterImage.Image);
-
-            //var Images = company.ProductImages.FirstOrDefault(x => x.PosterStatus == false);
-            //foreach (var item in company.ProductImages.Where(x => x.PosterStatus == false))
-            //{
-            //    DeleteFile(item);
-            //}
-            //_context.Companies.Remove(company);
+            var products = _context.Products.Include(x => x.ProductImages).FirstOrDefault(x => x.Id == id);
+            if (products == null) return RedirectToAction("notfound", "error");
+            var PosterImage = products.ProductImages.FirstOrDefault(x => x.PosterStatus == true);
+            FileManager.Delete(_env.WebRootPath, "uploads/product", PosterImage.Image);
+            _context.ProductImages.Remove(PosterImage);
+            var Images = products.ProductImages.FirstOrDefault(x => x.PosterStatus == false);
+            foreach (var item in products.ProductImages.Where(x => x.PosterStatus == false))
+            {
+                FileManager.Delete(_env.WebRootPath, "uploads/product", item.Image);
+                _context.ProductImages.Remove(item);
+            }
+            _context.SaveChanges();
+            _context.Products.Remove(products);
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
@@ -168,18 +213,22 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             if (product.Name == null)
             {
-                ModelState.AddModelError("Name", "Name is required");
+                ModelState.AddModelError("", "Name is required");
             }
 
             if (product.Price == null)
             {
-                ModelState.AddModelError("Website", "Website is required");
+                ModelState.AddModelError("", "Price is required");
 
             }
             if (product.Description == null)
             {
-                ModelState.AddModelError("Description", "Description is required");
+                ModelState.AddModelError("", "Description is required");
 
+            }
+            if (product.DiscountPercent == null)
+            {
+                ModelState.AddModelError("", "DiscountPercent is required");
             }
 
             if (product.PosterImageFile == null)
@@ -242,7 +291,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
         private string FileSave(Product product)
         {
-            string image = FileManager.Save(_env.WebRootPath, "uploads/companies", product.PosterImageFile);
+            string image = FileManager.Save(_env.WebRootPath, "uploads/product", product.PosterImageFile);
             return image;
         }
         private void EditImageSave(Product product, Product productExist)
@@ -261,7 +310,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 ProductImage newImage = new ProductImage
                 {
                     PosterStatus = false,
-                    Image = FileManager.Save(_env.WebRootPath, "uploads/companies", image),
+                    Image = FileManager.Save(_env.WebRootPath, "uploads/product", image),
 
                 };
                 if (productExist.ProductImages == null)
@@ -299,7 +348,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
         private void DeleteFile(string image)
         {
-            FileManager.Delete(_env.WebRootPath, "uploads/companies", image);
+            FileManager.Delete(_env.WebRootPath, "uploads/product", image);
         }
         private void ImagesDelete(Product company, Product companyExist)
         {
@@ -307,7 +356,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             {
                 foreach (var item in companyExist.ProductImages.Where(x => x.PosterStatus == false && !company.ProductImagesIds.Contains(x.Id)))
                 {
-                    FileManager.Delete(_env.WebRootPath, "uploads/companies", item.Image);
+                    FileManager.Delete(_env.WebRootPath, "uploads/product", item.Image);
                 }
                 companyExist.ProductImages.RemoveAll(x => x.PosterStatus == false && !company.ProductImagesIds.Contains(x.Id));
 

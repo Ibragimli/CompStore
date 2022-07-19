@@ -8,6 +8,6 @@ namespace CompStore.Core.Entites
     {
         public string Name { get; set; }
         public ICollection<CategoryBrandId> CategoryBrandIds { get; set; }
-        public ICollection<Product> Products { get; set; }
+        
     }
 }

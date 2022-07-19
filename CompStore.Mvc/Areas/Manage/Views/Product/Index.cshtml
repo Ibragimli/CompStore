@@ -65,24 +65,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> </td>
+                            @foreach (var product in Model.PagenatedProducts)
+                            {
+                                <tr>
+                                    <td> </td>
 
-                                <td>Albert Cook</td>
+                                    <td>@product.Name</td>
 
-                                <td> </td>
+                                    <td> </td>
 
-                                <td></td>
+                                    <td></td>
 
-                                <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    <td><span class="badge bg-label-primary me-1">Active</span></td>
 
-                                <td>
-                                    <div class="d-flex">
-                                        <a asp-action="edit" asp-controller="product"><i class="bx bx-edit-alt me-1"></i> </a>
-                                        <a asp-action="delete" asp-controller="product"><i class="bx bx-trash me-1"></i> </a>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a asp-route-id="@product.Id"  asp-action="edit" asp-controller="product"><i class="bx bx-edit-alt me-1"></i> </a>
+                                            <a asp-route-id="@product.Id"  asp-action="delete" asp-controller="product"><i class="bx bx-trash me-1"></i> </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -7,7 +7,6 @@ namespace CompStore.Core.Entites
     public class Brand : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Model> Models { get; set; }
         public ICollection<CategoryBrandId> CategoryBrandIds { get; set; }
     }
 }

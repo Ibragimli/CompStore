@@ -36,6 +36,7 @@ namespace CompStore.Data
         public DbSet<Videokart> Videokarts { get; set; }
         public DbSet<VideokartRam> VideokartRams { get; set; }
         public DbSet<GörüntüImkanı> GörüntüImkanıs { get; set; }
+        public DbSet<SSDType> SSDTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
