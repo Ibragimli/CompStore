@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompStore.Core.Repositories
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity : class
     {
         Task InsertAsync(TEntity entity);
         Task<IEnumerable<TEntity>> GetAllPagenatedAsync(Expression<Func<TEntity, bool>> exp, int pageIndex, int pageSize, params string[] includes);

@@ -4,14 +4,16 @@ using CompStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompStore.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220719133921_DaxiliYaddasIsSSDTypeId")]
+    partial class DaxiliYaddasIsSSDTypeId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,6 +128,32 @@ namespace CompStore.Data.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddasHecm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cache")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DaxiliYaddasHecms");
+                });
+
             modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddaş", b =>
                 {
                     b.Property<int>("Id")
@@ -133,10 +161,13 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Cache")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HDDHecmId")
+                    b.Property<int>("DaxiliYaddasHecmId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
@@ -155,17 +186,12 @@ namespace CompStore.Data.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("SSDHecmId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("SSDTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HDDHecmId");
-
-                    b.HasIndex("SSDHecmId");
+                    b.HasIndex("DaxiliYaddasHecmId");
 
                     b.HasIndex("SSDTypeId");
 
@@ -198,41 +224,12 @@ namespace CompStore.Data.Migrations
                     b.ToTable("GörüntüImkanıs");
                 });
 
-            modelBuilder.Entity("CompStore.Core.Entites.HDDHecm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Cache")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HDDHecms");
-                });
-
             modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CategoryBrandIdId")
                         .HasColumnType("int");
@@ -251,8 +248,6 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryBrandIdId");
 
@@ -619,31 +614,6 @@ namespace CompStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RamMhzs");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.SSDHecm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Cache")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SSDHecms");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.SSDType", b =>
@@ -1037,43 +1007,29 @@ namespace CompStore.Data.Migrations
 
             modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddaş", b =>
                 {
-                    b.HasOne("CompStore.Core.Entites.HDDHecm", "HDDHecm")
+                    b.HasOne("CompStore.Core.Entites.DaxiliYaddasHecm", "DaxiliYaddasHecm")
                         .WithMany("DaxiliYaddaşs")
-                        .HasForeignKey("HDDHecmId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("CompStore.Core.Entites.SSDHecm", "SSDHecm")
-                        .WithMany("DaxiliYaddaşs")
-                        .HasForeignKey("SSDHecmId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("DaxiliYaddasHecmId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("CompStore.Core.Entites.SSDType", "SSDType")
                         .WithMany("DaxiliYaddaşs")
                         .HasForeignKey("SSDTypeId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("HDDHecm");
-
-                    b.Navigation("SSDHecm");
+                    b.Navigation("DaxiliYaddasHecm");
 
                     b.Navigation("SSDType");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
                 {
-                    b.HasOne("CompStore.Core.Entites.Brand", "Brand")
-                        .WithMany("Models")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("CompStore.Core.Entites.CategoryBrandId", "CategoryBrandId")
                         .WithMany("Models")
                         .HasForeignKey("CategoryBrandIdId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Brand");
 
                     b.Navigation("CategoryBrandId");
                 });
@@ -1293,8 +1249,6 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.Brand", b =>
                 {
                     b.Navigation("CategoryBrandIds");
-
-                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Category", b =>
@@ -1314,6 +1268,11 @@ namespace CompStore.Data.Migrations
                     b.Navigation("ProductParametrs");
                 });
 
+            modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddasHecm", b =>
+                {
+                    b.Navigation("DaxiliYaddaşs");
+                });
+
             modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddaş", b =>
                 {
                     b.Navigation("ProductParametrs");
@@ -1322,11 +1281,6 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.GörüntüImkanı", b =>
                 {
                     b.Navigation("ProductParametrs");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.HDDHecm", b =>
-                {
-                    b.Navigation("DaxiliYaddaşs");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.Model", b =>
@@ -1377,11 +1331,6 @@ namespace CompStore.Data.Migrations
             modelBuilder.Entity("CompStore.Core.Entites.RamMhz", b =>
                 {
                     b.Navigation("ProductParametrs");
-                });
-
-            modelBuilder.Entity("CompStore.Core.Entites.SSDHecm", b =>
-                {
-                    b.Navigation("DaxiliYaddaşs");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.SSDType", b =>

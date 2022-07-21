@@ -13,7 +13,8 @@ namespace CompStore.Data.Configuration
         {
             builder.Property(x => x.Name).HasMaxLength(50);
             builder.HasOne(x => x.CategoryBrandId).WithMany(x => x.Models).HasForeignKey(x => x.CategoryBrandIdId).OnDelete(DeleteBehavior.NoAction);
-      
+            builder.HasOne(x => x.Brand).WithMany(x => x.Models).HasForeignKey(x => x.BrandId).OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

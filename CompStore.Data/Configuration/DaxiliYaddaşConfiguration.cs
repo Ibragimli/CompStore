@@ -13,11 +13,9 @@ namespace CompStore.Data.Configuration
         {
             builder.Property(x => x.IsHDD).HasDefaultValue(false);
             builder.Property(x => x.IsSSD).HasDefaultValue(false);
-            builder.Property(x => x.Cache).IsRequired();
-
-            builder.HasOne(x => x.DaxiliYaddasHecm).WithMany(x => x.DaxiliYaddaşs).HasForeignKey(x => x.DaxiliYaddasHecmId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.SSDType).WithMany(x => x.DaxiliYaddaşs).HasForeignKey(x => x.SSDTypeId).OnDelete(DeleteBehavior.NoAction);
-
+            builder.HasOne(x => x.HDDHecm).WithMany(x => x.DaxiliYaddaşs).HasForeignKey(x => x.HDDHecmId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.SSDType).WithMany(x => x.DaxiliYaddaşs).HasForeignKey(x => x.SSDTypeId).OnDelete(DeleteBehavior.NoAction).IsRequired(false);
+            builder.HasOne(x => x.SSDHecm).WithMany(x => x.DaxiliYaddaşs).HasForeignKey(x => x.SSDHecmId).OnDelete(DeleteBehavior.NoAction).IsRequired(false);
         }
     }
 }

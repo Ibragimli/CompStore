@@ -7,9 +7,9 @@ using System.Text;
 
 namespace CompStore.Data.Configuration
 {
-    public class DaxiliYaddasHecmConfiguration : IEntityTypeConfiguration<DaxiliYaddasHecm>
+    public class HDDHecmConfiguration : IEntityTypeConfiguration<HDDHecm>
     {
-        public void Configure(EntityTypeBuilder<DaxiliYaddasHecm> builder)
+        public void Configure(EntityTypeBuilder<HDDHecm> builder)
         {
             builder.Property(x => x.Cache).HasMaxLength(50).IsRequired();
         }

@@ -24,7 +24,7 @@ namespace CompStore.Data
         public DbSet<ProcessorCache> ProcessorCache { get; set; }
         public DbSet<ProcessorGhz> ProcessorGhz { get; set; }
         public DbSet<ProcessorModel> ProcessorModel { get; set; }
-        public DbSet<DaxiliYaddasHecm> DaxiliYaddasHecms { get; set; }
+        public DbSet<HDDHecm> HDDHecms { get; set; }
         public DbSet<DaxiliYaddaş> DaxiliYaddaşs { get; set; }
         public DbSet<OperationSystem> OperationSystems { get; set; }
         public DbSet<RamDDR> RamDDRs { get; set; }
@@ -37,6 +37,7 @@ namespace CompStore.Data
         public DbSet<VideokartRam> VideokartRams { get; set; }
         public DbSet<GörüntüImkanı> GörüntüImkanıs { get; set; }
         public DbSet<SSDType> SSDTypes { get; set; }
+        public DbSet<SSDHecm> SSDHecms { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -18,7 +18,6 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
         private readonly IAdminLoginServices _adminLoginServices;
 
         public AccountController(UserManager<AppUser> userManager,  IAdminLoginServices adminLoginServices)

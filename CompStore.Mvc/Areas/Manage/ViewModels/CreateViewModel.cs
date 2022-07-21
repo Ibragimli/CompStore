@@ -10,6 +10,7 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
     {
         public Product Product { get; set; }
         public Model Model { get; set; }
+        public List<SSDHecm> SSDHecms { get; set; }
         public List<Category> Categorys { get; set; }
         public List<CategoryBrandId> CategoryBrandIds { get; set; }
         public CategoryBrandId CategoryBrand { get; set; }
@@ -22,7 +23,7 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
         public List<ProcessorCache> ProcessorCaches { get; set; }
         public List<ProcessorGhz> ProcessorGhzs { get; set; }
         public List<ProcessorModel> ProcessorModels { get; set; }
-        public List<DaxiliYaddasHecm> DaxiliYaddasHecms { get; set; }
+        public List<HDDHecm> HDDHecms { get; set; }
         public List<DaxiliYaddaş> DaxiliYaddaşs { get; set; }
         public List<OperationSystem> OperationSystems { get; set; }
         public List<RamDDR> RamDDRs { get; set; }
