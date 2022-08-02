@@ -12,6 +12,9 @@ namespace CompStore.Core.Repositories
         IDaxiliYaddasRepository DaxiliYaddasRepository { get; }
         IProductParametrRepository ProductParametrRepository { get; }
         ICategoryBrandIdRepository CategoryBrandIdRepository { get; }
+        IProductEditRepository ProductEditRepository { get; }
+        IProductRepository ProductRepository { get; }
+        IProductDeleteRepository ProductDeleteRepository { get; }
         IProductImagesRepositroy ProductImagesRepositroy { get; }
         Task<int> CommitAsync();
     }

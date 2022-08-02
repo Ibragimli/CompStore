@@ -1,4 +1,4 @@
-﻿@model CreateViewModel
+﻿@model EditProductViewModel
 @{
 }
 <div class="content-wrapper">
@@ -11,33 +11,32 @@
                 <div class="card mb-4">
                     <h5 class="card-header">Default</h5>
                     <div class="card-body">
-                        <form asp-action="create" method="post" enctype="multipart/form-data">
+                        <form asp-action="edit" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
-
-
+                                <input asp-for="Product.Id" value="@Model.Product.Id" type="hidden" />
                                 @* Kategori *@
                                 <div class="select1 col-6">
-                                    <label asp-for="CategoryBrand.CategoryId" class="form-label">Kategori</label>
+                                    <label asp-for="Product.CategoryBrandId.CategoryId" class="form-label">Kategori</label>
                                     <input style="display:inline-block; width:50%; margin-bottom:2px;" class="form-control" type="text" placeholder="Search.." onkeyup="filterFunction()" id="categoriInput" />
-                                    <select asp-for="CategoryBrand.CategoryId" id="categorySelect" class="form-select">
+                                    <select asp-for="Product.CategoryBrandId.CategoryId" id="categorySelect" class="form-select">
                                         <option selected>Hamısı</option>
                                         @foreach (var item in Model.viewModel.Categorys)
                                         {
                                             <option data-id="@item.Id" id="categoryOption" value="@item.Id">@item.Name</option>
                                         }
                                     </select>
-                                    <span asp-validation-for="CategoryBrand.CategoryId" class="text-danger"></span>
+                                    <span asp-validation-for="Product.CategoryBrandId.CategoryId" class="text-danger"></span>
                                 </div>
 
                                 @* Brand *@
                                 <div class="col-6">
                                     <div class="select2">
-                                        <label asp-for="CategoryBrand.BrandId" class="form-label">Brand</label>
-                                        <select id="brandSelect" asp-for="CategoryBrand.BrandId" class="form-select">
-                                            <option selected disabled>All</option>
+                                        <label asp-for="Product.CategoryBrandId.BrandId" class="form-label">Brand</label>
+                                        <select id="brandSelect" asp-for="Product.CategoryBrandId.BrandId" class="form-select">
+                                            <option value="@Model.Product.CategoryBrandId.Brand.Id" selected>@Model.Product.CategoryBrandId.Brand.Name</option>
                                         </select>
-                                        <span asp-validation-for="CategoryBrand.BrandId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.CategoryBrandId.BrandId" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -46,11 +45,12 @@
                                     <div class="select3">
                                         <label asp-for="Product.ModelId" class="form-label">Model</label>
                                         <select id="modelSelect" asp-for="Product.ModelId" class="form-select">
-                                            <option selected disabled>All</option>
+                                            <option value="@Model.Product.Model.Id" selected>@Model.Product.Model.Name</option>
                                         </select>
                                         <span asp-validation-for="Product.ModelId" class="text-danger"></span>
                                     </div>
                                 </div>
+
 
                                 @* Name *@
                                 <div class="col-6">
@@ -85,295 +85,319 @@
 
                                 @* Bluetooth *@
                                 <div class="col-3 d-flex align-items-center">
-                                    <input class="form-check-input" asp-for="@Model.ProductParametr.Bluetooth" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.Bluetooth)
-                                    <span asp-validation-for="@Model.ProductParametr.Bluetooth" class="text-danger"></span>
+                                    <input class="form-check-input" asp-for="Product.ProductParametr.Bluetooth" placeholder="...." /> Bluetooth
+                                    <span asp-validation-for="Product.ProductParametr.Bluetooth" class="text-danger"></span>
                                 </div>
+
 
                                 @* Kamera *@
                                 <div class="col-3 d-flex align-items-center">
-                                    <input class="form-check-input" asp-for="@Model.ProductParametr.Kamera" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.Kamera)
-                                    <span asp-validation-for="@Model.ProductParametr.Kamera" class="text-danger"></span>
+                                    <input class="form-check-input" asp-for="Product.ProductParametr.Kamera" placeholder="...." /> Kamera
+                                    <span asp-validation-for="Product.ProductParametr.Kamera" class="text-danger"></span>
                                 </div>
+
                                 @* Colors *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ColorId" class="form-label">Rəng</label>
-                                        <select asp-for=" ProductParametr.ColorId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ColorId" class="form-label">Rəng</label>
+                                        <select asp-for="Product.ProductParametr.ColorId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.Colors)
                                             {
                                                 <option value="@item.Id">@item.Name</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ColorId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ColorId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* OperationSystems *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.OperationSystemId" class="form-label">Əməliyyat sistemi</label>
-                                        <select asp-for=" ProductParametr.OperationSystemId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.OperationSystemId" class="form-label">Əməliyyat sistemi</label>
+                                        <select asp-for="Product.ProductParametr.OperationSystemId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.OperationSystems)
                                             {
                                                 <option value="@item.Id">@item.System</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.OperationSystemId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.OperationSystemId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* ProcessorCaches *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ProcessorCacheId" class="form-label">Processor Keşi</label>
-                                        <select asp-for=" ProductParametr.ProcessorCacheId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ProcessorCacheId" class="form-label">Processor Keşi</label>
+                                        <select asp-for="Product.ProductParametr.ProcessorCacheId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.ProcessorCaches)
                                             {
                                                 <option value="@item.Id">@item.Cache</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ProcessorCacheId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ProcessorCacheId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* ProcessorGhzs *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ProcessorGhzId" class="form-label">Processor Ghz</label>
-                                        <select asp-for=" ProductParametr.ProcessorGhzId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ProcessorGhzId" class="form-label">Processor Ghz</label>
+                                        <select asp-for="Product.ProductParametr.ProcessorGhzId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.ProcessorGhzs)
                                             {
                                                 <option value="@item.Id">@item.Ghz</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ProcessorGhzId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ProcessorGhzId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* ProcessorModels *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ProcessorModelId" class="form-label">Processor Model</label>
-                                        <select asp-for=" ProductParametr.ProcessorModelId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ProcessorModelId" class="form-label">Processor Model</label>
+                                        <select asp-for="Product.ProductParametr.ProcessorModelId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.ProcessorModels)
                                             {
                                                 <option value="@item.Id">@item.Name</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ProcessorModelId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ProcessorModelId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* RamDDRs *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.RamDDRId" class="form-label">Ram DDR</label>
-                                        <select asp-for=" ProductParametr.RamDDRId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.RamDDRId" class="form-label">Ram DDR</label>
+                                        <select asp-for="Product.ProductParametr.RamDDRId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.RamDDRs)
                                             {
                                                 <option value="@item.Id">@item.DDR</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.RamDDRId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.RamDDRId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* RamGB *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.RamGBId" class="form-label">Ram GB</label>
-                                        <select asp-for=" ProductParametr.RamGBId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.RamGBId" class="form-label">Ram GB</label>
+                                        <select asp-for="Product.ProductParametr.RamGBId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.RamGBs)
                                             {
                                                 <option value="@item.Id">@item.GB</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.RamGBId" class=" text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.RamGBId" class=" text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* RamMhzs *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.RamMhzId" class="form-label">Ram Mhz</label>
-                                        <select asp-for=" ProductParametr.RamMhzId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.RamMhzId" class="form-label">Ram Mhz</label>
+                                        <select asp-for="Product.ProductParametr.RamMhzId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.RamMhzs)
                                             {
                                                 <option value="@item.Id">@item.Mhz</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.RamMhzId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.RamMhzId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* Diagonal *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ScreenDiagonalId" class="form-label">Ekran Diaqonalı</label>
-                                        <select asp-for=" ProductParametr.ScreenDiagonalId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ScreenDiagonalId" class="form-label">Ekran Diaqonalı</label>
+                                        <select asp-for="Product.ProductParametr.ScreenDiagonalId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.ScreenDiagonals)
                                             {
                                                 <option value="@item.Id">@item.Diagonal</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ScreenDiagonalId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ScreenDiagonalId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* ScreenFrequencies *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.ScreenFrequencyId" class="form-label">Ekran Tezliyi </label>
-                                        <select asp-for=" ProductParametr.ScreenFrequencyId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.ScreenFrequencyId" class="form-label">Ekran Tezliyi </label>
+                                        <select asp-for="Product.ProductParametr.ScreenFrequencyId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.ScreenFrequencies)
                                             {
                                                 <option value="@item.Id">@item.Frequency</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.ScreenFrequencyId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.ScreenFrequencyId" class="text-danger"></span>
                                     </div>
                                 </div>
+
 
                                 @* GörüntüImkanı *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for="ProductParametr.GörüntüImkanıId" class="form-label">Görüntü Imkanı</label>
-                                        <select asp-for="ProductParametr.GörüntüImkanıId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.GörüntüImkanıId" class="form-label">Görüntü Imkanı</label>
+                                        <select asp-for="Product.ProductParametr.GörüntüImkanıId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.GörüntüImkanıs)
                                             {
                                                 <option value="@item.Id">@item.Capability</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="ProductParametr.GörüntüImkanıId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.GörüntüImkanıId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* Teyinat *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.TeyinatId" class="form-label">Teyinati</label>
-                                        <select asp-for=" ProductParametr.TeyinatId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.TeyinatId" class="form-label">Teyinati</label>
+                                        <select asp-for="Product.ProductParametr.TeyinatId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.Teyinats)
                                             {
                                                 <option value="@item.Id">@item.Type</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.TeyinatId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.TeyinatId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* Videokart *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.VideokartId" class="form-label">Videokart</label>
-                                        <select asp-for=" ProductParametr.VideokartId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.VideokartId" class="form-label">Videokart</label>
+                                        <select asp-for="Product.ProductParametr.VideokartId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.Videokarts)
                                             {
                                                 <option value="@item.Id">@item.Name</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.VideokartId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.VideokartId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* VideokartRam *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for=" ProductParametr.VideokartRamId" class="form-label">Videokart Ram</label>
-                                        <select asp-for=" ProductParametr.VideokartRamId" class="form-select" size="3" aria-label="size 3 select example">
+                                        <label asp-for="Product.ProductParametr.VideokartRamId" class="form-label">Videokart Ram</label>
+                                        <select asp-for="Product.ProductParametr.VideokartRamId" class="form-select" size="3" aria-label="size 3 select example">
                                             @foreach (var item in Model.viewModel.VideokartRams)
                                             {
                                                 <option value="@item.Id">@item.Ram</option>
                                             }
                                         </select>
-                                        <span asp-validation-for=" ProductParametr.VideokartRamId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.VideokartRamId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* Daxili Yaddaş *@
                                 <div class="d-flex justify-content-between align-items-center col-6">
                                     <div>
-                                        <input type="checkbox" class="isSSDCheckInput form-check-input" asp-for="@Model.ProductParametr.DaxiliYaddaş.IsSSD" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.DaxiliYaddaş.IsSSD)
+                                        <input type="checkbox" class="isSSDCheckInput form-check-input" asp-for="Product.ProductParametr.DaxiliYaddaş.IsSSD" placeholder="...." /> IsSSD
 
                                     </div>
                                     <div>
-                                        <input type="checkbox" class="isHHDCheckInput form-check-input" asp-for="@Model.ProductParametr.DaxiliYaddaş.IsHDD" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.DaxiliYaddaş.IsHDD)
+                                        <input type="checkbox" class="isHHDCheckInput form-check-input" asp-for="Product.ProductParametr.DaxiliYaddaş.IsHDD" placeholder="...." /> IsHDD
                                     </div>
                                     <span asp-validation-for="Product.ProductParametr.DaxiliYaddaşId" class="text-danger"></span>
                                 </div>
 
                                 @* SSD TYPE *@
-                                <div style="display:none ;" id="ssdType" class=" col-6">
+                                <div style="display:@(Model.Product.ProductParametr.DaxiliYaddaş.IsSSD == true?"block":"none");" id="ssdType" class=" col-6">
                                     <div>
-                                        <label asp-for="@Model.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-label">SSD Növü</label>
-                                        <select asp-for="@Model.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-select">
+                                        <label asp-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-label">SSD Növü</label>
+                                        <select asp-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-select" >
                                             @foreach (var item in Model.viewModel.SSDTypes)
                                             {
                                                 <option value="@item.Id">@item.Type</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="@Model.ProductParametr.DaxiliYaddaş.SSDTypeId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* SSD Hecm *@
-                                <div style="display:none ;" id="ssdHecm" class="col-6">
+                                <div style="display:@(Model.Product.ProductParametr.DaxiliYaddaş.IsSSD == true?"block":"none");" id="ssdHecm" class="col-6">
                                     <div>
-                                        <label asp-for="@Model.viewModel.SSDHecms" class="form-label">SSD Hecmi</label>
-                                        <select asp-for="@Model.ProductParametr.DaxiliYaddaş.SSDHecmId" class="form-select">
+                                        <label asp-for="Product.ProductParametr.DaxiliYaddaş.SSDHecmId" class="form-label">SSD Hecmi</label>
+                                        <select asp-for="Product.ProductParametr.DaxiliYaddaş.SSDHecmId" class="form-select">
                                             @foreach (var item in Model.viewModel.SSDHecms)
                                             {
                                                 <option value="@item.Id">@item.Cache</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="@Model.viewModel.SSDHecms" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.DaxiliYaddaş.SSDHecmId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* HDD Hecm *@
-                                <div style="display:none ;" id="hhdHecm" class="col-6">
+                                <div style="display:@(Model.Product.ProductParametr.DaxiliYaddaş.IsHDD == true?"block":"none")" id="hddHecm" class="col-6">
                                     <div>
-                                        <label asp-for="@Model.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-label">HDD Hecmi</label>
-                                        <select asp-for="@Model.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-select">
+                                        <label asp-for="Product.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-label">HDD Hecmi</label>
+                                        <select asp-for="Product.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-select">
                                             @foreach (var item in Model.viewModel.HDDHecms)
                                             {
                                                 <option value="@item.Id">@item.Cache</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="@Model.ProductParametr.DaxiliYaddaş.HDDHecmId" class="text-danger"></span>
+                                        <span asp-validation-for="Product.ProductParametr.DaxiliYaddaş.HDDHecmId" class="text-danger"></span>
                                     </div>
                                 </div>
+
 
                                 @* Description *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for="@Model.Product.Description" class="form-label">Mehsulun Təsviri</label>
-                                        <textarea style="max-height:250px;" maxlength="500" placeholder="........." asp-for="@Model.Product.Description" class="form-control" rows="3"></textarea>
-                                        <span asp-validation-for="@Model.Product.Description" class="text-danger"></span>
+                                        <label asp-for="Product.Description" class="form-label">Mehsulun Təsviri</label>
+                                        <textarea style="max-height:250px;" maxlength="500" placeholder="........." asp-for="Product.Description" class="form-control" rows="3"></textarea>
+                                        <span asp-validation-for="Product.Description" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 @* Poster Image *@
                                 <div class="col-6">
-                                    <label asp-for="@Model.Product.PosterImageFile" class="form-label">Poster Şəkli</label>
+                                    <label asp-for="Product.PosterImageFile" class="form-label">Poster Şəkli</label>
                                     <div class="input-group">
-                                        <input asp-for="@Model.Product.PosterImageFile" type="file" class="form-control" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                        <span asp-validation-for="@Model.Product.PosterImageFile" class="text-danger"></span>
+                                        <input asp-for="Product.PosterImageFile" type="file" class="form-control" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        <span asp-validation-for="Product.PosterImageFile" class="text-danger"></span>
+                                    </div>
+                                    <div id="poster-image-box" class="poster-image-box">
+                                        @if (Model.Product.ProductImages.FirstOrDefault(x => x.PosterStatus == true)?.Image != null)
+                                        {
+                                            <img style="width:200px; height:180px;"
+                                                 src="~/uploads/product/@Model.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" />
+                                        }
                                     </div>
                                 </div>
                                 @* ImageFiles *@
 
                                 <div class="col-6">
-                                    <label asp-for="@Model.Product.ImageFiles" class="form-label"> Məhsulun şəkilləri</label>
+                                    <label asp-for="Product.ImageFiles" class="form-label"> Məhsulun şəkilləri</label>
                                     <div class="input-group">
-                                        <input multiple asp-for="@Model.Product.ImageFiles" type="file" class="form-control" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                        <span asp-validation-for="@Model.Product.ImageFiles" class="text-danger"></span>
+                                        <input multiple asp-for="Product.ImageFiles" type="file" class="form-control" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        <span asp-validation-for="Product.ImageFiles" class="text-danger"></span>
                                     </div>
+                                    @foreach (var image in Model.Product.ProductImages.Where(x => x.PosterStatus == false))
+                                    {
+                                        @if (Model.Product.ProductImages.FirstOrDefault(x => x.PosterStatus == false) != null)
+
+                                        {
+                                            <div class="image-box">
+                                                <input type="hidden" name="Product.ProductImagesIds[]" value="@image.Id" />
+                                                <img style="width:200px; height:160px;" src="~/uploads/product/@image.Image" />
+                                                <i style=" cursor: pointer; color: #886cc0; font-size: 20px; " class="fa-solid fa-trash-can deleteImage"></i>
+                                            </div>
+                                        }
+                                    }
                                 </div>
 
 
                                 <div class="d-flex justify-content-end col-12">
                                     <a asp-action="index" asp-controller="product" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
+
                                     <button type="submit" class="btn btn-outline-primary mt-2">Yaratmaq</button>
                                 </div>
                             </div>
@@ -406,9 +430,11 @@
     <div class="content-backdrop fade"></div>
 </div>
 
+
 @section Scripts{
-    <script src="~/manage/js/productBrandFilter.js"></script>
-    <script src="~/manage/js/productModelFilter.js"></script>
     <script src="~/manage/js/hddCheck.js"></script>
     <script src="~/manage/js/ssdCheck.js"></script>
+    <script src="~/manage/js/productBrandFilter.js"></script>
+    <script src="~/manage/js/ProductImage.js"></script>
+    <script src="~/manage/js/productModelFilter.js"></script>
 }

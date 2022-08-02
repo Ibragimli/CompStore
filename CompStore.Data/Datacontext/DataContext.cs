@@ -38,6 +38,7 @@ namespace CompStore.Data
         public DbSet<GörüntüImkanı> GörüntüImkanıs { get; set; }
         public DbSet<SSDType> SSDTypes { get; set; }
         public DbSet<SSDHecm> SSDHecms { get; set; }
+        public DbSet<ImageSetting> ImageSettings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

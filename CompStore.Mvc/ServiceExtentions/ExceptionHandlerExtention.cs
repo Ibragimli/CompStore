@@ -32,6 +32,9 @@ namespace CompStore.Mvc.ServiceExtentions
                             code = 400;
                         else if (contextFeature.Error is UserNotFoundException)
                             code = 404;
+                        else if (contextFeature.Error is ImageCountException)
+                            code = 404;
+                        
                     }
 
                     context.Response.StatusCode = code;

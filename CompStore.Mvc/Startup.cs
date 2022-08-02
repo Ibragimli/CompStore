@@ -5,9 +5,11 @@ using CompStore.Data;
 using CompStore.Data.Repositories;
 using CompStore.Data.Repository;
 using CompStore.Data.UnitOfWork;
+using CompStore.Mvc;
 using CompStore.Mvc.ServiceExtentions;
 using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos;
+using CompStore.Service.HelperService.Implementations;
 using CompStore.Service.HelperService.Interfaces;
 using CompStore.Service.Profiles;
 using CompStore.Service.Services.Implementations;
@@ -28,7 +30,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace CompStore.Mvc
 {
     public class Startup
@@ -72,6 +73,14 @@ namespace CompStore.Mvc
             services.AddScoped<ICategoryBrandIdRepository, CategoryBrandIdRepository>();
             services.AddScoped<IProductImagesRepositroy, ProductImagesRepository>();
             services.AddScoped<IProductParametrRepository, ProductParametrRepository>();
+            services.AddScoped<IManageImageHelper, ManageImageHelper>();
+            services.AddScoped<IProductEditServices, ProductEditServices>();
+
+            services.AddScoped<IProductDeleteServices, ProductDeleteServices>();
+            services.AddScoped<IProductDeleteRepository, ProductDeleteRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductParametrRepository, ProductParametrRepository>();
+            services.AddScoped<IProductEditRepository, ProductEditRepository>();
 
 
 

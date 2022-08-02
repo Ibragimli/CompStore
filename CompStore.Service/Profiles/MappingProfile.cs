@@ -12,8 +12,6 @@ namespace CompStore.Service.Profiles
         public MappingProfile(IHelperAccessor helperAccessor)
         {
             _helperAccessor = helperAccessor;
-
-
           
         }
     }
