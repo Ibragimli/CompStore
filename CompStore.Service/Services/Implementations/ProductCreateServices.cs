@@ -4,6 +4,7 @@ using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos.Area.Products;
 using CompStore.Service.Helper;
 using CompStore.Service.HelperService.Implementations;
+using CompStore.Service.HelperService.Interfaces;
 using CompStore.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -17,18 +18,23 @@ namespace CompStore.Service.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _env;
+        private readonly IImageValue _key;
 
-        public ProductCreateServices(IUnitOfWork unitOfWork, IWebHostEnvironment env) : base(env)
+        public ProductCreateServices(IUnitOfWork unitOfWork, IWebHostEnvironment env, IImageValue key) : base(env, key)
         {
             _unitOfWork = unitOfWork;
             _env = env;
+            _key = key;
         }
+
+      
+
         public async Task<DaxiliYaddaş> CreateDY(CreatePostDto create)
         {
 
             DaxiliYaddaş daxiliYaddas = create.ProductParametr.DaxiliYaddaş;
-            //if (daxiliYaddas.IsHDD == false && daxiliYaddas.IsSSD == false)
-            //    throw new FileFormatException("Daxili yaddaşdan ən azı birini qeyd etməlisiz!");
+            if (daxiliYaddas.IsHDD == false && daxiliYaddas.IsSSD == false)
+                throw new FileFormatException("Daxili yaddaşdan ən azı birini qeyd etməlisiz!");
             if (!daxiliYaddas.IsSSD) daxiliYaddas.SSDTypeId = null;
             if (!daxiliYaddas.IsSSD) daxiliYaddas.SSDHecmId = null;
             if (!daxiliYaddas.IsHDD) daxiliYaddas.HDDHecmId = null;
@@ -44,7 +50,7 @@ namespace CompStore.Service.Services.Implementations
                 Product = Image,
                 Image = FileSave(Image),
             };
-            await _unitOfWork.ProductImagesRepositroy. InsertAsync(Posterimage);
+            await _unitOfWork.ProductImagesRepositroy.InsertAsync(Posterimage);
         }
         public async Task<ProductParametr> CreatePP(CreatePostDto create, DaxiliYaddaş daxiliYaddaş)
         {
@@ -64,6 +70,5 @@ namespace CompStore.Service.Services.Implementations
         {
             await _unitOfWork.ProductCreateRepository.InsertAsync(product);
         }
-
     }
 }

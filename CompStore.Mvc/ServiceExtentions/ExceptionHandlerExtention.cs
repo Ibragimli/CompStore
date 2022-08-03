@@ -34,7 +34,10 @@ namespace CompStore.Mvc.ServiceExtentions
                             code = 404;
                         else if (contextFeature.Error is ImageCountException)
                             code = 404;
-                        
+                        else if (contextFeature.Error is ImageFormatException)
+                            code = 400;
+                        else if (contextFeature.Error is SizeFormatException)
+                            code = 400;
                     }
 
                     context.Response.StatusCode = code;

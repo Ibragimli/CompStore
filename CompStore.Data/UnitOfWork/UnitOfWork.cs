@@ -19,6 +19,7 @@ namespace CompStore.Data.UnitOfWork
         private IProductEditRepository _productEditRepository;
         private IProductDeleteRepository _productDeleteRepository;
         private IProductRepository _productRepository;
+        private IProductDetailRepository _productDetailRepository;
 
         public UnitOfWork(DataContext context)
         {
@@ -37,6 +38,8 @@ namespace CompStore.Data.UnitOfWork
         public IProductEditRepository ProductEditRepository => _productEditRepository = _productEditRepository ?? new ProductEditRepository(_context);
         public IProductDeleteRepository ProductDeleteRepository => _productDeleteRepository = _productDeleteRepository ?? new ProductDeleteRepository(_context);
         public IProductRepository ProductRepository => _productRepository = _productRepository ?? new ProductRepository(_context);
+
+        public IProductDetailRepository ProductDetailRepository => _productDetailRepository = _productDetailRepository ?? new ProductDetailRepository(_context);
 
         public async Task<int> CommitAsync()
         {

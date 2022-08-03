@@ -297,7 +297,7 @@
 
                                     </div>
                                     <div>
-                                        <input type="checkbox" class="isHHDCheckInput form-check-input" asp-for="@Model.ProductParametr.DaxiliYaddaş.IsHDD" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.DaxiliYaddaş.IsHDD)
+                                        <input type="checkbox" class="isHDDCheckInput form-check-input" asp-for="@Model.ProductParametr.DaxiliYaddaş.IsHDD" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.DaxiliYaddaş.IsHDD)
                                     </div>
                                     <span asp-validation-for="Product.ProductParametr.DaxiliYaddaşId" class="text-danger"></span>
                                 </div>
@@ -331,7 +331,7 @@
                                 </div>
 
                                 @* HDD Hecm *@
-                                <div style="display:none ;" id="hhdHecm" class="col-6">
+                                <div style="display:none ;" id="hddHecm" class="col-6">
                                     <div>
                                         <label asp-for="@Model.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-label">HDD Hecmi</label>
                                         <select asp-for="@Model.ProductParametr.DaxiliYaddaş.HDDHecmId" class="form-select">
@@ -374,7 +374,7 @@
 
                                 <div class="d-flex justify-content-end col-12">
                                     <a asp-action="index" asp-controller="product" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
-                                    <button type="submit" class="btn btn-outline-primary mt-2">Yaratmaq</button>
+                                    <button type="submit" class="ms-3 btn btn-outline-primary mt-2">Yaratmaq</button>
                                 </div>
                             </div>
 

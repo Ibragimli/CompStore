@@ -1,0 +1,212 @@
+﻿@model Product
+@{
+}
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Detail</h4>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Detail</h5>
+                    <div class="card-body">
+                        <div class="col-lg-12">
+                            <small class="text-light fw-semibold">@Model.Name</small>
+                            <div class="demo-inline-spacing mt-3">
+                                <div class="list-group list-group-horizontal-md text-md-center">
+                                    <a class="list-group-item list-group-item-action active" id="home-list-item" data-bs-toggle="list" href="#horizontal-mehsul">Məhsul</a>
+                                    <a class="list-group-item list-group-item-action" id="profile-list-item" data-bs-toggle="list" href="#horizontal-prdparametr">Product Parametr</a>
+                                    <a class="list-group-item list-group-item-action" id="messages-list-item" data-bs-toggle="list" href="#horizontal-description">Məhsulun təsviri</a>
+                                    <a class="list-group-item list-group-item-action" id="settings-list-item" data-bs-toggle="list" href="#horizontal-Images">Məhsulun şəkilləri</a>
+                                </div>
+                                <div class="tab-content px-0 mt-0">
+
+                                    @* Mehsul *@
+                                    <div class="tab-pane fade active show" id="horizontal-mehsul">
+                                        <div class="table-responsive text-nowrap">
+                                            @* Table-1 *@
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Brand</th>
+                                                        <th>Model</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            @Model.CategoryBrandId.Category.Name
+                                                        </td>
+                                                        <td>
+                                                            @Model.CategoryBrandId.Brand.Name
+                                                        </td>
+                                                        <td>
+                                                            @Model.Model.Name
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <br />
+
+                                            @* Table-2 *@
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Adı</th>
+                                                        <th>Qiymət</th>
+                                                        <th>Endirim Faizi</th>
+                                                        <th>Teyinat</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            @Model.Name
+                                                        </td>
+                                                        <td>
+                                                            @Model.Price
+                                                        </td>
+                                                        <td>
+                                                            @Model.DiscountPercent
+                                                        </td>
+
+                                                        <td>
+                                                            @Model.ProductParametr.Teyinat.Type
+                                                        </td>
+
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    @* ProductParametr *@
+                                    <div class="tab-pane fade" id="horizontal-prdparametr">
+                                        <div class="table-responsive text-nowrap">
+                                            @* Table-1 *@
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Kamera</th>
+                                                        <th>Bluetooth</th>
+                                                        <th>Rəng</th>
+                                                        <th>Əməliyyat sistemi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="  font-size: 23px;">
+                                                            <i style="margin-left: 44px; color: @(Model.ProductParametr.Kamera==true? "green": "red");" class="fa-solid fa-@(Model.ProductParametr.Kamera==true? "check": "xmark")"></i>
+                                                        </td>
+
+                                                        <td>
+                                                            <i style="margin-left: 44px; color: @(Model.ProductParametr.Bluetooth==true? "green": "red");" class="fa-solid fa-@(Model.ProductParametr.Bluetooth==true? "check": "xmark")"></i>
+                                                        </td>
+                                                        <td>
+                                                            @Model.ProductParametr.Color.Name
+                                                        </td>
+                                                        <td>
+                                                            @Model.ProductParametr.OperationSystem.System
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <br />
+
+                                            @* Table-2 *@
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Videokart</th>
+                                                        <th>Ram</th>
+                                                        <th>Processor</th>
+                                                        <th>Ekran</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            @Model.ProductParametr.Videokart.Name
+                                                            @(Model.ProductParametr.VideokartRam.Ram)Ram
+                                                        </td>
+                                                        <td>
+                                                            @(Model.ProductParametr.RamGB.GB)GB
+                                                            @(Model.ProductParametr.RamDDR.DDR)DDR
+                                                            @(Model.ProductParametr.RamMhz.Mhz)Mhz
+                                                        </td>
+
+                                                        <td>
+                                                            @Model.ProductParametr.ProcessorModel.Name
+                                                            @(Model.ProductParametr.ProcessorCache.Cache)Cache
+                                                            @(Model.ProductParametr.ProcessorGhz.Ghz)Ghz
+                                                        </td>
+
+                                                        <td>
+                                                            @(Model.ProductParametr.ScreenFrequency.Frequency)Hz
+                                                            @(Model.ProductParametr.ScreenDiagonal.Diagonal)"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    @* Description *@
+                                    <div class="tab-pane fade" id="horizontal-description">
+                                        <p>
+                                            @Model.Description
+                                        </p>
+                                    </div>
+
+                                    @* Image *@
+                                    <div class="tab-pane fade" id="horizontal-Images">
+                                        <div id="poster-image-box" class="poster-image-box">
+                                            <div class="col-12">
+                                                <label asp-for="PosterImageFile" class="form-label"> Məhsulun Poster şəkli</label>
+
+                                                @if (Model.ProductImages.FirstOrDefault(x => x.PosterStatus == true)?.Image != null)
+                                                {
+                                                    <img style="width:200px; height:180px;"
+                                                         src="~/uploads/product/@Model.ProductImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" />
+                                                }
+                                            </div>
+                                            <hr />
+                                            <div class="col-12">
+                                                <label asp-for="ImageFiles" class="form-label"> Məhsulun şəkilləri</label>
+
+                                                @foreach (var image in Model.ProductImages.Where(x => x.PosterStatus == false))
+                                                {
+                                                    @if (Model.ProductImages.FirstOrDefault(x => x.PosterStatus == false) != null)
+
+                                                    {
+                                                        <div class="image-box">
+                                                            <img style="width:200px; height:160px;" src="~/uploads/product/@image.Image" />
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+
+    <div class="content-backdrop fade"></div>
+</div>
+
+@section Scripts{
+}

@@ -81,6 +81,10 @@ namespace CompStore.Mvc
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductParametrRepository, ProductParametrRepository>();
             services.AddScoped<IProductEditRepository, ProductEditRepository>();
+            services.AddScoped<IImageValue, ImageValue>();
+            services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
+            services.AddScoped<IProductDetailServices, ProductDetailServices>();
+
 
 
 

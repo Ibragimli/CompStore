@@ -16,6 +16,7 @@ namespace CompStore.Core.Repositories
         IProductRepository ProductRepository { get; }
         IProductDeleteRepository ProductDeleteRepository { get; }
         IProductImagesRepositroy ProductImagesRepositroy { get; }
+        IProductDetailRepository ProductDetailRepository { get; }
         Task<int> CommitAsync();
     }
 }

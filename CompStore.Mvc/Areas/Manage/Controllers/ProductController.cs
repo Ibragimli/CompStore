@@ -23,14 +23,16 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         private readonly IProductCreateServices _productCreate;
         private readonly IProductEditServices _productEdit;
         private readonly IProductDeleteServices _productDelete;
+        private readonly IProductDetailServices _detailServices;
 
-        public ProductController(DataContext context, IWebHostEnvironment env, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete)
+        public ProductController(DataContext context, IWebHostEnvironment env, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
         {
             _context = context;
             _env = env;
             _productCreate = productCreate;
             _productEdit = productEdit;
             _productDelete = productDelete;
+            _detailServices = detailServices;
         }
 
         // GET: Manage/Product
@@ -49,6 +51,21 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             return View(productIndexVM);
         }
 
+        public async Task<IActionResult> Detail(int id)
+        {
+
+            try
+            {
+                await _detailServices.isProduct(id);
+            }
+            catch (ItemNotFoundException)
+            {
+                return RedirectToAction("notfound", "error");
+            }
+
+            return View(await _detailServices.isProduct(id));
+
+        }
 
         // GET: Manage/Product/Create
         public IActionResult Create()
@@ -68,33 +85,31 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             if (!ModelState.IsValid) return View(getCreateVM);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
-
-            //daxili yaddas
-            var daxiliYaddas = await _productCreate.CreateDY(createVM);
-
-            //create ProductParametr
-            var parametr = await _productCreate.CreatePP(createVM, daxiliYaddas);
-
-            ////Product update
             try
             {
+
+                //daxili yaddas
+                var daxiliYaddas = await _productCreate.CreateDY(createVM);
+
+                //create ProductParametr
+                var parametr = await _productCreate.CreatePP(createVM, daxiliYaddas);
+
+                ////Product update
                 _productCreate.ProductUpdate(createVM.Product, createVM, parametr);
+
+                //Check
+                _productCreate.PosterCheck(createVM.Product);
+                _productCreate.ImagesCheck(createVM.Product);
+
+                //Create
+                _productCreate.CreateImage(createVM.Product, true);
+                _productCreate.CreateImage(createVM.Product, false);
             }
-            catch (FileFormatException ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(getCreateVM);
             }
-
-            //Check
-            _productCreate.PosterCheck(createVM.Product);
-            _productCreate.ImagesCheck(createVM.Product);
-
-            if (!ModelState.IsValid) return View(getCreateVM);
-
-            //Create
-            _productCreate.CreateImage(createVM.Product, true);
-            _productCreate.CreateImage(createVM.Product, false);
 
             //addProduct
             _productCreate.SaveChange(createVM.Product);
@@ -108,6 +123,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             var editVM = _editProductViewModel(_context, id);
             return View(editVM);
+
         }
 
         [HttpPost]
@@ -118,34 +134,33 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             if (await _productEdit.IsExistProduct(product.Id) == false) return RedirectToAction("notfound", "error");
 
-            Product productExist = await _productEdit.ExistProduct(product.Id);
+            EditPostDto editPostExist = new EditPostDto { Product = await _productEdit.ExistProduct(product.Id) };
 
-            if (!ModelState.IsValid) return View(productExist);
+            if (!ModelState.IsValid) return View(_editProductViewModel(_context, editPostExist.Product.Id));
 
-
-            _productEdit.CheckDaxiliYaddas(product, productExist);
-            //AddPosterImage
-            _productEdit.AddPosterImage(product, productExist);
-
-            if (!ModelState.IsValid) return View(productExist);
-
-            //ImagesDelete
             try
             {
-                _productEdit.DeleteImages(product, productExist);
+
+                //DaxiliYaddasCheck
+                _productEdit.CheckDaxiliYaddas(product, editPostExist.Product);
+                //AddPosterImage
+                _productEdit.AddPosterImage(product, editPostExist.Product);
+                //ImagesDelete
+                _productEdit.DeleteImages(product, editPostExist.Product);
             }
-            catch (ImageCountException ex)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("Product.ImageFiles", ex.Message);
-                return View(_editProductViewModel(_context, productExist.Id));
+                ModelState.AddModelError("", ex.Message);
+                return View(_editProductViewModel(_context, editPostExist.Product.Id));
             }
 
+
             //AddImages
-            _productEdit.AddImages(product, productExist);
+            _productEdit.AddImages(product, editPostExist.Product);
 
             //var viewCount = await _context.ViewCounts.FirstOrDefaultAsync(x => x.ClickName == companyExist.Name);
 
-            EditChange(product, productExist /*viewCount*/);
+            EditChange(product, editPostExist.Product /*viewCount*/);
             SaveContext();
             return RedirectToAction(nameof(Index));
         }
@@ -274,6 +289,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             _context.SaveChanges();
         }
+
         public ActionResult GetBrand(int categoryId)
         {
             var brands = _context.CategoryBrandIds.Include(x => x.Brand).Where(x => x.CategoryId == categoryId).Select(x => x.Brand);

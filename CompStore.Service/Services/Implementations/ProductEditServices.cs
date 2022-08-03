@@ -5,6 +5,7 @@ using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos.Area.Products;
 using CompStore.Service.Helper;
 using CompStore.Service.HelperService.Implementations;
+using CompStore.Service.HelperService.Interfaces;
 using CompStore.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,17 @@ namespace CompStore.Service.Services.Implementations
     {
         private readonly IWebHostEnvironment _env;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageValue _key;
+        private readonly DataContext _context;
 
-        public ProductEditServices(IWebHostEnvironment env, IUnitOfWork unitOfWork) : base(env)
+        public ProductEditServices(IWebHostEnvironment env, IUnitOfWork unitOfWork, IImageValue key, DataContext context) : base(env, key)
         {
             _env = env;
             _unitOfWork = unitOfWork;
+            _key = key;
+            _context = context;
         }
+     
         public void AddImages(Product product, Product productExist)
         {
             if (product.ImageFiles != null)
@@ -68,14 +74,15 @@ namespace CompStore.Service.Services.Implementations
         }
         public async Task<Product> ExistProduct(int id)
         {
-            return await _unitOfWork.ProductEditRepository.GetAsync(x => x.Id == id);
+            Product prd = await _context.Products.Include(x => x.ProductImages).Include(x => x.Model).Include(x => x.ProductParametr).ThenInclude(y => y.DaxiliYaddaş).Include(x => x.CategoryBrandId).FirstOrDefaultAsync(x => x.Id == id);
+            return prd;
         }
         private void _editImageSave(Product product, Product productExist)
         {
             foreach (var image in product.ImageFiles)
             {
-                if (image.ContentType != "image/png" && image.ContentType != "image/jpeg") continue;
-                if (image.Length > 2097152) continue;
+                if (image.ContentType != _key.ValueStr("ImageType1") && image.ContentType != _key.ValueStr("ImageType2")) continue;
+                if (image.Length > _key.ValueInt("ImageSize") * 1048576) continue;
                 ProductImage newImage = new ProductImage
                 {
                     PosterStatus = false,
