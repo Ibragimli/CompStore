@@ -11,23 +11,21 @@ namespace CompStore.Data.UnitOfWork
     {
         private readonly DataContext _context;
         private IAdminAccountRepository _adminAccountRepository;
-        private IProductCreateRepository _productCreateRepository;
         private IProductParametrRepository _productParametrRepository;
         private IDaxiliYaddasRepository _daxiliYaddasRepository;
         private ICategoryBrandIdRepository _categoryBrandIdRepository;
         private IProductImagesRepositroy _productImagesRepositroy;
-        private IProductEditRepository _productEditRepository;
-        private IProductDeleteRepository _productDeleteRepository;
         private IProductRepository _productRepository;
-        private IProductDetailRepository _productDetailRepository;
+
+        private IBrandRepository _brandRepository;
 
         public UnitOfWork(DataContext context)
         {
             _context = context;
         }
-        public IAdminAccountRepository AdminAccountRepository => _adminAccountRepository = _adminAccountRepository ?? new AdminAccountRepository(_context);
+        public IBrandRepository BrandRepository => _brandRepository = _brandRepository ?? new BrandRepository(_context);
 
-        public IProductCreateRepository ProductCreateRepository => _productCreateRepository = _productCreateRepository ?? new ProductCreateRepository(_context);
+        public IAdminAccountRepository AdminAccountRepository => _adminAccountRepository = _adminAccountRepository ?? new AdminAccountRepository(_context);
 
         public IDaxiliYaddasRepository DaxiliYaddasRepository => _daxiliYaddasRepository = _daxiliYaddasRepository ?? new DaxiliYaddasRepository(_context);
 
@@ -35,11 +33,8 @@ namespace CompStore.Data.UnitOfWork
         public ICategoryBrandIdRepository CategoryBrandIdRepository => _categoryBrandIdRepository = _categoryBrandIdRepository ?? new CategoryBrandIdRepository(_context);
         public IProductImagesRepositroy ProductImagesRepositroy => _productImagesRepositroy = _productImagesRepositroy ?? new ProductImagesRepository(_context);
 
-        public IProductEditRepository ProductEditRepository => _productEditRepository = _productEditRepository ?? new ProductEditRepository(_context);
-        public IProductDeleteRepository ProductDeleteRepository => _productDeleteRepository = _productDeleteRepository ?? new ProductDeleteRepository(_context);
         public IProductRepository ProductRepository => _productRepository = _productRepository ?? new ProductRepository(_context);
 
-        public IProductDetailRepository ProductDetailRepository => _productDetailRepository = _productDetailRepository ?? new ProductDetailRepository(_context);
 
         public async Task<int> CommitAsync()
         {

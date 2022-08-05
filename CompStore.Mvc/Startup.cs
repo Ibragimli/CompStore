@@ -67,7 +67,6 @@ namespace CompStore.Mvc
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAdminAccountRepository, AdminAccountRepository>();
             services.AddScoped<IAdminLoginServices, AdminLoginServices>();
-            services.AddScoped<IProductCreateRepository, ProductCreateRepository>();
             services.AddScoped<IProductCreateServices, ProductCreateServices>();
             services.AddScoped<IDaxiliYaddasRepository, DaxiliYaddasRepository>();
             services.AddScoped<ICategoryBrandIdRepository, CategoryBrandIdRepository>();
@@ -77,13 +76,13 @@ namespace CompStore.Mvc
             services.AddScoped<IProductEditServices, ProductEditServices>();
 
             services.AddScoped<IProductDeleteServices, ProductDeleteServices>();
-            services.AddScoped<IProductDeleteRepository, ProductDeleteRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductParametrRepository, ProductParametrRepository>();
-            services.AddScoped<IProductEditRepository, ProductEditRepository>();
             services.AddScoped<IImageValue, ImageValue>();
-            services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
             services.AddScoped<IProductDetailServices, ProductDetailServices>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+
+
 
 
 

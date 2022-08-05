@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompStore.Core.Repositories
 {
-    public interface IProductDeleteRepository : IRepository<Product>
+    public interface IBrandRepository : IRepository<Brand>
     {
     }
 }

@@ -27,7 +27,7 @@ namespace CompStore.Service.Services.Implementations
             _key = key;
         }
 
-      
+
 
         public async Task<DaxiliYaddaş> CreateDY(CreatePostDto create)
         {
@@ -65,6 +65,7 @@ namespace CompStore.Service.Services.Implementations
             var brandCatId = _unitOfWork.CategoryBrandIdRepository.GetAsync(x => x.BrandId == create.CategoryBrand.BrandId && x.CategoryId == create.CategoryBrand.CategoryId);
             create.Product.ProductParametrId = parametr.Id;
             create.Product.CategoryBrandIdId = brandCatId.Id;
+            create.Product.ViewCount = 0;
         }
         public async void SaveChange(Product product)
         {

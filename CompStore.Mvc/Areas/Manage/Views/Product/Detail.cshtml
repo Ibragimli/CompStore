@@ -32,6 +32,8 @@
                                                         <th>Category</th>
                                                         <th>Brand</th>
                                                         <th>Model</th>
+                                                        <th style="padding:1px;">Baxış sayı</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -42,8 +44,11 @@
                                                         <td>
                                                             @Model.CategoryBrandId.Brand.Name
                                                         </td>
-                                                        <td>
+                                                        <td >
                                                             @Model.Model.Name
+                                                        </td>
+                                                        <td style="margin-left:15px;">
+                                                            @Model.ViewCount
                                                         </td>
                                                     </tr>
 

@@ -14,6 +14,7 @@ namespace CompStore.Core.Entites
         public int ModelId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int ViewCount { get; set; }
         public decimal? Price { get; set; }
         [Range(0, 100)]
         public decimal? DiscountPercent { get; set; }

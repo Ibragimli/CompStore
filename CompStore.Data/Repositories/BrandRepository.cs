@@ -7,10 +7,14 @@ using System.Text;
 
 namespace CompStore.Data.Repositories
 {
-    public class ProductEditRepository : Repository<Product>, IProductEditRepository
+    public class BrandRepository : Repository<Brand>, IBrandRepository
     {
-        public ProductEditRepository(DataContext context) : base(context)
+        private readonly DataContext context;
+
+        public BrandRepository(DataContext context) : base(context)
         {
+            this.context = context;
         }
     }
+
 }
