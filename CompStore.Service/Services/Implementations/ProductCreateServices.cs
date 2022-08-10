@@ -69,7 +69,11 @@ namespace CompStore.Service.Services.Implementations
         }
         public async void SaveChange(Product product)
         {
-            await _unitOfWork.ProductCreateRepository.InsertAsync(product);
+            await _unitOfWork.ProductRepository.InsertAsync(product);
+        }
+        public async void SaveContext(Product product)
+        {
+            await _unitOfWork.CommitAsync();
         }
     }
 }

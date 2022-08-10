@@ -10,5 +10,6 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
     public class ProductIndexViewModel
     {
         public PagenetedList<Product> PagenatedProducts { get; set; }
+        public string Search { get; set; }
     }
 }

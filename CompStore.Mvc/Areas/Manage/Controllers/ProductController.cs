@@ -20,15 +20,17 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
     {
         private readonly DataContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly IProductIndexServices _productIndex;
         private readonly IProductCreateServices _productCreate;
         private readonly IProductEditServices _productEdit;
         private readonly IProductDeleteServices _productDelete;
         private readonly IProductDetailServices _detailServices;
 
-        public ProductController(DataContext context, IWebHostEnvironment env, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
+        public ProductController(DataContext context, IWebHostEnvironment env, IProductIndexServices productIndex, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
         {
             _context = context;
             _env = env;
+            _productIndex = productIndex;
             _productCreate = productCreate;
             _productEdit = productEdit;
             _productDelete = productDelete;
@@ -36,17 +38,15 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
 
         // GET: Manage/Product
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string search = null)
         {
-            var products = _context.Products
-                .Include(x => x.ProductImages)
-                .Include(x => x.Model)
-                .Include(x => x.CategoryBrandId)
-                .ThenInclude(x => x.Category)
-                .AsQueryable();
+            ViewBag.Page = page;
+
+            var products = _productIndex.SearchCheck(search);
+
             ProductIndexViewModel productIndexVM = new ProductIndexViewModel
             {
-                PagenatedProducts = PagenetedList<Product>.Create(products, page, 5),
+                PagenatedProducts = PagenetedList<Product>.Create(await products, page, 5),
             };
             return View(productIndexVM);
         }

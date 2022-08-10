@@ -15,5 +15,7 @@ namespace CompStore.Service.Services.Interfaces
         void DeleteImages(Product product, Product productExist);
         void CheckDaxiliYaddas(Product product, Product productExist);
         Task<Product> ExistProduct(int id);
+        void SaveContext(Product product);
+
     }
 }

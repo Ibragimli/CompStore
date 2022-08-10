@@ -70,7 +70,7 @@ namespace CompStore.Service.Services.Implementations
         }
         public async Task<bool> IsExistProduct(int id)
         {
-            return await _unitOfWork.ProductEditRepository.IsExistAsync(x => x.Id == id);
+            return await _unitOfWork.ProductRepository.IsExistAsync(x => x.Id == id);
         }
         public async Task<Product> ExistProduct(int id)
         {
@@ -114,6 +114,11 @@ namespace CompStore.Service.Services.Implementations
                 productExist.ProductParametr.DaxiliYaddaş.SSDHecmId = null;
                 productExist.ProductParametr.DaxiliYaddaş.SSDTypeId = null;
             }
+        }
+
+        public async void SaveContext(Product product)
+        {
+            await _unitOfWork.CommitAsync();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace CompStore.Service.Services.Interfaces
         void ImagesCheck(Product Images);
         void CreateImage(Product Image,bool value);
         void SaveChange(Product product);
+        void SaveContext(Product product);
 
     }
 }

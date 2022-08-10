@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompStore.Core.Repositories
+namespace CompStore.Service.Services.Interfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductIndexServices
     {
-        IQueryable<Product> asQueryableProduct();
+        Task<IQueryable<Product>> SearchCheck(string searchk);
     }
 }
