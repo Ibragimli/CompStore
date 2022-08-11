@@ -23,11 +23,11 @@ namespace CompStore.Service.Services.Implementations
             {
                 throw new ItemNotFoundException("Brand tapilmadi");
             }
-            if (!await _unitOfWork.CategoryBrandIdRepository.IsExistAsync(x => x.BrandId == id))
+            if (await _unitOfWork.CategoryBrandIdRepository.IsExistAsync(x => x.BrandId == id))
             {
                 throw new ItemUseException("Brand məhsulda istifade olunur deye silmek mümkün olmadı!");
             }
-            if (!await _unitOfWork.modelRepository.IsExistAsync(x => x.Id == id))
+            if (await _unitOfWork.modelRepository.IsExistAsync(x => x.Id == id))
             {
                 throw new ItemUseException("Brand model də istifade olunur deye silmek mümkün olmadı!");
             }
