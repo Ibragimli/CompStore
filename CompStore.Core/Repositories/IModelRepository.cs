@@ -1,12 +1,11 @@
 ﻿using CompStore.Core.Entites;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CompStore.Core.Repositories
 {
-    public interface IBrandRepository : IRepository<Brand>
+    public interface IModelRepository : IRepository<Model>
     {
     }
 }

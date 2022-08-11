@@ -17,6 +17,14 @@ namespace CompStore.Data.Repository
         {
             _context = context;
         }
+
+
+        public IQueryable<TEntity> asQueryable(params string[] includes)
+        {
+            var query = _query(_context, includes);
+            return query.AsQueryable();
+        }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> exp, params string[] includes)
         {
             var query = _query(_context, includes);

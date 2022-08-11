@@ -57,11 +57,10 @@ namespace CompStore.Mvc
                 opt.User.RequireUniqueEmail = false;
             }).AddDefaultTokenProviders().AddEntityFrameworkStores<DataContext>();
 
-            services.AddAutoMapper(opt =>
-            {
-                opt.AddProfile(new AppProfile());
-            });
-
+            //services.AddAutoMapper(opt =>
+            //{
+            //    opt.AddProfile(new AppProfile());
+            //});
 
             //Scopes
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -80,18 +79,23 @@ namespace CompStore.Mvc
             services.AddScoped<IProductParametrRepository, ProductParametrRepository>();
             services.AddScoped<IImageValue, ImageValue>();
             services.AddScoped<IProductDetailServices, ProductDetailServices>();
-            services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IProductIndexServices, ProductIndexServices>();
 
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<IBrandIndexServices, BrandIndexServices>();
+            services.AddScoped<IBrandCreateServices, BrandCreateServices>();
+            services.AddScoped<IBrandDeleteServices, BrandDeleteServices>();
+            services.AddScoped<IBrandEditServices, BrandEditServices>();
 
 
 
 
 
-            //services.AddSingleton(provider => new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new MappingProfile(provider.GetService<IHelperAccessor>()));
-            //}).CreateMapper());
+
+            services.AddSingleton(provider => new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile(provider.GetService<IHelperAccessor>()));
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

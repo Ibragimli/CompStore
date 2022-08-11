@@ -8,5 +8,6 @@ namespace CompStore.Service.Dtos.Area.Brands
     {
         public int Id { get; set; }
         public int Name { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace CompStore.Service.Services.Interfaces
 {
     public interface IProductEditServices
     {
-        Task<bool>  IsExistProduct(int id);
+        Task<bool> IsExistProduct(int id);
         void AddPosterImage(Product product, Product productExist);
         void AddImages(Product product, Product productExist);
         void DeleteImages(Product product, Product productExist);

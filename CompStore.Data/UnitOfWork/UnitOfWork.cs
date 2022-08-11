@@ -16,6 +16,7 @@ namespace CompStore.Data.UnitOfWork
         private ICategoryBrandIdRepository _categoryBrandIdRepository;
         private IProductImagesRepositroy _productImagesRepositroy;
         private IProductRepository _productRepository;
+        private IModelRepository _modelRepository;
 
         private IBrandRepository _brandRepository;
 
@@ -34,6 +35,8 @@ namespace CompStore.Data.UnitOfWork
         public IProductImagesRepositroy ProductImagesRepositroy => _productImagesRepositroy = _productImagesRepositroy ?? new ProductImagesRepository(_context);
 
         public IProductRepository ProductRepository => _productRepository = _productRepository ?? new ProductRepository(_context);
+
+        public IModelRepository modelRepository => _modelRepository = _modelRepository ?? new ModelRepository(_context);
 
 
         public async Task<int> CommitAsync()
