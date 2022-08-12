@@ -38,7 +38,7 @@
                                 @if (Model.PagenatedProducts.HasNext)
                                 {
                                     <li class="page-item">
-                                        <a asp-action="index" asp-controller="product" asp-route-page="@(Model.PagenatedProducts.PageIndex+1)" class="page-link" href="#" aria-label="Next">
+                                        <a asp-action="index" asp-controller="product" asp-route-page="@(Model.PagenatedProducts.PageIndex+1)" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
 

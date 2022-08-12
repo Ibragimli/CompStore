@@ -2,6 +2,7 @@
 using CompStore.Data;
 using CompStore.Mvc.Areas.Manage.ViewModels;
 using CompStore.Service.CustomExceptions;
+using CompStore.Service.Dtos;
 using CompStore.Service.Dtos.Area.Brands;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Implementations;
@@ -35,12 +36,13 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             ViewBag.Page = page;
 
-            var brands = _brandIndexServices.SearchCheck(search);
+            var brands = await _brandIndexServices.SearchCheck(search);
 
             BrandIndexViewModel brandIndexVM = new BrandIndexViewModel
             {
-                PagenatedItems = PagenetedList<Brand>.Create(await brands, page, 5),
+                PagenatedItems = PagenetedList<Brand>.Create(brands, page, 2),
             };
+
             return View(brandIndexVM);
         }
         public IActionResult Create()
@@ -62,6 +64,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View();
             }
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction("index", "brand");
         }
 
@@ -93,6 +96,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(brandEdit);
             }
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction("index", "brand");
         }
 
@@ -102,12 +106,13 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             try
             {
                 await _brandDelete.BrandDelete(id);
-
             }
             catch (ItemNotFoundException ex)
             {
+                TempData["Error"] = ("Proses uğursuz oldu!");
                 return RedirectToAction(nameof(Index));
             }
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
         }
     }

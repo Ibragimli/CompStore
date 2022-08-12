@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CompStore.Core.Entites;
+﻿using CompStore.Core.Entites;
 using CompStore.Core.Repositories;
 using CompStore.Service.Dtos;
 using CompStore.Service.Dtos.Area.Brands;
