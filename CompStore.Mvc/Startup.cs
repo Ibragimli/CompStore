@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using CompStore.Core.Entites;
 using CompStore.Core.Repositories;
 using CompStore.Data;
@@ -82,10 +82,29 @@ namespace CompStore.Mvc
             services.AddScoped<IProductIndexServices, ProductIndexServices>();
 
             services.AddScoped<IBrandRepository, BrandRepository>();
-            services.AddScoped<IBrandIndexServices, BrandIndexServices>();
             services.AddScoped<IBrandCreateServices, BrandCreateServices>();
+            services.AddScoped<IBrandIndexServices, BrandIndexServices>();
             services.AddScoped<IBrandDeleteServices, BrandDeleteServices>();
             services.AddScoped<IBrandEditServices, BrandEditServices>();
+
+            services.AddScoped<IRamDDREditServices, RamDDREditServices>();
+            services.AddScoped<IRamDDRDeleteServices, RamDDRDeleteServices>();
+            services.AddScoped<IRamDDRCreateServices, RamDDRCreateServices>();
+            services.AddScoped<IRamDDRIndexServices, RamDDRIndexServices>();
+
+
+            services.AddScoped<IGörüntüImkanıRepository, GörüntüImkanıRepository>();
+            services.AddScoped<IProcessorModelRepository, ProcessorModelRepository>();
+            services.AddScoped<IProcessorCacheRepository, ProcessorCacheRepository>();
+            services.AddScoped<IProcessorGhzRepository, ProcessorGhzRepository>();
+            services.AddScoped<IRamMhzRepository, RamMhzRepository>();
+            services.AddScoped<IRamGBRepository, RamGBRepository>();
+            services.AddScoped<IRamDDRRepository, RamDDRRepository>();
+            services.AddScoped<ISSDHecmRepository, SSDHecmRepository>();
+            services.AddScoped<ISSDTypeRepository, SSDTypeRepository>();
+            services.AddScoped<IScreenDiagonalRepository, ScreenDiagonalRepository>();
+            services.AddScoped<IScreenFrequencieRepository, ScreenFrequencieRepository>();
+
 
 
 

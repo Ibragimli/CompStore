@@ -108,6 +108,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                TempData["Error"] = ("Proses uğursuz oldu!");
                 return View(getCreateVM);
             }
 
@@ -115,6 +116,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             _productCreate.SaveChange(createVM.Product);
             SaveContext();
             await transaction.CommitAsync();
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
         }
 
@@ -151,6 +153,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                TempData["Error"] = ("Proses uğursuz oldu!");
                 return View(_editProductViewModel(_context, editPostExist.Product.Id));
             }
 
@@ -162,6 +165,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             EditChange(product, editPostExist.Product /*viewCount*/);
             SaveContext();
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
         }
 
@@ -183,6 +187,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             _productDelete.ProductDelete(productExist);
 
             SaveContext();
+            TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
         }
 

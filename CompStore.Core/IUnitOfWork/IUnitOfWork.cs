@@ -16,6 +16,31 @@ namespace CompStore.Core.Repositories
 
         IBrandRepository BrandRepository { get; }
         IModelRepository modelRepository { get; }
+
+        IColorRepository ColorRepository { get; }
+        ITeyinatRepository TeyinatRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+
+        IGörüntüImkanıRepository GörüntüImkanıRepository { get; }
+        IOperationSystemsRepository OperationSystemsRepository { get; }
+        IVideokartRamsRepository VideokartRamsRepository { get; }
+        IVideokartRepository VideokartRepository { get; }
+        IImageSettingRepository ImageSettingRepository { get; }
+        IHDDHecmsRepository HDDHecmsRepository { get; }
+
+
+        IRamDDRRepository RamDDRRepository { get; }
+        IRamGBRepository RamGBRepository { get; }
+        IRamMhzRepository RamMhzRepository { get; }
+        IScreenDiagonalRepository ScreenDiagonalRepository { get; }
+        IScreenFrequencieRepository ScreenFrequencieRepository { get; }
+        ISSDHecmRepository SSDHecmRepository { get; }
+        ISSDTypeRepository SSDTypeRepository { get; }
+        IProcessorCacheRepository ProcessorCacheRepository { get; }
+        IProcessorGhzRepository ProcessorGhzRepository { get; }
+        IProcessorModelRepository ProcessorModelRepository { get; }
+
+
         Task<int> CommitAsync();
     }
 }
