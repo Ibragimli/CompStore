@@ -1,11 +1,8 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
 using CompStore.Mvc.Areas.Manage.ViewModels;
-using CompStore.Service.CustomExceptions;
-using CompStore.Service.Dtos;
-using CompStore.Service.Dtos.Area.RamDDRs;
+using CompStore.Service.Dtos.Area.RamGbs;
 using CompStore.Service.Helper;
-using CompStore.Service.Services.Implementations;
 using CompStore.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,34 +13,34 @@ using System.Threading.Tasks;
 namespace CompStore.Mvc.Areas.Manage.Controllers
 {
     [Area("manage")]
-    public class RamDDRController : Controller
+    public class RamGBController : Controller
     {
         private readonly DataContext _context;
-        private readonly IRamDDRIndexServices _ramDDRIndexServices;
-        private readonly IRamDDRCreateServices _ramDDRCreateServices;
-        private readonly IRamDDRDeleteServices _ramDDRDeleteServices;
-        private readonly IRamDDREditServices _ramDDREditServices;
+        private readonly IRamGBCreateServices _ramGBCreateServices;
+        private readonly IRamGBDeleteServices _ramGBDeleteServices;
+        private readonly IRamGBEditServices _ramGBEditServices;
+        private readonly IRamGBIndexServices _ramGBIndexServices;
 
-        public RamDDRController(DataContext context, IRamDDRIndexServices ramDDRIndexServices, IRamDDRCreateServices ramDDRCreateServices, IRamDDRDeleteServices ramDDRDeleteServices, IRamDDREditServices ramDDREditServices)
+        public RamGBController(DataContext context,IRamGBCreateServices ramGBCreateServices, IRamGBDeleteServices ramGBDeleteServices,IRamGBEditServices ramGBEditServices,IRamGBIndexServices ramGBIndexServices)
         {
             _context = context;
-            _ramDDRIndexServices = ramDDRIndexServices;
-            _ramDDRCreateServices = ramDDRCreateServices;
-            _ramDDRDeleteServices = ramDDRDeleteServices;
-            _ramDDREditServices = ramDDREditServices;
+            _ramGBCreateServices = ramGBCreateServices;
+            _ramGBDeleteServices = ramGBDeleteServices;
+            _ramGBEditServices = ramGBEditServices;
+            _ramGBIndexServices = ramGBIndexServices;
         }
         public async Task<IActionResult> Index(int page = 1, string search = null)
         {
             ViewBag.Page = page;
 
-            var RamDDRs = await _ramDDRIndexServices.SearchCheck(search);
+            var RamGBs = await _ramGBIndexServices.SearchCheck(search);
 
-            RamDDRIndexViewModel RamDDRIndexVM = new RamDDRIndexViewModel
+            RamGBIndexViewModel RamGBIndexVM = new RamGBIndexViewModel
             {
-                PagenatedItems = PagenetedList<RamDDR>.Create(RamDDRs, page, 2),
+                PagenatedItems = PagenetedList<RamGB>.Create(RamGBs, page, 2),
             };
 
-            return View(RamDDRIndexVM);
+            return View(RamGBIndexVM);
         }
         public IActionResult Create()
         {
@@ -51,11 +48,11 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RamDDRCreateDto createDto)
+        public async Task<IActionResult> Create(RamGBCreateDto createDto)
         {
             try
             {
-                await _ramDDRCreateServices.CreateDDR(createDto);
+                await _ramGBCreateServices.CreateGB(createDto);
             }
             catch (Exception ex)
             {
@@ -64,39 +61,39 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 return View();
             }
             TempData["Success"] = ("Proses uğurlu oldu!");
-            return RedirectToAction("index", "RamDDR");
+            return RedirectToAction("index", "RamGB");
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                await _ramDDREditServices.IsExists(id);
+                await _ramGBEditServices.IsExists(id);
             }
             catch (Exception)
             {
                 return RedirectToAction("notfound", "error");
             }
 
-            return View(await _ramDDREditServices.IsExists(id));
+            return View(await _ramGBEditServices.IsExists(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RamDDREditDto RamDDREdit)
+        public async Task<IActionResult> Edit(RamGBEditDto RamGBEdit)
         {
             try
             {
-                await _ramDDREditServices.RamDDREdit(RamDDREdit);
+                await _ramGBEditServices.RamGBEdit(RamGBEdit);
             }
             catch (Exception ex)
             {
 
                 ModelState.AddModelError("", ex.Message);
-                return View(RamDDREdit);
+                return View(RamGBEdit);
             }
             TempData["Success"] = ("Proses uğurlu oldu!");
-            return RedirectToAction("index", "RamDDR");
+            return RedirectToAction("index", "RamGB");
         }
 
         // GET: Manage/Product/Delete/5
@@ -104,7 +101,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             try
             {
-                await _ramDDRDeleteServices.RamDDRDelete(id);
+                await _ramGBDeleteServices.RamGBDelete(id);
             }
             catch (Exception ex)
             {

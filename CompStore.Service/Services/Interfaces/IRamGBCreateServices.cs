@@ -1,5 +1,5 @@
 ﻿using CompStore.Core.Entites;
-using CompStore.Service.Dtos.Area.RamDDRs;
+using CompStore.Service.Dtos.Area.RamGbs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IRamDDRCreateServices
+    public interface IRamGBCreateServices
     {
-        Task CreateDDR(RamDDRCreateDto brandDto);
+        Task CreateGB(RamGBCreateDto brandDto);
 
     }
 }

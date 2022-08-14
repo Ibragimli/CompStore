@@ -1,9 +1,9 @@
-﻿@model RamDDRIndexViewModel
+﻿@model RamGBIndexViewModel
 <div class="content-wrapper">
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">RamDDRs /</span> Index</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">RamGBs /</span> Index</h4>
 
 
         <!-- Bordered Table -->
@@ -12,7 +12,7 @@
                 @* Pagination *@
                 <div class="row">
                     <div class="d-flex align-items-center col-5">
-                        <form asp-action="index" asp-controller="ramddr" asp-route-page="@ViewBag.Page" class="d-flex">
+                        <form asp-action="index" asp-controller="ramGB" asp-route-page="@ViewBag.Page" class="d-flex">
                             <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-primary" type="submit">Search</button>
                         </form>
@@ -24,7 +24,7 @@
                                 {
 
                                     <li class="page-item">
-                                        <a asp-action="index" asp-controller="ramddr" asp-route-page="@(Model.PagenatedItems.PageIndex-1)" class="page-link" aria-label="Previous">
+                                        <a asp-action="index" asp-controller="ramGB" asp-route-page="@(Model.PagenatedItems.PageIndex-1)" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -32,13 +32,13 @@
                                 @for (int i = 1; i <= Model.PagenatedItems.TotalPages; i++)
                                 {
                                     <li aria-current="page" class="page-item" @(Model.PagenatedItems.PageIndex == i ? "active" : "" )>
-                                        <a asp-action="index" asp-controller="ramddr" asp-route-page="@i" class="page-link">@i</a>
+                                        <a asp-action="index" asp-controller="ramGB" asp-route-page="@i" class="page-link">@i</a>
                                     </li>
                                 }
                                 @if (Model.PagenatedItems.HasNext)
                                 {
                                     <li class="page-item">
-                                        <a asp-action="index" asp-controller="ramddr" asp-route-page="@(Model.PagenatedItems.PageIndex+1)" class="page-link"  aria-label="Next">
+                                        <a asp-action="index" asp-controller="ramGB" asp-route-page="@(Model.PagenatedItems.PageIndex+1)" class="page-link"  aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
 
@@ -48,7 +48,7 @@
                         </nav>
                     </div>
                     <div class="d-flex justify-content-center align-items-center col-2">
-                        <a style="font-size: 30px;" asp-action="create" asp-controller="ramddr"> <i class="fa-solid fa-plus"></i> </a>
+                        <a style="font-size: 30px;" asp-action="create" asp-controller="ramGB"> <i class="fa-solid fa-plus"></i> </a>
                     </div>
                 </div>
                 <br />
@@ -58,26 +58,26 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>DDR</th>
+                                <th>GB</th>
                                 <th>ModifiedDate</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var ramddr in Model.PagenatedItems)
+                            @foreach (var ramGB in Model.PagenatedItems)
                             {
                                 <tr>
 
-                                    <td>@ramddr.DDR DDR</td>
+                                    <td>@ramGB.GB GB</td>
 
                                     <td>
-                                        @ramddr.ModifiedDate
+                                        @ramGB.ModifiedDate
                                     </td>
 
                                     <td>
                                         <div class="d-flex justify-content-sm-around">
-                                            <a asp-route-id="@ramddr.Id" asp-action="edit" asp-controller="ramddr"><i style="font-size: 26px !important;" class="bx bx-edit-alt me-1"></i> </a>
-                                            <a asp-route-id="@ramddr.Id" asp-action="delete" asp-controller="ramddr"><i style="font-size:26px !important;" class="bx bx-trash me-1"></i> </a>
+                                            <a asp-route-id="@ramGB.Id" asp-action="edit" asp-controller="ramGB"><i style="font-size: 26px !important;" class="bx bx-edit-alt me-1"></i> </a>
+                                            <a asp-route-id="@ramGB.Id" asp-action="delete" asp-controller="ramGB"><i style="font-size:26px !important;" class="bx bx-trash me-1"></i> </a>
                                         </div>
                                     </td>
                                 </tr>

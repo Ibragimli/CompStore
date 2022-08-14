@@ -93,6 +93,11 @@ namespace CompStore.Mvc
             services.AddScoped<IRamDDRIndexServices, RamDDRIndexServices>();
 
 
+            services.AddScoped<IRamGBEditServices, RamGBEditServices>();
+            services.AddScoped<IRamGBDeleteServices, RamGBDeleteServices>();
+            services.AddScoped<IRamGBCreateServices, RamGBCreateServices>();
+            services.AddScoped<IRamGBIndexServices, RamGBIndexServices>();
+
             services.AddScoped<IGörüntüImkanıRepository, GörüntüImkanıRepository>();
             services.AddScoped<IProcessorModelRepository, ProcessorModelRepository>();
             services.AddScoped<IProcessorCacheRepository, ProcessorCacheRepository>();

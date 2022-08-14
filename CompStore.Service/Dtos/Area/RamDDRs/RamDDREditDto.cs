@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompStore.Service.Dtos.Area.RamDDRs
 {
-    public class RamDDREditDto
+ public    class RamDDREditDto
     {
         public string Name { get; set; }
         public int Id { get; set; }

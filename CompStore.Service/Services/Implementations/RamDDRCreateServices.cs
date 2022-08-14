@@ -20,11 +20,11 @@ namespace CompStore.Service.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task CreateBrand(RamDDRCreateDto brandDto)
+        public async Task CreateDDR(RamDDRCreateDto brandDto)
         {
             if (brandDto.RamDDR.DDR == null)
                 throw new ItemNotFoundException("RamDDR adı boş ola bilməz!");
-            if (await _unitOfWork.BrandRepository.IsExistAsync(x => x.Name.ToLower() == brandDto.RamDDR.DDR.ToLower()))
+            if (await _unitOfWork.RamDDRRepository.IsExistAsync(x => x.DDR.ToLower() == brandDto.RamDDR.DDR.ToLower()))
                 throw new ItemNameAlreadyExists("RamDDR adı mövcuddur!");
 
             await _unitOfWork.RamDDRRepository.InsertAsync(brandDto.RamDDR);

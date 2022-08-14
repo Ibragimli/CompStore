@@ -1,29 +1,32 @@
-﻿@model RamDDRCreateDto
+﻿@model RamGBEditDto
 @{
 }
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">RamDDR /</span>Create</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">RamGB /</span>Edit</h4>
 
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">RamDDR</h5>
+                    <h5 class="card-header">RamGB</h5>
                     <div class="card-body">
-                        <form asp-action="create" method="post" enctype="multipart/form-data">
+                        <form asp-action="edit" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
-                                @* Name *@
+
+                                @* GB *@
                                 <div class="col-6">
                                     <div>
-                                        <label asp-for="@Model.RamDDR.DDR" class="form-label">DDR</label>
-                                        <input asp-for="@Model.RamDDR.DDR" type="text" class="form-control" placeholder=".........">
-                                        <span asp-validation-for="@Model.RamDDR.DDR" class="text-danger"></span>
+                                        <label asp-for="@Model.GB" class="form-label">GB</label>
+                                        <input asp-for="@Model.GB" type="text" class="form-control" placeholder=".........">
+                                        <span asp-validation-for="@Model.GB" class="text-danger"></span>
                                     </div>
+                                    <input asp-for="@Model.Id" value="@Model.Id" type="hidden">
                                 </div>
+
                                 <div class="d-flex justify-content-end col-12">
-                                    <a asp-action="index" asp-controller="ramddr" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
+                                    <a asp-action="index" asp-controller="ramGB" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
                                     <button type="submit" class="ms-3 btn btn-outline-primary mt-2">Yaratmaq</button>
                                 </div>
                             </div>
