@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IRamGBDeleteServices
+    public interface IRamMhzDeleteServices
     {
-        Task RamGBDelete(int id);
+        Task RamMhzDelete(int id);
     }
 }

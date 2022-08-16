@@ -98,6 +98,12 @@ namespace CompStore.Mvc
             services.AddScoped<IRamGBCreateServices, RamGBCreateServices>();
             services.AddScoped<IRamGBIndexServices, RamGBIndexServices>();
 
+
+            services.AddScoped<IRamMhzEditServices, RamMhzEditServices>();
+            services.AddScoped<IRamMhzDeleteServices, RamMhzDeleteServices>();
+            services.AddScoped<IRamMhzCreateServices, RamMhzCreateServices>();
+            services.AddScoped<IRamMhzIndexServices, RamMhzIndexServices>();
+
             services.AddScoped<IGörüntüImkanıRepository, GörüntüImkanıRepository>();
             services.AddScoped<IProcessorModelRepository, ProcessorModelRepository>();
             services.AddScoped<IProcessorCacheRepository, ProcessorCacheRepository>();
@@ -109,6 +115,12 @@ namespace CompStore.Mvc
             services.AddScoped<ISSDTypeRepository, SSDTypeRepository>();
             services.AddScoped<IScreenDiagonalRepository, ScreenDiagonalRepository>();
             services.AddScoped<IScreenFrequencieRepository, ScreenFrequencieRepository>();
+
+            services.AddScoped<IProcessorCacheCreateServices, ProcessorCacheCreateServices>();
+            services.AddScoped<IProcessorCacheEditServices, ProcessorCacheEditServices>();
+            services.AddScoped<IProcessorCacheDeleteServices, ProcessorCacheDeleteServices>();
+            services.AddScoped<IProcessorCacheIndexServices, ProcessorCacheIndexServices>();
+
 
 
 

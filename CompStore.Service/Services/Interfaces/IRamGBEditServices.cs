@@ -1,5 +1,4 @@
-﻿using CompStore.Core.Entites;
-using CompStore.Service.Dtos.Area.RamGbs;
+﻿using CompStore.Service.Dtos.Area.RamGbs;
 using System;
 using System.Collections.Generic;
 using System.Text;

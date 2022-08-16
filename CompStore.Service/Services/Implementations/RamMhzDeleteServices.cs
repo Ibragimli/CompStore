@@ -8,31 +8,31 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Implementations
 {
-    public class RamGBDeleteServices : IRamGBDeleteServices
+    
+    public class RamMhzDeleteServices : IRamMhzDeleteServices
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public RamGBDeleteServices(IUnitOfWork unitOfWork)
+        public RamMhzDeleteServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task RamGbDelete(int id)
+        public async Task RamMhzDelete(int id)
         {
-            if (!await _unitOfWork.RamGBRepository.IsExistAsync(x => x.Id == id))
+            if (!await _unitOfWork.RamMhzRepository.IsExistAsync(x => x.Id == id))
             {
-                throw new ItemNotFoundException("RamGB tapilmadi");
+                throw new ItemNotFoundException("RamMhz tapilmadi");
             }
 
-            if (await _unitOfWork.ProductParametrRepository.IsExistAsync(x => x.RamGBId == id))
+            if (await _unitOfWork.ProductParametrRepository.IsExistAsync(x => x.RamMhzId == id))
             {
                 throw new ItemUseException("Product Parametr model də istifade olunur deye silmek mümkün olmadı!");
             }
 
-            var ramGB = await _unitOfWork.RamGBRepository.GetAsync(x => x.Id == id);
-            _unitOfWork.RamGBRepository.Remove(ramGB);
+            var ramMhz = await _unitOfWork.RamMhzRepository.GetAsync(x => x.Id == id);
+            _unitOfWork.RamMhzRepository.Remove(ramMhz);
             await _unitOfWork.CommitAsync();
         }
     }
 }
-

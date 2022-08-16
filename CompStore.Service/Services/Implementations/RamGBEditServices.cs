@@ -20,6 +20,7 @@ namespace CompStore.Service.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
+
         public async Task RamGBEdit(RamGBEditDto RamGBEdit)
         {
             if (RamGBEdit.GB == 0)
@@ -38,7 +39,7 @@ namespace CompStore.Service.Services.Implementations
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<RamGBEditDto> IsExists(int id)
+       public async Task<RamGBEditDto> IsExists(int id)
         {
             var RamGBExist = await _unitOfWork.RamGBRepository.GetAsync(x => x.Id == id);
             if (RamGBExist == null)

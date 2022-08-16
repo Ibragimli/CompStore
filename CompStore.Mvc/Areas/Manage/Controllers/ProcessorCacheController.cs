@@ -1,7 +1,7 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
 using CompStore.Mvc.Areas.Manage.ViewModels;
-using CompStore.Service.Dtos.Area.RamGbs;
+using CompStore.Service.Dtos.Area.ProcessorCaches;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,34 +13,34 @@ using System.Threading.Tasks;
 namespace CompStore.Mvc.Areas.Manage.Controllers
 {
     [Area("manage")]
-    public class RamGBController : Controller
+    public class ProcessorCacheController : Controller
     {
         private readonly DataContext _context;
-        private readonly IRamGBCreateServices _ramGBCreateServices;
-        private readonly IRamGBDeleteServices _ramGBDeleteServices;
-        private readonly IRamGBEditServices _ramGBEditServices;
-        private readonly IRamGBIndexServices _ramGBIndexServices;
+        private readonly IProcessorCacheCreateServices _ProcessorCacheCreateServices;
+        private readonly IProcessorCacheDeleteServices _ProcessorCacheDeleteServices;
+        private readonly IProcessorCacheEditServices _ProcessorCacheEditServices;
+        private readonly IProcessorCacheIndexServices _ProcessorCacheIndexServices;
 
-        public RamGBController(DataContext context,IRamGBCreateServices ramGBCreateServices, IRamGBDeleteServices ramGBDeleteServices,IRamGBEditServices ramGBEditServices,IRamGBIndexServices ramGBIndexServices)
+        public ProcessorCacheController(DataContext context, IProcessorCacheCreateServices ProcessorCacheCreateServices, IProcessorCacheDeleteServices ProcessorCacheDeleteServices, IProcessorCacheEditServices ProcessorCacheEditServices, IProcessorCacheIndexServices ProcessorCacheIndexServices)
         {
             _context = context;
-            _ramGBCreateServices = ramGBCreateServices;
-            _ramGBDeleteServices = ramGBDeleteServices;
-            _ramGBEditServices = ramGBEditServices;
-            _ramGBIndexServices = ramGBIndexServices;
+            _ProcessorCacheCreateServices = ProcessorCacheCreateServices;
+            _ProcessorCacheDeleteServices = ProcessorCacheDeleteServices;
+            _ProcessorCacheEditServices = ProcessorCacheEditServices;
+            _ProcessorCacheIndexServices = ProcessorCacheIndexServices;
         }
         public async Task<IActionResult> Index(int page = 1, string search = null)
         {
             ViewBag.Page = page;
 
-            var RamGBs = await _ramGBIndexServices.SearchCheck(search);
+            var ProcessorCaches = await _ProcessorCacheIndexServices.SearchCheck(search);
 
-            RamGBIndexViewModel RamGBIndexVM = new RamGBIndexViewModel
+            ProcessorCacheIndexViewModel ProcessorCacheIndexVM = new ProcessorCacheIndexViewModel
             {
-                PagenatedItems = PagenetedList<RamGB>.Create(RamGBs, page, 2),
+                PagenatedItems = PagenetedList<ProcessorCache>.Create(ProcessorCaches, page, 2),
             };
 
-            return View(RamGBIndexVM);
+            return View(ProcessorCacheIndexVM);
         }
         public IActionResult Create()
         {
@@ -48,11 +48,11 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RamGBCreateDto createDto)
+        public async Task<IActionResult> Create(ProcessorCacheCreateDto createDto)
         {
             try
             {
-                await _ramGBCreateServices.CreateGB(createDto);
+                await _ProcessorCacheCreateServices.CreateCache(createDto);
             }
             catch (Exception ex)
             {
@@ -61,39 +61,39 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
                 return View();
             }
             TempData["Success"] = ("Proses uğurlu oldu!");
-            return RedirectToAction("index", "RamGB");
+            return RedirectToAction("index", "ProcessorCache");
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                await _ramGBEditServices.IsExists(id);
+                await _ProcessorCacheEditServices.IsExists(id);
             }
             catch (Exception)
             {
                 return RedirectToAction("notfound", "error");
             }
 
-            return View(await _ramGBEditServices.IsExists(id));
+            return View(await _ProcessorCacheEditServices.IsExists(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RamGBEditDto RamGBEdit)
+        public async Task<IActionResult> Edit(ProcessorCacheEditDto ProcessorCacheEdit)
         {
             try
             {
-                await _ramGBEditServices.RamGBEdit(RamGBEdit);
+                await _ProcessorCacheEditServices.ProcessorCacheEdit(ProcessorCacheEdit);
             }
             catch (Exception ex)
             {
 
                 ModelState.AddModelError("", ex.Message);
-                return View(RamGBEdit);
+                return View(ProcessorCacheEdit);
             }
             TempData["Success"] = ("Proses uğurlu oldu!");
-            return RedirectToAction("index", "RamGB");
+            return RedirectToAction("index", "ProcessorCache");
         }
 
         // GET: Manage/Product/Delete/5
@@ -101,7 +101,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         {
             try
             {
-                await _ramGBDeleteServices.RamGbDelete(id);
+                await _ProcessorCacheDeleteServices.ProcessorCacheDelete(id);
             }
             catch (Exception ex)
             {
@@ -118,4 +118,6 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
+
+
 }
