@@ -122,8 +122,22 @@ namespace CompStore.Mvc
             services.AddScoped<IProcessorCacheIndexServices, ProcessorCacheIndexServices>();
 
 
+            services.AddScoped<IProcessorModelCreateServices, ProcessorModelCreateServices>();
+            services.AddScoped<IProcessorModelEditServices, ProcessorModelEditServices>();
+            services.AddScoped<IProcessorModelDeleteServices, ProcessorModelDeleteServices>();
+            services.AddScoped<IProcessorModelIndexServices, ProcessorModelIndexServices>();
 
 
+            services.AddScoped<IVideokartRamCreateServices, VideokartRamCreateServices>();
+            services.AddScoped<IVideokartRamEditServices, VideokartRamEditServices>();
+            services.AddScoped<IVideokartRamDeleteServices, VideokartRamDeleteServices>();
+            services.AddScoped<IVideokartRamIndexServices, VideokartRamIndexServices>();
+
+
+            services.AddScoped<IVideokartCreateServices, VideokartCreateServices>();
+            services.AddScoped<IVideokartEditServices, VideokartEditServices>();
+            services.AddScoped<IVideokartDeleteServices, VideokartDeleteServices>();
+            services.AddScoped<IVideokartIndexServices, VideokartIndexServices>();
 
 
 

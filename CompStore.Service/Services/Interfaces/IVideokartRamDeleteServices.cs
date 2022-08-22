@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IProcessorCacheDeleteServices
+    public interface IVideokartRamDeleteServices
     {
-        Task ProcessorCacheDelete(int id);
+        Task VideokartRamDelete(int id);
+
     }
 }

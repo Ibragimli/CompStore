@@ -1,14 +1,13 @@
-﻿using CompStore.Core.Entites;
+﻿using CompStore.Service.Dtos.Area.Videokarts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IProductIndexServices
+    public interface IVideokartCreateServices
     {
-        Task<IQueryable<Product>> SearchCheck(string search);
+        Task CreateVideokart(VideokartCreateDto VideokartDto);
     }
 }

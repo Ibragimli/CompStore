@@ -1,14 +1,14 @@
 ﻿using CompStore.Core.Entites;
-using CompStore.Service.Dtos.Area.RamMhzs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IRamMhzCreateServices
+    public interface IProcessorModelIndexServices
     {
-        Task CreateMhz(RamMhzCreateDto MhzDto);
+        Task<IQueryable<ProcessorModel>> SearchCheck(string search);
     }
 }

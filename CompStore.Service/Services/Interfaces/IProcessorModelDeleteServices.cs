@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IProcessorCacheDeleteServices
+    public interface IProcessorModelDeleteServices
     {
-        Task ProcessorCacheDelete(int id);
+        Task ProcessorModelDelete(int id);
+
     }
 }
