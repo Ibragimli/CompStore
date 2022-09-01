@@ -1,6 +1,4 @@
 ﻿using CompStore.Core.Entites;
-using CompStore.Service.Dtos;
-using CompStore.Service.Dtos.Area.RamGbs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CompStore.Service.Services.Interfaces
 {
-    public interface IRamGBIndexServices
+    public interface IScreenFrequencyIndexServices
     {
-        Task<IQueryable<RamGB>> SearchCheck(string search);
+        Task<IQueryable<ScreenFrequency>> SearchCheck(string search);
     }
 }
+

@@ -140,7 +140,21 @@ namespace CompStore.Mvc
             services.AddScoped<IVideokartIndexServices, VideokartIndexServices>();
 
 
+            services.AddScoped<ITeyinatCreateServices, TeyinatCreateServices>();
+            services.AddScoped<ITeyinatEditServices, TeyinatEditServices>();
+            services.AddScoped<ITeyinatDeleteServices, TeyinatDeleteServices>();
+            services.AddScoped<ITeyinatIndexServices, TeyinatIndexServices>();
 
+
+            services.AddScoped<IScreenDiagonalCreateServices, ScreenDiagonalCreateServices>();
+            services.AddScoped<IScreenDiagonalEditServices, ScreenDiagonalEditServices>();
+            services.AddScoped<IScreenDiagonalDeleteServices, ScreenDiagonalDeleteServices>();
+            services.AddScoped<IScreenDiagonalIndexServices, ScreenDiagonalIndexServices>();
+
+            services.AddScoped<IScreenFrequencyCreateServices, ScreenFrequencyCreateServices>();
+            services.AddScoped<IScreenFrequencyEditServices, ScreenFrequencyEditServices>();
+            services.AddScoped<IScreenFrequencyDeleteServices, ScreenFrequencyDeleteServices>();
+            services.AddScoped<IScreenFrequencyIndexServices, ScreenFrequencyIndexServices>();
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {
