@@ -156,6 +156,21 @@ namespace CompStore.Mvc
             services.AddScoped<IScreenFrequencyDeleteServices, ScreenFrequencyDeleteServices>();
             services.AddScoped<IScreenFrequencyIndexServices, ScreenFrequencyIndexServices>();
 
+            services.AddScoped<IOperationSystemEditServices, OperationSystemEditServices>();
+            services.AddScoped<IOperationSystemDeleteServices, OperationSystemDeleteServices>();
+            services.AddScoped<IOperationSystemCreateServices, OperationSystemCreateServices>();
+            services.AddScoped<IOperationSystemIndexServices, OperationSystemIndexServices>();
+
+            services.AddScoped<IGörüntüImkanıEditServices, GörüntüImkanıEditServices>();
+            services.AddScoped<IGörüntüImkanıDeleteServices, GörüntüImkanıDeleteServices>();
+            services.AddScoped<IGörüntüImkanıCreateServices, GörüntüImkanıCreateServices>();
+            services.AddScoped<IGörüntüImkanıIndexServices, GörüntüImkanıIndexServices>();
+
+            services.AddScoped<IColorEditServices, ColorEditServices>();
+            services.AddScoped<IColorDeleteServices, ColorDeleteServices>();
+            services.AddScoped<IColorCreateServices, ColorCreateServices>();
+            services.AddScoped<IColorIndexServices, ColorIndexServices>();
+
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile(provider.GetService<IHelperAccessor>()));
