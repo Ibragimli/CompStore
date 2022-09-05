@@ -171,6 +171,26 @@ namespace CompStore.Mvc
             services.AddScoped<IColorCreateServices, ColorCreateServices>();
             services.AddScoped<IColorIndexServices, ColorIndexServices>();
 
+            services.AddScoped<ICategoryEditServices, CategoryEditServices>();
+            services.AddScoped<ICategoryDeleteServices, CategoryDeleteServices>();
+            services.AddScoped<ICategoryCreateServices, CategoryCreateServices>();
+            services.AddScoped<ICategoryIndexServices, CategoryIndexServices>();
+
+            services.AddScoped<IHDDHecmEditServices, HDDHecmEditServices>();
+            services.AddScoped<IHDDHecmDeleteServices, HDDHecmDeleteServices>();
+            services.AddScoped<IHDDHecmCreateServices, HDDHecmCreateServices>();
+            services.AddScoped<IHDDHecmIndexServices, HDDHecmIndexServices>();
+
+            services.AddScoped<ISSDHecmEditServices, SSDHecmEditServices>();
+            services.AddScoped<ISSDHecmDeleteServices, SSDHecmDeleteServices>();
+            services.AddScoped<ISSDHecmCreateServices, SSDHecmCreateServices>();
+            services.AddScoped<ISSDHecmIndexServices, SSDHecmIndexServices>();
+
+            services.AddScoped<ISSDTypeEditServices, SSDTypeEditServices>();
+            services.AddScoped<ISSDTypeDeleteServices, SSDTypeDeleteServices>();
+            services.AddScoped<ISSDTypeCreateServices, SSDTypeCreateServices>();
+            services.AddScoped<ISSDTypeIndexServices, SSDTypeIndexServices>();
+
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile(provider.GetService<IHelperAccessor>()));

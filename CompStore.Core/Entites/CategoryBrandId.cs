@@ -12,7 +12,5 @@ namespace CompStore.Core.Entites
         public Brand Brand { get; set; }
         public ICollection<Model> Models { get; set; }
         public ICollection<Product> Products { get; set; }
-
-
     }
 }
