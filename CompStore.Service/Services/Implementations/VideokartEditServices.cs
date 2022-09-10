@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (VideokartEdit.Name == null)
                 throw new ItemNotFoundException("Videokart adı boş ola bilməz!");
 
-            if (await _unitOfWork.VideokartRepository.IsExistAsync(x => x.Name == VideokartEdit.Name))
+            if (await _unitOfWork.VideokartRepository.IsExistAsync(x => x.Name == VideokartEdit.Name && x.Id != VideokartEdit.Id))
                 throw new ItemNameAlreadyExists("Videokart adı mövcuddur!");
 
             var lastVideokart = await _unitOfWork.VideokartRepository.GetAsync(x => x.Id == VideokartEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Videokart tapilmadı!");
 
             lastVideokart.Name = VideokartEdit.Name;
+            lastVideokart.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

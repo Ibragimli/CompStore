@@ -25,7 +25,7 @@ namespace CompStore.Service.Services.Implementations
             if (brandEdit.Name == null)
                 throw new ItemNotFoundException("Brand adı boş ola bilməz!");
 
-            if (await _unitOfWork.BrandRepository.IsExistAsync(x => x.Name.ToLower() == brandEdit.Name.ToLower()))
+            if (await _unitOfWork.BrandRepository.IsExistAsync(x => x.Name.ToLower() == brandEdit.Name.ToLower() && x.Id != brandEdit.Id))
                 throw new ItemNameAlreadyExists("Brand adı mövcuddur!");
 
             var lastBrand = await _unitOfWork.BrandRepository.GetAsync(x => x.Id == brandEdit.Id);
@@ -34,6 +34,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Brand tapilmadı!");
 
             lastBrand.Name = brandEdit.Name;
+            lastBrand.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

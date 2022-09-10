@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (SSDTypeEdit.Type == null)
                 throw new ItemNotFoundException("SSDType adı boş ola bilməz!");
 
-            if (await _unitOfWork.SSDTypeRepository.IsExistAsync(x => x.Type == SSDTypeEdit.Type))
+            if (await _unitOfWork.SSDTypeRepository.IsExistAsync(x => x.Type == SSDTypeEdit.Type && x.Id != SSDTypeEdit.Id))
                 throw new ItemNameAlreadyExists("SSDType adı mövcuddur!");
 
             var lastSSDType = await _unitOfWork.SSDTypeRepository.GetAsync(x => x.Id == SSDTypeEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("SSDType tapilmadı!");
 
             lastSSDType.Type = SSDTypeEdit.Type;
+            lastSSDType.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

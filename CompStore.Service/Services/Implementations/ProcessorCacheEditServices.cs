@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (ProcessorCacheEdit.Cache == 0)
                 throw new ItemNotFoundException("Processor Cache  adı boş ola bilməz!");
 
-            if (await _unitOfWork.ProcessorCacheRepository.IsExistAsync(x => x.Cache == ProcessorCacheEdit.Cache))
+            if (await _unitOfWork.ProcessorCacheRepository.IsExistAsync(x => x.Cache == ProcessorCacheEdit.Cache && x.Id != ProcessorCacheEdit.Id))
                 throw new ItemNameAlreadyExists("Processor Cache  adı mövcuddur!");
 
             var lastProcessorCache  = await _unitOfWork.ProcessorCacheRepository.GetAsync(x => x.Id == ProcessorCacheEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Processor Cache  tapilmadı!");
 
             lastProcessorCache.Cache = ProcessorCacheEdit.Cache;
+            lastProcessorCache.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

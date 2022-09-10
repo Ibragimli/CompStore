@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (RamMhzEdit.Mhz == 0)
                 throw new ItemNotFoundException("RamMhz adı boş ola bilməz!");
 
-            if (await _unitOfWork.RamMhzRepository.IsExistAsync(x => x.Mhz == RamMhzEdit.Mhz))
+            if (await _unitOfWork.RamMhzRepository.IsExistAsync(x => x.Mhz == RamMhzEdit.Mhz && x.Id != RamMhzEdit.Id))
                 throw new ItemNameAlreadyExists("RamMhz adı mövcuddur!");
 
             var lastRamMhz = await _unitOfWork.RamMhzRepository.GetAsync(x => x.Id == RamMhzEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("RamMhz tapilmadı!");
 
             lastRamMhz.Mhz = RamMhzEdit.Mhz;
+            lastRamMhz.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (HDDHecmEdit.Cache == null)
                 throw new ItemNotFoundException("HDDHecm adı boş ola bilməz!");
 
-            if (await _unitOfWork.HDDHecmsRepository.IsExistAsync(x => x.Cache == HDDHecmEdit.Cache))
+            if (await _unitOfWork.HDDHecmsRepository.IsExistAsync(x => x.Cache == HDDHecmEdit.Cache && x.Id != HDDHecmEdit.Id))
                 throw new ItemNameAlreadyExists("HDDHecm adı mövcuddur!");
 
             var lastHDDHecm = await _unitOfWork.HDDHecmsRepository.GetAsync(x => x.Id == HDDHecmEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("HDDHecm tapilmadı!");
 
             lastHDDHecm.Cache = HDDHecmEdit.Cache;
+            lastHDDHecm.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

@@ -171,6 +171,11 @@ namespace CompStore.Mvc
             services.AddScoped<IColorCreateServices, ColorCreateServices>();
             services.AddScoped<IColorIndexServices, ColorIndexServices>();
 
+            services.AddScoped<IModelEditServices, ModelEditServices>();
+            services.AddScoped<IModelDeleteServices, ModelDeleteServices>();
+            services.AddScoped<IModelCreateServices, ModelCreateServices>();
+            services.AddScoped<IModelIndexServices, ModelIndexServices>();
+
             services.AddScoped<ICategoryEditServices, CategoryEditServices>();
             services.AddScoped<ICategoryDeleteServices, CategoryDeleteServices>();
             services.AddScoped<ICategoryCreateServices, CategoryCreateServices>();
@@ -190,6 +195,11 @@ namespace CompStore.Mvc
             services.AddScoped<ISSDTypeDeleteServices, SSDTypeDeleteServices>();
             services.AddScoped<ISSDTypeCreateServices, SSDTypeCreateServices>();
             services.AddScoped<ISSDTypeIndexServices, SSDTypeIndexServices>();
+
+            services.AddScoped<ICategoryBrandIdEditServices, CategoryBrandIdEditServices>();
+            services.AddScoped<ICategoryBrandIdDeleteServices, CategoryBrandIdDeleteServices>();
+            services.AddScoped<ICategoryBrandIdCreateServices, CategoryBrandIdCreateServices>();
+            services.AddScoped<ICategoryBrandIdIndexServices, CategoryBrandIdIndexServices>();
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {

@@ -25,7 +25,7 @@ namespace CompStore.Service.Services.Implementations
             if (RamDDREdit.Name == null)
                 throw new ItemNotFoundException("RamDDR adı boş ola bilməz!");
 
-            if (await _unitOfWork.RamDDRRepository.IsExistAsync(x => x.DDR.ToLower() == RamDDREdit.Name.ToLower()))
+            if (await _unitOfWork.RamDDRRepository.IsExistAsync(x => x.DDR.ToLower() == RamDDREdit.Name.ToLower() && x.Id != RamDDREdit.Id))
                 throw new ItemNameAlreadyExists("RamDDR adı mövcuddur!");
 
             var lastRamDDR = await _unitOfWork.RamDDRRepository.GetAsync(x => x.Id == RamDDREdit.Id);
@@ -34,6 +34,8 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("RamDDR tapilmadı!");
 
             lastRamDDR.DDR = RamDDREdit.Name;
+            lastRamDDR.ModifiedDate = DateTime.UtcNow.AddHours(4);
+
 
             await _unitOfWork.CommitAsync();
         }

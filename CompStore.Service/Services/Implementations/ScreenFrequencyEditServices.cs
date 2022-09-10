@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("ScreenFrequency tapilmadı!");
 
             lastScreenFrequency.Frequency = ScreenFrequencyEdit.Frequency;
+            lastScreenFrequency.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

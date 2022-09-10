@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (TeyinatEdit.Type == null)
                 throw new ItemNotFoundException("Teyinat adı boş ola bilməz!");
 
-            if (await _unitOfWork.TeyinatRepository.IsExistAsync(x => x.Type == TeyinatEdit.Type))
+            if (await _unitOfWork.TeyinatRepository.IsExistAsync(x => x.Type == TeyinatEdit.Type && x.Id != TeyinatEdit.Id))
                 throw new ItemNameAlreadyExists("Teyinat adı mövcuddur!");
 
             var lastTeyinat = await _unitOfWork.TeyinatRepository.GetAsync(x => x.Id == TeyinatEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Teyinat tapilmadı!");
 
             lastTeyinat.Type = TeyinatEdit.Type;
+            lastTeyinat.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

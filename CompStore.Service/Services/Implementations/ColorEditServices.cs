@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (ColorEdit.Name == null)
                 throw new ItemNotFoundException("Color adı boş ola bilməz!");
 
-            if (await _unitOfWork.ColorRepository.IsExistAsync(x => x.Name == ColorEdit.Name))
+            if (await _unitOfWork.ColorRepository.IsExistAsync(x => x.Name == ColorEdit.Name && x.Id != ColorEdit.Id))
                 throw new ItemNameAlreadyExists("Color adı mövcuddur!");
 
             var lastColor = await _unitOfWork.ColorRepository.GetAsync(x => x.Id == ColorEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Color tapilmadı!");
 
             lastColor.Name = ColorEdit.Name;
+            lastColor.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

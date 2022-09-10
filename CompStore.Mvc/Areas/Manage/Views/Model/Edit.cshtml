@@ -1,0 +1,73 @@
+﻿@model ModelEditDto
+@{
+}
+
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Model /</span>Edit</h4>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Model</h5>
+                    <div class="card-body">
+                        <form asp-action="edit" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+                                @* Name *@
+                                <div class="col-6">
+                                    <div>
+                                        <label asp-for="@Model.Model.Name" class="form-label">Name</label>
+                                        <input asp-for="@Model.Model.Name" type="text" class="form-control" placeholder=".........">
+                                        <span asp-validation-for="@Model.Model.Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                @* Brand *@
+                                <div class="col-6">
+                                    <label asp-for="Model.BrandId" class="form-label">Brand</label>
+                                    <select asp-for="Model.BrandId" id="categorySelect" class="form-select">
+                                        <option data-id="@Model.Model.Brand.Id" id="categoryOption" value="@Model.Model.Brand.Id" disabled selected>@Model.Model.Brand.Name</option>
+                                        @*<option disabled selected>Hamısı</option>*@
+
+                                        @foreach (var item in Model.Brands)
+                                        {
+                                            <option data-id="@item.Id" id="categoryOption" value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Model.BrandId" class="text-danger"></span>
+                                </div>
+
+                                @* CategoryBrandId *@
+                                <div class="col-6">
+                                    <input type="hidden" asp-for="Model.Id" value="@Model.Model.Id" />
+                                    <label asp-for="Model.CategoryBrandIdId" class="form-label">Category</label>
+                                    <select asp-for="Model.CategoryBrandIdId" id="categorySelect" class="form-select">
+                                        <option data-id="@Model.Model.CategoryBrandId.Category.Id" value="@Model.Model.CategoryBrandId.Category.Id" disabled selected>@Model.Model.CategoryBrandId.Category.Name</option>
+                                        @* <option  disabled selected>Hamısı</option>*@
+
+                                        @foreach (var item in Model.CategoryBrandIds)
+                                        {
+                                            <option data-id="@item.Id" id="categoryOption" value="@item.Id">@item.Brand.Name - @item.Category.Name</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Model.CategoryBrandIdId" class="text-danger"></span>
+                                </div>
+
+                                <div class="d-flex justify-content-end col-12">
+                                    <a asp-action="index" asp-controller="Model" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
+                                    <button type="submit" class="ms-3 btn btn-outline-primary mt-2">Yaratmaq</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div>
+
+@section Scripts{
+}

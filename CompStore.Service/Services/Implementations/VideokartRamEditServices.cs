@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (VideokartRamEdit.Ram == 0)
                 throw new ItemNotFoundException("VideokartRam adı boş ola bilməz!");
 
-            if (await _unitOfWork.VideokartRamsRepository.IsExistAsync(x => x.Ram == VideokartRamEdit.Ram))
+            if (await _unitOfWork.VideokartRamsRepository.IsExistAsync(x => x.Ram == VideokartRamEdit.Ram && x.Id != VideokartRamEdit.Id))
                 throw new ItemNameAlreadyExists("VideokartRam adı mövcuddur!");
 
             var lastVideokartRam = await _unitOfWork.VideokartRamsRepository.GetAsync(x => x.Id == VideokartRamEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("VideokartRam tapilmadı!");
 
             lastVideokartRam.Ram = VideokartRamEdit.Ram;
+            lastVideokartRam.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

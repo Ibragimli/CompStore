@@ -26,7 +26,7 @@ namespace CompStore.Service.Services.Implementations
             if (RamGBEdit.GB == 0)
                 throw new ItemNotFoundException("RamGB adı boş ola bilməz!");
 
-            if (await _unitOfWork.RamGBRepository.IsExistAsync(x => x.GB == RamGBEdit.GB))
+            if (await _unitOfWork.RamGBRepository.IsExistAsync(x => x.GB == RamGBEdit.GB && x.Id != RamGBEdit.Id))
                 throw new ItemNameAlreadyExists("RamGB adı mövcuddur!");
 
             var lastRamGB = await _unitOfWork.RamGBRepository.GetAsync(x => x.Id == RamGBEdit.Id);
@@ -35,6 +35,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("RamGB tapilmadı!");
 
             lastRamGB.GB = RamGBEdit.GB;
+            lastRamGB.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

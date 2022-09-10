@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (ProcessorModelEdit.Name == null)
                 throw new ItemNotFoundException("Processor Model  adı boş ola bilməz!");
 
-            if (await _unitOfWork.ProcessorModelRepository.IsExistAsync(x => x.Name == ProcessorModelEdit.Name))
+            if (await _unitOfWork.ProcessorModelRepository.IsExistAsync(x => x.Name == ProcessorModelEdit.Name && x.Id != ProcessorModelEdit.Id))
                 throw new ItemNameAlreadyExists("Processor Model  adı mövcuddur!");
 
             var lastProcessorModel = await _unitOfWork.ProcessorModelRepository.GetAsync(x => x.Id == ProcessorModelEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Processor Model  tapilmadı!");
 
             lastProcessorModel.Name = ProcessorModelEdit.Name;
+            lastProcessorModel.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

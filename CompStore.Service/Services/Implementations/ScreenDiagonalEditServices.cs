@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (ScreenDiagonalEdit.Diagonal == null)
                 throw new ItemNotFoundException("ScreenDiagonal adı boş ola bilməz!");
 
-            if (await _unitOfWork.ScreenDiagonalRepository.IsExistAsync(x => x.Diagonal == ScreenDiagonalEdit.Diagonal))
+            if (await _unitOfWork.ScreenDiagonalRepository.IsExistAsync(x => x.Diagonal == ScreenDiagonalEdit.Diagonal && x.Id != ScreenDiagonalEdit.Id))
                 throw new ItemNameAlreadyExists("ScreenDiagonal adı mövcuddur!");
 
             var lastScreenDiagonal = await _unitOfWork.ScreenDiagonalRepository.GetAsync(x => x.Id == ScreenDiagonalEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("ScreenDiagonal tapilmadı!");
 
             lastScreenDiagonal.Diagonal = ScreenDiagonalEdit.Diagonal;
+            lastScreenDiagonal.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (GörüntüImkanıEdit.Capability == null)
                 throw new ItemNotFoundException("GörüntüImkanı adı boş ola bilməz!");
 
-            if (await _unitOfWork.GörüntüImkanıRepository.IsExistAsync(x => x.Capability == GörüntüImkanıEdit.Capability))
+            if (await _unitOfWork.GörüntüImkanıRepository.IsExistAsync(x => x.Capability == GörüntüImkanıEdit.Capability && x.Id != GörüntüImkanıEdit.Id))
                 throw new ItemNameAlreadyExists("GörüntüImkanı adı mövcuddur!");
 
             var lastGörüntüImkanı = await _unitOfWork.GörüntüImkanıRepository.GetAsync(x => x.Id == GörüntüImkanıEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("GörüntüImkanı tapilmadı!");
 
             lastGörüntüImkanı.Capability = GörüntüImkanıEdit.Capability;
+            lastGörüntüImkanı.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

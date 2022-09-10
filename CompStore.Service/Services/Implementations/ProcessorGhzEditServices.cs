@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (ProcessorGhzEdit.Ghz == 0)
                 throw new ItemNotFoundException("Processor Ghz  adı boş ola bilməz!");
 
-            if (await _unitOfWork.ProcessorGhzRepository.IsExistAsync(x => x.Ghz == ProcessorGhzEdit.Ghz))
+            if (await _unitOfWork.ProcessorGhzRepository.IsExistAsync(x => x.Ghz == ProcessorGhzEdit.Ghz && x.Id != ProcessorGhzEdit.Id))
                 throw new ItemNameAlreadyExists("Processor Ghz  adı mövcuddur!");
 
             var lastProcessorGhz = await _unitOfWork.ProcessorGhzRepository.GetAsync(x => x.Id == ProcessorGhzEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Processor Ghz  tapilmadı!");
 
             lastProcessorGhz.Ghz = ProcessorGhzEdit.Ghz;
+            lastProcessorGhz.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

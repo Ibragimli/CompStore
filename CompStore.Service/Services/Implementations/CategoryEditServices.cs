@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (CategoryEdit.Name == null)
                 throw new ItemNotFoundException("Category adı boş ola bilməz!");
 
-            if (await _unitOfWork.CategoryRepository.IsExistAsync(x => x.Name == CategoryEdit.Name))
+            if (await _unitOfWork.CategoryRepository.IsExistAsync(x => x.Name == CategoryEdit.Name && x.Id != CategoryEdit.Id))
                 throw new ItemNameAlreadyExists("Category adı mövcuddur!");
 
             var lastCategory = await _unitOfWork.CategoryRepository.GetAsync(x => x.Id == CategoryEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("Category tapilmadı!");
 
             lastCategory.Name = CategoryEdit.Name;
+            lastCategory.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }

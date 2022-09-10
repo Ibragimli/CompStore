@@ -24,7 +24,7 @@ namespace CompStore.Service.Services.Implementations
             if (OperationSystemEdit.System == null)
                 throw new ItemNotFoundException("OperationSystem adı boş ola bilməz!");
 
-            if (await _unitOfWork.OperationSystemsRepository.IsExistAsync(x => x.System == OperationSystemEdit.System))
+            if (await _unitOfWork.OperationSystemsRepository.IsExistAsync(x => x.System == OperationSystemEdit.System && x.Id != OperationSystemEdit.Id))
                 throw new ItemNameAlreadyExists("OperationSystem adı mövcuddur!");
 
             var lastOperationSystem = await _unitOfWork.OperationSystemsRepository.GetAsync(x => x.Id == OperationSystemEdit.Id);
@@ -33,6 +33,7 @@ namespace CompStore.Service.Services.Implementations
                 throw new ItemNotFoundException("OperationSystem tapilmadı!");
 
             lastOperationSystem.System = OperationSystemEdit.System;
+            lastOperationSystem.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
             await _unitOfWork.CommitAsync();
         }
