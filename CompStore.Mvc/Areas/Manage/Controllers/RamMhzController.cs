@@ -39,7 +39,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             RamMhzIndexViewModel RamMhzIndexVM = new RamMhzIndexViewModel
             {
-                PagenatedItems = PagenetedList<RamMhz>.Create(RamMhzs, page, 2),
+                PagenatedItems = PagenetedList<RamMhz>.Create(RamMhzs, page, 6),
             };
 
             return View(RamMhzIndexVM);

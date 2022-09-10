@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             RamGBIndexViewModel RamGBIndexVM = new RamGBIndexViewModel
             {
-                PagenatedItems = PagenetedList<RamGB>.Create(RamGBs, page, 2),
+                PagenatedItems = PagenetedList<RamGB>.Create(RamGBs, page, 6),
             };
 
             return View(RamGBIndexVM);

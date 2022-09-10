@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             SSDHecmIndexViewModel SSDHecmIndexVM = new SSDHecmIndexViewModel
             {
-                PagenatedItems = PagenetedList<SSDHecm>.Create(SSDHecms, page, 2),
+                PagenatedItems = PagenetedList<SSDHecm>.Create(SSDHecms, page, 6),
             };
 
             return View(SSDHecmIndexVM);

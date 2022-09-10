@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             GörüntüImkanıIndexViewModel GörüntüImkanıIndexVM = new GörüntüImkanıIndexViewModel
             {
-                PagenatedItems = PagenetedList<GörüntüImkanı>.Create(GörüntüImkanıs, page, 2),
+                PagenatedItems = PagenetedList<GörüntüImkanı>.Create(GörüntüImkanıs, page, 6),
             };
 
             return View(GörüntüImkanıIndexVM);

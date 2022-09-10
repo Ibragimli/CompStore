@@ -40,7 +40,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             RamDDRIndexViewModel RamDDRIndexVM = new RamDDRIndexViewModel
             {
-                PagenatedItems = PagenetedList<RamDDR>.Create(RamDDRs, page, 2),
+                PagenatedItems = PagenetedList<RamDDR>.Create(RamDDRs, page, 6),
             };
 
             return View(RamDDRIndexVM);

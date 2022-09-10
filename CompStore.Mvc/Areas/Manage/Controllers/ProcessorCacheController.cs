@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ProcessorCacheIndexViewModel ProcessorCacheIndexVM = new ProcessorCacheIndexViewModel
             {
-                PagenatedItems = PagenetedList<ProcessorCache>.Create(ProcessorCaches, page, 2),
+                PagenatedItems = PagenetedList<ProcessorCache>.Create(ProcessorCaches, page, 6),
             };
 
             return View(ProcessorCacheIndexVM);

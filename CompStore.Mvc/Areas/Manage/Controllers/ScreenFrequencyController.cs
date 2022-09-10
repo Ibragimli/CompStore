@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ScreenFrequencyIndexViewModel ScreenFrequencyIndexVM = new ScreenFrequencyIndexViewModel
             {
-                PagenatedItems = PagenetedList<ScreenFrequency>.Create(ScreenFrequencys, page, 2),
+                PagenatedItems = PagenetedList<ScreenFrequency>.Create(ScreenFrequencys, page, 6),
             };
 
             return View(ScreenFrequencyIndexVM);

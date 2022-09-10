@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ColorIndexViewModel ColorIndexVM = new ColorIndexViewModel
             {
-                PagenatedItems = PagenetedList<Color>.Create(Colors, page, 2),
+                PagenatedItems = PagenetedList<Color>.Create(Colors, page, 6),
             };
 
             return View(ColorIndexVM);

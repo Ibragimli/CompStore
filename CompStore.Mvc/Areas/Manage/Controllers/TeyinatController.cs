@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             TeyinatIndexViewModel TeyinatIndexVM = new TeyinatIndexViewModel
             {
-                PagenatedItems = PagenetedList<Teyinat>.Create(Teyinats, page, 2),
+                PagenatedItems = PagenetedList<Teyinat>.Create(Teyinats, page, 6),
             };
 
             return View(TeyinatIndexVM);

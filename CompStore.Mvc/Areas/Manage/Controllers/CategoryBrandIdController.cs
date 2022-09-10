@@ -38,7 +38,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             CategoryBrandIdIndexViewModel CategoryBrandIdIndexVM = new CategoryBrandIdIndexViewModel
             {
-                PagenatedItems = PagenetedList<CategoryBrandId>.Create(CategoryBrandIds, page, 2),
+                PagenatedItems = PagenetedList<CategoryBrandId>.Create(CategoryBrandIds, page, 6),
             };
 
             return View(CategoryBrandIdIndexVM);

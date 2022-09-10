@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             OperationSystemIndexViewModel OperationSystemIndexVM = new OperationSystemIndexViewModel
             {
-                PagenatedItems = PagenetedList<OperationSystem>.Create(OperationSystems, page, 2),
+                PagenatedItems = PagenetedList<OperationSystem>.Create(OperationSystems, page, 6),
             };
 
             return View(OperationSystemIndexVM);

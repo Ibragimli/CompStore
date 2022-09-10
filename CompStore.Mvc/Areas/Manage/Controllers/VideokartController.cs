@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             VideokartIndexViewModel VideokartIndexVM = new VideokartIndexViewModel
             {
-                PagenatedItems = PagenetedList<Videokart>.Create(Videokarts, page, 2),
+                PagenatedItems = PagenetedList<Videokart>.Create(Videokarts, page, 6),
             };
 
             return View(VideokartIndexVM);

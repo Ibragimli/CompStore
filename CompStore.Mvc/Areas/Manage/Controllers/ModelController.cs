@@ -38,7 +38,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ModelIndexViewModel ModelIndexVM = new ModelIndexViewModel
             {
-                PagenatedItems = PagenetedList<Model>.Create(Models, page, 2),
+                PagenatedItems = PagenetedList<Model>.Create(Models, page, 6),
             };
 
             return View(ModelIndexVM);

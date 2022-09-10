@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ScreenDiagonalIndexViewModel ScreenDiagonalIndexVM = new ScreenDiagonalIndexViewModel
             {
-                PagenatedItems = PagenetedList<ScreenDiagonal>.Create(ScreenDiagonals, page, 2),
+                PagenatedItems = PagenetedList<ScreenDiagonal>.Create(ScreenDiagonals, page, 6),
             };
 
             return View(ScreenDiagonalIndexVM);

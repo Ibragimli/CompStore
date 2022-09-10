@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ProcessorGhzIndexViewModel ProcessorGhzIndexVM = new ProcessorGhzIndexViewModel
             {
-                PagenatedItems = PagenetedList<ProcessorGhz>.Create(ProcessorGhzs, page, 2),
+                PagenatedItems = PagenetedList<ProcessorGhz>.Create(ProcessorGhzs, page, 6),
             };
 
             return View(ProcessorGhzIndexVM);

@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             ProcessorModelIndexViewModel ProcessorModelIndexVM = new ProcessorModelIndexViewModel
             {
-                PagenatedItems = PagenetedList<ProcessorModel>.Create(ProcessorModels, page, 2),
+                PagenatedItems = PagenetedList<ProcessorModel>.Create(ProcessorModels, page, 6),
             };
 
             return View(ProcessorModelIndexVM);

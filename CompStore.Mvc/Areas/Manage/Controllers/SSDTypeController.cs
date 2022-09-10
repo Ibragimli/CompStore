@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             SSDTypeIndexViewModel SSDTypeIndexVM = new SSDTypeIndexViewModel
             {
-                PagenatedItems = PagenetedList<SSDType>.Create(SSDTypes, page, 2),
+                PagenatedItems = PagenetedList<SSDType>.Create(SSDTypes, page, 6),
             };
 
             return View(SSDTypeIndexVM);

@@ -37,7 +37,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             CategoryIndexViewModel CategoryIndexVM = new CategoryIndexViewModel
             {
-                PagenatedItems = PagenetedList<Category>.Create(Categorys, page, 2),
+                PagenatedItems = PagenetedList<Category>.Create(Categorys, page, 6),
             };
 
             return View(CategoryIndexVM);
