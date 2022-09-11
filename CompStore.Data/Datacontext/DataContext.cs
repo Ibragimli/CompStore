@@ -39,6 +39,7 @@ namespace CompStore.Data
         public DbSet<SSDType> SSDTypes { get; set; }
         public DbSet<SSDHecm> SSDHecms { get; set; }
         public DbSet<ImageSetting> ImageSettings { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -42,6 +42,7 @@ namespace CompStore.Data.UnitOfWork
         private IProcessorCacheRepository _processorCacheRepository;
         private IProcessorGhzRepository _processorGhzRepository;
         private IProcessorModelRepository _processorModelRepository;
+        private ISettingRepository _settingRepository;
 
 
         public UnitOfWork(DataContext context)
@@ -92,7 +93,7 @@ namespace CompStore.Data.UnitOfWork
 
         public IHDDHecmsRepository HDDHecmsRepository => _hDDHecmsRepository = _hDDHecmsRepository ?? new HDDHecmsRepository(_context);
 
-
+        public ISettingRepository SettingRepository => _settingRepository = _settingRepository ?? new SettingRepository(_context);
 
         public async Task<int> CommitAsync()
         {

@@ -196,6 +196,13 @@ namespace CompStore.Mvc
             services.AddScoped<ISSDTypeCreateServices, SSDTypeCreateServices>();
             services.AddScoped<ISSDTypeIndexServices, SSDTypeIndexServices>();
 
+            services.AddScoped<ISettingEditServices, SettingEditServices>();
+            services.AddScoped<ISettingIndexServices, SettingIndexServices>();
+
+            services.AddScoped<ISettingImageHelper, SettingImageHelper>();
+
+
+
             services.AddScoped<ICategoryBrandIdEditServices, CategoryBrandIdEditServices>();
             services.AddScoped<ICategoryBrandIdDeleteServices, CategoryBrandIdDeleteServices>();
             services.AddScoped<ICategoryBrandIdCreateServices, CategoryBrandIdCreateServices>();

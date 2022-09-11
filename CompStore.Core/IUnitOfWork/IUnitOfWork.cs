@@ -39,6 +39,7 @@ namespace CompStore.Core.Repositories
         IProcessorCacheRepository ProcessorCacheRepository { get; }
         IProcessorGhzRepository ProcessorGhzRepository { get; }
         IProcessorModelRepository ProcessorModelRepository { get; }
+        ISettingRepository SettingRepository { get; }
 
         Task<int> CommitAsync();
     }

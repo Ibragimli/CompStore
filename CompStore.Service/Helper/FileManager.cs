@@ -32,9 +32,6 @@ namespace CompStore.Service.Helper
             return false;
         }
 
-        internal static string Save(object webRootPath, string v, IFormFile posterImageFile)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
