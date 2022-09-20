@@ -413,6 +413,9 @@ namespace CompStore.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 

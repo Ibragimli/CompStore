@@ -4,6 +4,7 @@ using CompStore.Mvc.Areas.Manage.ViewModels;
 using CompStore.Service.Dtos.Area.CategoryBrandIds;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

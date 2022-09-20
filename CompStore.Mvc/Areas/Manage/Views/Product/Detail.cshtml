@@ -44,7 +44,7 @@
                                                         <td>
                                                             @Model.CategoryBrandId.Brand.Name
                                                         </td>
-                                                        <td >
+                                                        <td>
                                                             @Model.Model.Name
                                                         </td>
                                                         <td style="margin-left:15px;">
@@ -100,6 +100,7 @@
                                                     <tr>
                                                         <th>Kamera</th>
                                                         <th>Bluetooth</th>
+                                                        <th>Seçilmiş</th>
                                                         <th>Rəng</th>
                                                         <th>Əməliyyat sistemi</th>
                                                     </tr>
@@ -112,6 +113,9 @@
 
                                                         <td>
                                                             <i style="margin-left: 44px; color: @(Model.ProductParametr.Bluetooth==true? "green": "red");" class="fa-solid fa-@(Model.ProductParametr.Bluetooth==true? "check": "xmark")"></i>
+                                                        </td>
+                                                        <td>
+                                                            <i style="margin-left: 44px; color: @(Model.IsFeatured==true? "green": "red");" class="fa-solid fa-@(Model.IsFeatured==true? "check": "xmark")"></i>
                                                         </td>
                                                         <td>
                                                             @Model.ProductParametr.Color.Name
@@ -199,6 +203,10 @@
                                                 }
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end col-12">
+                                        <a asp-action="index" asp-controller="product" class="btn btn-outline-warning mt-2">Geriyə qayıtmaq</a>
                                     </div>
                                 </div>
                             </div>

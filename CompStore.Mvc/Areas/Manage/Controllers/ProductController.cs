@@ -5,6 +5,7 @@ using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos.Area.Products;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -251,6 +252,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             oldProduct.Price = newProduct.Price;
             oldProduct.DiscountPercent = newProduct.DiscountPercent;
             oldProduct.ModelId = newProduct.ModelId;
+            oldProduct.IsFeatured = newProduct.IsFeatured;
 
             oldProduct.CategoryBrandId.CategoryId = newProduct.CategoryBrandId.CategoryId;
             oldProduct.CategoryBrandId.BrandId = newProduct.CategoryBrandId.BrandId;

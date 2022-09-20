@@ -7,6 +7,7 @@ using CompStore.Service.Dtos.Area.Brands;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Implementations;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

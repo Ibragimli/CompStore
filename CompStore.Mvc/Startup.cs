@@ -13,7 +13,11 @@ using CompStore.Service.HelperService.Implementations;
 using CompStore.Service.HelperService.Interfaces;
 using CompStore.Service.Profiles;
 using CompStore.Service.Services.Implementations;
+using CompStore.Service.Services.Implementations.Area;
+using CompStore.Service.Services.Implementations.User;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
+using CompStore.Service.Services.Interfaces.User;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -127,6 +131,11 @@ namespace CompStore.Mvc
             services.AddScoped<IProcessorModelDeleteServices, ProcessorModelDeleteServices>();
             services.AddScoped<IProcessorModelIndexServices, ProcessorModelIndexServices>();
 
+            services.AddScoped<IProcessorGhzCreateServices, ProcessorGhzCreateServices>();
+            services.AddScoped<IProcessorGhzEditServices, ProcessorGhzEditServices>();
+            services.AddScoped<IProcessorGhzDeleteServices, ProcessorGhzDeleteServices>();
+            services.AddScoped<IProcessorGhzIndexServices, ProcessorGhzIndexServices>();
+
 
             services.AddScoped<IVideokartRamCreateServices, VideokartRamCreateServices>();
             services.AddScoped<IVideokartRamEditServices, VideokartRamEditServices>();
@@ -200,6 +209,8 @@ namespace CompStore.Mvc
             services.AddScoped<ISettingIndexServices, SettingIndexServices>();
 
             services.AddScoped<ISettingImageHelper, SettingImageHelper>();
+
+            services.AddScoped<ILayoutServices, LayoutServices>();
 
 
 

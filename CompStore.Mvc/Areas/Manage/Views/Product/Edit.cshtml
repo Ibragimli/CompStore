@@ -15,7 +15,7 @@
                             <div class="row">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
                                 <input asp-for="Product.Id" value="@Model.Product.Id" type="hidden" />
-                            
+
                                 @* Kategori *@
                                 <div class="select1 col-6">
                                     <label asp-for="Product.CategoryBrandId.CategoryId" class="form-label">Kategori</label>
@@ -85,16 +85,22 @@
                                 </div>
 
                                 @* Bluetooth *@
-                                <div class="col-3 d-flex align-items-center">
+                                <div class="col-2 d-flex align-items-center">
                                     <input class="form-check-input" asp-for="Product.ProductParametr.Bluetooth" placeholder="...." /> Bluetooth
                                     <span asp-validation-for="Product.ProductParametr.Bluetooth" class="text-danger"></span>
                                 </div>
 
 
                                 @* Kamera *@
-                                <div class="col-3 d-flex align-items-center">
+                                <div class="col-2 d-flex align-items-center">
                                     <input class="form-check-input" asp-for="Product.ProductParametr.Kamera" placeholder="...." /> Kamera
                                     <span asp-validation-for="Product.ProductParametr.Kamera" class="text-danger"></span>
+                                </div>
+
+                                @* Seçilmiş *@
+                                <div class="col-2 d-flex align-items-center">
+                                    <input  class="form-check-input" asp-for="@Model.Product.IsFeatured" placeholder="...." /> @Html.DisplayNameFor(model => model.Product.IsFeatured)
+                                    <span asp-validation-for="@Model.Product.IsFeatured" class="text-danger"></span>
                                 </div>
 
                                 @* Colors *@
@@ -310,7 +316,7 @@
                                 <div style="display:@(Model.Product.ProductParametr.DaxiliYaddaş.IsSSD == true?"block":"none");" id="ssdType" class=" col-6">
                                     <div>
                                         <label asp-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-label">SSD Növü</label>
-                                        <select asp-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-select" >
+                                        <select asp-for="Product.ProductParametr.DaxiliYaddaş.SSDTypeId" class="form-select">
                                             @foreach (var item in Model.viewModel.SSDTypes)
                                             {
                                                 <option value="@item.Id">@item.Type</option>
@@ -373,7 +379,7 @@
                                         }
                                     </div>
                                 </div>
-                               
+
                                 @* ImageFiles *@
                                 <div class="col-6">
                                     <label asp-for="Product.ImageFiles" class="form-label"> Məhsulun şəkilləri</label>

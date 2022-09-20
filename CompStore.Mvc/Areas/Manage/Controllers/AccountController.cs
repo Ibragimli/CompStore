@@ -3,6 +3,7 @@ using CompStore.Mvc.Areas.Manage.ViewModels;
 using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

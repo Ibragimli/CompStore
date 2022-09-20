@@ -4,6 +4,7 @@ using CompStore.Mvc.Areas.Manage.ViewModels;
 using CompStore.Service.Dtos.Area.RamGbs;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces;
+using CompStore.Service.Services.Interfaces.Area;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

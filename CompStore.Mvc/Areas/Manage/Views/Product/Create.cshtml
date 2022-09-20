@@ -84,16 +84,23 @@
                                 </div>
 
                                 @* Bluetooth *@
-                                <div class="col-3 d-flex align-items-center">
+                                <div class="col-2 d-flex align-items-center">
                                     <input class="form-check-input" asp-for="@Model.ProductParametr.Bluetooth" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.Bluetooth)
                                     <span asp-validation-for="@Model.ProductParametr.Bluetooth" class="text-danger"></span>
                                 </div>
 
                                 @* Kamera *@
-                                <div class="col-3 d-flex align-items-center">
+                                <div class="col-2 d-flex align-items-center">
                                     <input class="form-check-input" asp-for="@Model.ProductParametr.Kamera" placeholder="...." /> @Html.DisplayNameFor(model => model.ProductParametr.Kamera)
                                     <span asp-validation-for="@Model.ProductParametr.Kamera" class="text-danger"></span>
                                 </div>
+
+                                @* Seçilmiş *@
+                                <div class="col-2 d-flex align-items-center">
+                                    <input  class="form-check-input" asp-for="@Model.Product.IsFeatured" placeholder="...." /> @Html.DisplayNameFor(model => model.Product.IsFeatured)
+                                    <span asp-validation-for="@Model.Product.IsFeatured" class="text-danger"></span>
+                                </div>
+
                                 @* Colors *@
                                 <div class="col-6">
                                     <div>

@@ -332,7 +332,9 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 500;
   line-height: 1.2;
   color: #3D464D; }
-
+.product-featured-image {
+    height: 340.45px !important;
+}
 h1, .h1 {
   font-size: 2.5rem; }
   @media (max-width: 1200px) {
@@ -7201,6 +7203,10 @@ a.text-dark:hover, a.text-dark:focus {
 
 .product-item .btn:hover {
   color: #FFD333 !important; }
+
+.product-item a {
+    font-size:22px;
+}
 
 .table.table-borderless thead tr,
 .table.table-borderless tbody tr:not(:last-child) {
