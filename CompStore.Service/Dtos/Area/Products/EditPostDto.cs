@@ -9,6 +9,8 @@ namespace CompStore.Service.Dtos.Area.Products
     public class EditPostDto
     {
         public Product Product { get; set; }
+        public int BrandId { get; set; }
+        public int CategoryId { get; set; }
     }
     public class EditPostDtoValidator : AbstractValidator<EditPostDto>
     {

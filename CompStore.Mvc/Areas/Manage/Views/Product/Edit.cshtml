@@ -25,7 +25,10 @@
                                         @foreach (var item in Model.viewModel.Categorys)
                                         {
                                             <option data-id="@item.Id" id="categoryOption" value="@item.Id">@item.Name</option>
+                                            
+
                                         }
+
                                     </select>
                                     <span asp-validation-for="Product.CategoryBrandId.CategoryId" class="text-danger"></span>
                                 </div>
@@ -99,7 +102,7 @@
 
                                 @* Seçilmiş *@
                                 <div class="col-2 d-flex align-items-center">
-                                    <input  class="form-check-input" asp-for="@Model.Product.IsFeatured" placeholder="...." /> @Html.DisplayNameFor(model => model.Product.IsFeatured)
+                                    <input class="form-check-input" asp-for="@Model.Product.IsFeatured" placeholder="...." /> @Html.DisplayNameFor(model => model.Product.IsFeatured)
                                     <span asp-validation-for="@Model.Product.IsFeatured" class="text-danger"></span>
                                 </div>
 

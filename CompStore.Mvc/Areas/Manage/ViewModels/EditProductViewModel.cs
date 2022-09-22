@@ -11,11 +11,17 @@ namespace CompStore.Mvc.Areas.Manage.ViewModels
     {
         public Product Product { get; set; }
         public EditCreateViewModel viewModel { get; set; }
+        public int BrandId { get; set; }
+        public int CategoryId { get; set; }
+
 
     }
     public class EditPostViewModel
     {
         public Product Product { get; set; }
+        public int BrandId { get; set; }
+        public int CategoryId { get; set; }
+
     }
 }
 

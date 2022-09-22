@@ -164,7 +164,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             //var viewCount = await _context.ViewCounts.FirstOrDefaultAsync(x => x.ClickName == companyExist.Name);
 
-            EditChange(product, editPostExist.Product /*viewCount*/);
+            EditChange(product, editPostExist /*viewCount*/);
             SaveContext();
             TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
@@ -245,51 +245,51 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         }
 
 
-        private void EditChange(Product newProduct, Product oldProduct)
+        private void EditChange(Product newProduct, EditPostDto oldProduct)
         {
-            oldProduct.Name = newProduct.Name;
-            oldProduct.Description = newProduct.Description;
-            oldProduct.Price = newProduct.Price;
-            oldProduct.DiscountPercent = newProduct.DiscountPercent;
-            oldProduct.ModelId = newProduct.ModelId;
-            oldProduct.IsFeatured = newProduct.IsFeatured;
+            oldProduct.Product.Name = newProduct.Name;
+            oldProduct.Product.Description = newProduct.Description;
+            oldProduct.Product.Price = newProduct.Price;
+            oldProduct.Product.DiscountPercent = newProduct.DiscountPercent;
+            oldProduct.Product.ModelId = newProduct.ModelId;
+            oldProduct.Product.IsFeatured = newProduct.IsFeatured;
 
-            oldProduct.CategoryBrandId.CategoryId = newProduct.CategoryBrandId.CategoryId;
-            oldProduct.CategoryBrandId.BrandId = newProduct.CategoryBrandId.BrandId;
+            var categoryBrand = _context.CategoryBrandIds.FirstOrDefault(x => x.CategoryId == newProduct.CategoryBrandId.CategoryId && x.BrandId == newProduct.CategoryBrandId.BrandId);
+            if (categoryBrand != null)
+                oldProduct.Product.CategoryBrandIdId = categoryBrand.Id;
 
-            oldProduct.ProductParametr.Kamera = newProduct.ProductParametr.Kamera;
-            oldProduct.ProductParametr.Bluetooth = newProduct.ProductParametr.Bluetooth;
-            oldProduct.ProductParametr.ColorId = newProduct.ProductParametr.ColorId;
-            oldProduct.ProductParametr.GörüntüImkanıId = newProduct.ProductParametr.GörüntüImkanıId;
-            oldProduct.ProductParametr.OperationSystemId = newProduct.ProductParametr.OperationSystemId;
-            oldProduct.ProductParametr.ProcessorCacheId = newProduct.ProductParametr.ProcessorCacheId;
-            oldProduct.ProductParametr.ProcessorGhzId = newProduct.ProductParametr.ProcessorGhzId;
-            oldProduct.ProductParametr.ProcessorModelId = newProduct.ProductParametr.ProcessorModelId;
-            oldProduct.ProductParametr.RamDDRId = newProduct.ProductParametr.RamDDRId;
-            oldProduct.ProductParametr.RamGBId = newProduct.ProductParametr.RamGBId;
-            oldProduct.ProductParametr.RamMhzId = newProduct.ProductParametr.RamMhzId;
-            oldProduct.ProductParametr.ScreenDiagonalId = newProduct.ProductParametr.ScreenDiagonalId;
-            oldProduct.ProductParametr.ScreenFrequencyId = newProduct.ProductParametr.ScreenFrequencyId;
-            oldProduct.ProductParametr.TeyinatId = newProduct.ProductParametr.TeyinatId;
-            oldProduct.ProductParametr.VideokartId = newProduct.ProductParametr.VideokartId;
-            oldProduct.ProductParametr.VideokartRamId = newProduct.ProductParametr.VideokartRamId;
-            oldProduct.ProductParametr.TeyinatId = newProduct.ProductParametr.TeyinatId;
+            oldProduct.Product.ProductParametr.Kamera = newProduct.ProductParametr.Kamera;
+            oldProduct.Product.ProductParametr.Bluetooth = newProduct.ProductParametr.Bluetooth;
+            oldProduct.Product.ProductParametr.ColorId = newProduct.ProductParametr.ColorId;
+            oldProduct.Product.ProductParametr.GörüntüImkanıId = newProduct.ProductParametr.GörüntüImkanıId;
+            oldProduct.Product.ProductParametr.OperationSystemId = newProduct.ProductParametr.OperationSystemId;
+            oldProduct.Product.ProductParametr.ProcessorCacheId = newProduct.ProductParametr.ProcessorCacheId;
+            oldProduct.Product.ProductParametr.ProcessorGhzId = newProduct.ProductParametr.ProcessorGhzId;
+            oldProduct.Product.ProductParametr.ProcessorModelId = newProduct.ProductParametr.ProcessorModelId;
+            oldProduct.Product.ProductParametr.RamDDRId = newProduct.ProductParametr.RamDDRId;
+            oldProduct.Product.ProductParametr.RamGBId = newProduct.ProductParametr.RamGBId;
+            oldProduct.Product.ProductParametr.RamMhzId = newProduct.ProductParametr.RamMhzId;
+            oldProduct.Product.ProductParametr.ScreenDiagonalId = newProduct.ProductParametr.ScreenDiagonalId;
+            oldProduct.Product.ProductParametr.ScreenFrequencyId = newProduct.ProductParametr.ScreenFrequencyId;
+            oldProduct.Product.ProductParametr.TeyinatId = newProduct.ProductParametr.TeyinatId;
+            oldProduct.Product.ProductParametr.VideokartId = newProduct.ProductParametr.VideokartId;
+            oldProduct.Product.ProductParametr.VideokartRamId = newProduct.ProductParametr.VideokartRamId;
+            oldProduct.Product.ProductParametr.TeyinatId = newProduct.ProductParametr.TeyinatId;
 
-            oldProduct.ProductParametr.DaxiliYaddaş.IsHDD = newProduct.ProductParametr.DaxiliYaddaş.IsHDD;
-            oldProduct.ProductParametr.DaxiliYaddaş.IsSSD = newProduct.ProductParametr.DaxiliYaddaş.IsSSD;
+            oldProduct.Product.ProductParametr.DaxiliYaddaş.IsHDD = newProduct.ProductParametr.DaxiliYaddaş.IsHDD;
+            oldProduct.Product.ProductParametr.DaxiliYaddaş.IsSSD = newProduct.ProductParametr.DaxiliYaddaş.IsSSD;
             if (newProduct.ProductParametr.DaxiliYaddaş.IsSSD)
             {
-                oldProduct.ProductParametr.DaxiliYaddaş.SSDHecmId = newProduct.ProductParametr.DaxiliYaddaş.SSDHecmId;
-                oldProduct.ProductParametr.DaxiliYaddaş.SSDTypeId = newProduct.ProductParametr.DaxiliYaddaş.SSDTypeId;
+                oldProduct.Product.ProductParametr.DaxiliYaddaş.SSDHecmId = newProduct.ProductParametr.DaxiliYaddaş.SSDHecmId;
+                oldProduct.Product.ProductParametr.DaxiliYaddaş.SSDTypeId = newProduct.ProductParametr.DaxiliYaddaş.SSDTypeId;
             }
 
             if (newProduct.ProductParametr.DaxiliYaddaş.IsHDD)
-                oldProduct.ProductParametr.DaxiliYaddaş.HDDHecmId = newProduct.ProductParametr.DaxiliYaddaş.HDDHecmId;
+                oldProduct.Product.ProductParametr.DaxiliYaddaş.HDDHecmId = newProduct.ProductParametr.DaxiliYaddaş.HDDHecmId;
 
-            oldProduct.ProductParametr.DaxiliYaddaş.ModifiedDate = DateTime.UtcNow.AddHours(4); ;
-            oldProduct.ModifiedDate = DateTime.UtcNow.AddHours(4);
-            oldProduct.ProductParametr.ModifiedDate = DateTime.UtcNow.AddHours(4);
-            oldProduct.CategoryBrandId.ModifiedDate = DateTime.UtcNow.AddHours(4);
+            oldProduct.Product.ProductParametr.DaxiliYaddaş.ModifiedDate = DateTime.UtcNow.AddHours(4); ;
+            oldProduct.Product.ModifiedDate = DateTime.UtcNow.AddHours(4);
+            oldProduct.Product.ProductParametr.ModifiedDate = DateTime.UtcNow.AddHours(4);
 
         }
         private void SaveContext()
