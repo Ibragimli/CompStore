@@ -119,6 +119,9 @@ namespace CompStore.Mvc
             services.AddScoped<ISSDTypeRepository, SSDTypeRepository>();
             services.AddScoped<IScreenDiagonalRepository, ScreenDiagonalRepository>();
             services.AddScoped<IScreenFrequencieRepository, ScreenFrequencieRepository>();
+            services.AddScoped<IMainSpecialBoxRepository, MainSpecialBoxRepository>();
+            services.AddScoped<IMainSliderRepository, MainSliderRepository>();
+
 
             services.AddScoped<IProcessorCacheCreateServices, ProcessorCacheCreateServices>();
             services.AddScoped<IProcessorCacheEditServices, ProcessorCacheEditServices>();

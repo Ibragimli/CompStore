@@ -40,6 +40,8 @@ namespace CompStore.Core.Repositories
         IProcessorGhzRepository ProcessorGhzRepository { get; }
         IProcessorModelRepository ProcessorModelRepository { get; }
         ISettingRepository SettingRepository { get; }
+        IMainSliderRepository MainSliderRepository { get; }
+        IMainSpecialBoxRepository MainSpecialBoxRepository { get; }
 
         Task<int> CommitAsync();
     }

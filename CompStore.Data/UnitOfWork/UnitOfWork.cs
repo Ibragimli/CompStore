@@ -44,6 +44,11 @@ namespace CompStore.Data.UnitOfWork
         private IProcessorModelRepository _processorModelRepository;
         private ISettingRepository _settingRepository;
 
+        private IMainSpecialBoxRepository _mainSpecialBoxRepository;
+        private IMainSliderRepository _mainSliderRepository;
+
+
+
 
         public UnitOfWork(DataContext context)
         {
@@ -94,6 +99,10 @@ namespace CompStore.Data.UnitOfWork
         public IHDDHecmsRepository HDDHecmsRepository => _hDDHecmsRepository = _hDDHecmsRepository ?? new HDDHecmsRepository(_context);
 
         public ISettingRepository SettingRepository => _settingRepository = _settingRepository ?? new SettingRepository(_context);
+
+        public IMainSliderRepository MainSliderRepository => _mainSliderRepository = _mainSliderRepository ?? new MainSliderRepository(_context);
+
+        public IMainSpecialBoxRepository MainSpecialBoxRepository => _mainSpecialBoxRepository = _mainSpecialBoxRepository ?? new MainSpecialBoxRepository(_context);
 
         public async Task<int> CommitAsync()
         {

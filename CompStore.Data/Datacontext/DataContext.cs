@@ -40,6 +40,8 @@ namespace CompStore.Data
         public DbSet<SSDHecm> SSDHecms { get; set; }
         public DbSet<ImageSetting> ImageSettings { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<MainSlider> MainSliders { get; set; }
+        public DbSet<MainSpecialBox> MainSpecialBox { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
