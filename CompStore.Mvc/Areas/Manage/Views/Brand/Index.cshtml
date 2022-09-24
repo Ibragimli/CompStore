@@ -38,7 +38,7 @@
                                 @if (Model.PagenatedItems.HasNext)
                                 {
                                     <li class="page-item">
-                                        <a asp-action="index" asp-controller="brand" asp-route-page="@(Model.PagenatedItems.PageIndex+1)" class="page-link"  aria-label="Next">
+                                        <a asp-action="index" asp-controller="brand" asp-route-page="@(Model.PagenatedItems.PageIndex+1)" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
 
@@ -58,6 +58,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>ModifiedDate</th>
                                 <th>Actions</th>
@@ -68,7 +69,15 @@
                             {
                                 <tr>
 
-                                    <td>@brand.Name</td>
+                                    <td style="width:210px;">
+                                        @if (brand.BrandImage != null)
+                                        {
+                                            <img style=" width: 200px; " src="~/uploads/brands/@brand.BrandImage" />
+                                        }
+                                    </td>
+
+
+                                    <td style="font-size:25px;">@brand.Name</td>
 
 
                                     <td>

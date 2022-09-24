@@ -11,7 +11,8 @@ namespace CompStore.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
-            builder.Property(x => x.Name).HasMaxLength(50);
+            builder.Property(x => x.Name).HasMaxLength(50).IsRequired(true);
+            builder.Property(x => x.BrandImage).HasMaxLength(100);
         }
     }
 }

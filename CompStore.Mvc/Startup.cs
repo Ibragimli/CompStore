@@ -209,6 +209,7 @@ namespace CompStore.Mvc
             services.AddScoped<ISettingIndexServices, SettingIndexServices>();
 
             services.AddScoped<ISettingImageHelper, SettingImageHelper>();
+            services.AddScoped<IBrandImageHelper, BrandImageHelper>();
 
             services.AddScoped<ILayoutServices, LayoutServices>();
 
