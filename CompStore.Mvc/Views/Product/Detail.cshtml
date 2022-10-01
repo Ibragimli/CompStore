@@ -1,6 +1,7 @@
 ﻿@model DetailViewModel
 @{
     ViewData["Title"] = "Detail";
+    var product = Model.Products;
 }
 
 <!-- Breadcrumb Start -->
@@ -8,9 +9,9 @@
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-30">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
-                <a class="breadcrumb-item text-dark" href="#">Product</a>
-                <span class="breadcrumb-item active">Product Detail</span>
+                <a class="breadcrumb-item text-dark" asp-action="index" asp-controller="home">Home</a>
+                <a class="breadcrumb-item text-dark" asp-action="shop" asp-controller="product">Product</a>
+                <span class="breadcrumb-item active">Məhsul</span>
             </nav>
         </div>
     </div>
@@ -23,9 +24,9 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
 
-                    @if (Model.Products.ProductImages.FirstOrDefault(x => x.PosterStatus == false) != null)
+                    @if (product.ProductImages.FirstOrDefault(x => x.PosterStatus == false) != null)
                     {
-                        @foreach (var image in Model.Products.ProductImages.Where(x => x.PosterStatus == false))
+                        @foreach (var image in product.ProductImages.Where(x => x.PosterStatus == false))
                         {
                             <div class="carousel-item active">
                                 <img class="w-100 h-100" src="~/uploads/product/@image.Image" alt="Image">
@@ -34,7 +35,7 @@
                     }
                     else
                     {
-                        @foreach (var image in Model.Products.ProductImages.Where(x => x.PosterStatus == true))
+                        @foreach (var image in product.ProductImages.Where(x => x.PosterStatus == true))
                         {
                             <div class="carousel-item active">
                                 <img class="w-100 h-100" src="~/uploads/product/@image.Image" alt="Image">
@@ -42,7 +43,7 @@
                         }
                     }
 
-                  
+
                 </div>
                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                     <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -55,7 +56,11 @@
 
         <div class="col-lg-7 h-auto mb-30">
             <div class="h-100 bg-light p-30">
-                <h3>Product Name Goes Here</h3>
+                @* Title *@
+
+                <h3>@product.Name</h3>
+
+                @* Product stars and liked *@
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         <small class="fas fa-star"></small>
@@ -66,23 +71,25 @@
                     </div>
                     <small class="pt-1">(99 Reviews)</small>
                 </div>
-                @if (Model.Products.DiscountPercent > 0)
+                @* Price *@
+                @if (product.DiscountPercent > 0)
                 {
-                    <h3 style=" display: inline;" class="font-weight-semi-bold ">₼@((Model.Products.Price*(100- Model.Products.DiscountPercent)/100))</h3>
-                    <h6 style="display: inline;" class="text-muted ml-2"><del>₼@Model.Products.Price</del></h6>
+                    <h3 style=" display: inline;" class="font-weight-semi-bold ">₼@((product.Price*(100- product.DiscountPercent)/100))</h3>
+                    <h6 style="display: inline;" class="text-muted ml-2"><del>₼@product.Price</del></h6>
                 }
                 else
                 {
-                    <h3 style=" display: inline;" class="font-weight-semi-bold ">₼@Model.Products.Price</h3>
+                    <h3 style=" display: inline;" class="font-weight-semi-bold ">₼@product.Price</h3>
 
                 }
 
 
+                @* Description *@
                 <p class="mb-4">
                     Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit
                     clita ea. Sanc ipsum et, labore clita lorem magna duo dolor no sea
                     Nonumy
-                    @Model.Products.Description
+                    @product.Description
                 </p>
 
 
@@ -102,29 +109,89 @@
             <div class="bg-light p-30">
                 <div class="nav nav-tabs mb-4">
                     <a class="nav-item nav-link text-dark " data-toggle="tab" href="#tab-pane-1">Məhsulun təsviri</a>
-                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-2">
-                        Texniki
-                        xüsusiyyətlər
-                    </a>
+                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-2">Texniki xüsusiyyətlər </a>
                     <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">İstifadəçi rəyləri (0)</a>
                 </div>
+
                 <div class="tab-content">
+
+
+                    @* Down Descrioption *@
+
                     <div class="tab-pane fade " id="tab-pane-1">
                         <h4 class="mb-3">Product Description</h4>
                         <p>
-                          @Model.Products.Description
+                            @product.Description
                         </p>
-                       
+
                     </div>
 
 
-
+                    @* Product Parametrs *@
 
                     <div class="InfTab tab-pane fade show active" id="tab-pane-2">
-                        <h4 class="mb-3"> Parametrlər</h4>
                         <div class="row">
-                            <div class="col-6">
+
+                            @*  ÜMUMI MƏLUMAT *@
+                            <div class="col-lg-6 col-md-12">
+                                <h4 class="mb-3"> ÜMUMI MƏLUMAT</h4>
                                 <ul class="list-group list-group-flush">
+                                    @* Product Category *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Tip</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.CategoryBrandId.Category.Name</p>
+                                    </li>
+
+                                    @* Product Brend *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Brend</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.CategoryBrandId.Brand.Name</p>
+                                    </li>
+
+
+                                    @* Product Model *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Model</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.Model.Name</p>
+                                    </li>
+
+                                    @* Product Color *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Rəng</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.ProductParametr.Color.Name</p>
+                                    </li>
+
+                                    @* Product Təyinat *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Təyinat</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.ProductParametr.Teyinat.Type</p>
+                                    </li>
+
+                                    @* Product Əməliyyat sistemi *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Əməliyyat sistemi</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@product.ProductParametr.OperationSystem.System</p>
+                                    </li>
+
+                                    @* Product Brend *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
                                             <p class="InfMain">Bluetooth</p>
@@ -133,82 +200,114 @@
                                         <p class="InfChild">Xeyr</p>
                                     </li>
 
-                                    <li class="list-group-item px-0">
-                                        <div class="InfMainClass">
-                                            <p class="InfMain">Videokartın çipseti</p>
-                                            <div class="infoBottomLine"></div>
-                                        </div>
-                                        <p class="InfChild">Geforce RTX 3060 </p>
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        <div class="InfMainClass">
-                                            <p class="InfMain">Bluetooth</p>
-                                            <div class="infoBottomLine"></div>
-                                        </div>
-                                        <p class="InfChild">Xeyr</p>
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        <div class="InfMainClass">
-                                            <p class="InfMain">Bluetooth</p>
-                                            <div class="infoBottomLine"></div>
-                                        </div>
-                                        <p class="InfChild">Xeyr</p>
-                                    </li>
                                 </ul>
                             </div>
-                            <div class="col-6">
+
+
+                            @*  TEXNIKI GÖSTƏRICILƏR  *@
+                            <div class="col-lg-6 col-md-12">
+                                <h4 class="mb-3"> TEXNIKI GÖSTƏRICILƏR</h4>
                                 <ul class="list-group list-group-flush">
+                                    @*  Prosessor   *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
-                                            <p class="InfMain">Bluetooth</p>
+                                            <p class="InfMain">Prosessor</p>
                                             <div class="infoBottomLine"></div>
                                         </div>
-                                        <p class="InfChild">Xeyr</p>
+                                        <p class="InfChild">@product.ProductParametr.ProcessorModel.Name</p>
                                     </li>
+
+                                    @*  Prosessor Model  *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
-                                            <p class="InfMain">Bluetooth</p>
+                                            <p class="InfMain">Prosessor Model</p>
                                             <div class="infoBottomLine"></div>
                                         </div>
-                                        <p class="InfChild">Xeyr</p>
+                                        <p class="InfChild">@product.ProductParametr.ProcessorModel.Name @product.ProductParametr.ProcessorCache.Cache Cache @product.ProductParametr.ProcessorGhz.Ghz Ghz</p>
                                     </li>
+
+                                    @*  Ram   *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
-                                            <p class="InfMain">USB</p>
+                                            <p class="InfMain">Ram</p>
                                             <div class="infoBottomLine"></div>
                                         </div>
-                                        <p class="InfChild">USB Type C x 2, 1 x USB 3.2</p>
+                                        <p class="InfChild">DDR@(product.ProductParametr.RamDDR.DDR) @(product.ProductParametr.RamGB.GB)GB @product.ProductParametr.RamMhz.Mhz Mhz</p>
                                     </li>
+
+                                    @*  Videokart   *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Ram</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@(product.ProductParametr.Videokart.Name) @(product.ProductParametr.VideokartRam.Ram)GB </p>
+                                    </li>
+
+                                    @*  Ekran   *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Ekran</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@(product.ProductParametr.ScreenDiagonal.Diagonal) (@product.ProductParametr.GörüntüImkanı.Capability)  @(product.ProductParametr.ScreenFrequency.Frequency) Hz </p>
+                                    </li>
+
+                                    @*  Camera  *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
                                             <p class="InfMain">Kamera</p>
                                             <div class="infoBottomLine"></div>
                                         </div>
-                                        <p class="InfChild">Xeyr</p>
+                                        <p class="InfChild"> <i style="margin-left: 44px; color: @(product.ProductParametr.Kamera==true? "green": "red");" class="fa-solid fa-@(product.ProductParametr.Kamera==true? "check": "xmark")"></i> </p>
                                     </li>
+
+                                    @*  Bluetooth  *@
                                     <li class="list-group-item px-0">
                                         <div class="InfMainClass">
-                                            <p class="InfMain">USB</p>
+                                            <p class="InfMain">Bluetooth</p>
                                             <div class="infoBottomLine"></div>
                                         </div>
-                                        <p class="InfChild">USB Type C x 2, 1 x USB 3.2</p>
+                                        <p class="InfChild"> <i style="margin-left: 44px; color: @(product.ProductParametr.Bluetooth==true? "green": "red");" class="fa-solid fa-@(product.ProductParametr.Bluetooth==true? "check": "xmark")"></i> </p>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                            @*  Yaddaş  *@
+                            <div class="col-lg-6 col-md-12">
+                                <h4 class="mb-3"> Yaddaş</h4>
+                                <ul class="list-group list-group-flush">
+                                    @* Yaddaşın növü*@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Yaddaşın növü</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">@(product.ProductParametr.DaxiliYaddaş.IsHDD == true ? ("HDD") :("SSD"))</p>
+                                    </li>
+
+                                    @* Yaddaşın həcmi *@
+                                    <li class="list-group-item px-0">
+                                        <div class="InfMainClass">
+                                            <p class="InfMain">Yaddaşın həcmi</p>
+                                            <div class="infoBottomLine"></div>
+                                        </div>
+                                        <p class="InfChild">
+                                            @(product.ProductParametr.DaxiliYaddaş.IsHDD == true ? (product.ProductParametr.DaxiliYaddaş.HDDHecm.Cache ) :(product.ProductParametr.DaxiliYaddaş.SSDHecm.Cache))
+                                            @(product.ProductParametr.DaxiliYaddaş.IsSSD == true ? (product.ProductParametr.DaxiliYaddaş.SSDType.Type ) :(" "))
+                                        </p>
                                     </li>
 
                                 </ul>
                             </div>
+
                         </div>
                     </div>
 
 
 
-
-
-
-
-
-
-
-
+                    @* Product Comments *@
                     <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">

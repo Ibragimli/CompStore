@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\uploads\brands\" />
+    <Folder Include="wwwroot\uploads\mainsliders\" />
+    <Folder Include="wwwroot\uploads\mainspecialboxs\" />
     <Folder Include="wwwroot\uploads\settings\" />
     <Folder Include="wwwroot\uploads\product\" />
   </ItemGroup>

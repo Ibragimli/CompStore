@@ -1,5 +1,6 @@
 ﻿using CompStore.Core.Repositories;
 using CompStore.Service.CustomExceptions;
+using CompStore.Service.HelperService.Interfaces;
 using CompStore.Service.Services.Interfaces;
 using CompStore.Service.Services.Interfaces.Area;
 using System;
@@ -12,10 +13,13 @@ namespace CompStore.Service.Services.Implementations.Area
     public class BrandDeleteServices : IBrandDeleteServices
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBrandImageHelper _brandImageHelper;
 
-        public BrandDeleteServices(IUnitOfWork unitOfWork)
+        public BrandDeleteServices(IUnitOfWork unitOfWork, IBrandImageHelper brandImageHelper)
         {
             _unitOfWork = unitOfWork;
+            _brandImageHelper = brandImageHelper;
+
         }
 
         public async Task BrandDelete(int id)
@@ -34,7 +38,12 @@ namespace CompStore.Service.Services.Implementations.Area
             }
 
             var brand = await _unitOfWork.BrandRepository.GetAsync(x => x.Id == id);
+
             _unitOfWork.BrandRepository.Remove(brand);
+            if (brand.BrandImage != null)
+            {
+                _brandImageHelper.DeleteFile(brand.BrandImage);
+            }
             await _unitOfWork.CommitAsync();
         }
     }

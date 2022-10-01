@@ -129,7 +129,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a asp-action="index" asp-controller="home" class="nav-item nav-link active">@settings.FirstOrDefault(x => x.Key == "Nav1").Value</a>
-                            <a asp-action="mehsullar" class="nav-item nav-link">@settings.FirstOrDefault(x => x.Key == "Nav2").Value</a>
+                            <a asp-action="mehsullar" asp-controller="product" class="nav-item nav-link">@settings.FirstOrDefault(x => x.Key == "Nav2").Value</a>
                             <a asp-action="contactUs" asp-controller="contact" class="nav-item nav-link">@settings.FirstOrDefault(x => x.Key == "Nav3").Value</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -180,7 +180,7 @@
                         <h5 class="text-secondary text-uppercase mb-4">@settings.FirstOrDefault(x => x.Key == "FooterOrtaTitle").Value</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-secondary mb-2" asp-action="index" asp-controller="home"><i class="fa fa-angle-right mr-2"></i>@settings.FirstOrDefault(x => x.Key == "Nav1").Value</a>
-                            <a class="text-secondary mb-2" asp-action="mehsullar" asp-controller="shop"><i class="fa fa-angle-right mr-2"></i>@settings.FirstOrDefault(x => x.Key == "Nav2").Value</a>
+                            <a class="text-secondary mb-2" asp-action="mehsullar" asp-controller="product"><i class="fa fa-angle-right mr-2"></i>@settings.FirstOrDefault(x => x.Key == "Nav2").Value</a>
                             <a class="text-secondary" asp-action="contactUs" asp-controller="contact"><i class="fa fa-angle-right mr-2"></i>@settings.FirstOrDefault(x => x.Key == "Nav3").Value </a>
                         </div>
                     </div>

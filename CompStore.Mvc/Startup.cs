@@ -217,6 +217,19 @@ namespace CompStore.Mvc
             services.AddScoped<ILayoutServices, LayoutServices>();
 
 
+            services.AddScoped<IMainSliderEditServices, MainSliderEditServices>();
+            services.AddScoped<IMainSliderDeleteServices, MainSliderDeleteServices>();
+            services.AddScoped<IMainSliderCreateServices, MainSliderCreateServices>();
+            services.AddScoped<IMainSliderIndexServices, MainSliderIndexServices>();
+
+            services.AddScoped<IMainSliderImageHelper, MainSliderImageHelper>();
+            services.AddScoped<IMainSpecialBoxImageHelper, MainSpecialBoxImageHelper>();
+
+
+            services.AddScoped<IMainSpecialBoxEditServices, MainSpecialBoxEditServices>();
+            services.AddScoped<IMainSpecialBoxDeleteServices, MainSpecialBoxDeleteServices>();
+            services.AddScoped<IMainSpecialBoxCreateServices, MainSpecialBoxCreateServices>();
+            services.AddScoped<IMainSpecialBoxIndexServices, MainSpecialBoxIndexServices>();
 
             services.AddScoped<ICategoryBrandIdEditServices, CategoryBrandIdEditServices>();
             services.AddScoped<ICategoryBrandIdDeleteServices, CategoryBrandIdDeleteServices>();

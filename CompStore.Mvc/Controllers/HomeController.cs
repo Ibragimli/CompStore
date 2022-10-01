@@ -27,6 +27,8 @@ namespace CompStore.Mvc.Controllers
                 Products = _context.Products.Include(x => x.ProductImages).Include(x => x.CategoryBrandId).ThenInclude(x=>x.Brand).Include(x => x.CategoryBrandId).ThenInclude(x => x.Category).Where(x => x.IsDelete == false).ToList(),
                 Brands = _context.Brands.Where(x => x.IsDelete == false).ToList(),
                 CategoryBrandIds = _context.CategoryBrandIds.Include(x => x.Brand).Include(x => x.Category).Where(x => x.IsDelete == false).ToList(),
+                MainSliders = _context.MainSliders.Where(x => x.IsDelete == false).ToList(),
+                MainSpecialBoxes = _context.MainSpecialBox.Where(x => x.IsDelete == false).ToList(),
             };
             return View(homeIndex);
         }
