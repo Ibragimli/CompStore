@@ -26,6 +26,7 @@ namespace CompStore.Mvc.Controllers
                 .Include(x => x.ProductParametr).ThenInclude(x => x.Color)
                 .Include(x => x.ProductParametr).ThenInclude(x => x.DaxiliYaddaş)
                 .Include(x => x.ProductParametr.DaxiliYaddaş).ThenInclude(x => x.SSDType)
+                .Include(x => x.ProductParametr.DaxiliYaddaş).ThenInclude(x => x.SSDHecm)
                 .Include(x => x.ProductParametr.DaxiliYaddaş).ThenInclude(x => x.HDDHecm)
                 .Include(x => x.ProductParametr).ThenInclude(x => x.Videokart)
                 .Include(x => x.ProductParametr).ThenInclude(x => x.ScreenDiagonal)
@@ -50,6 +51,10 @@ namespace CompStore.Mvc.Controllers
             DetailViewModel detailVM = new DetailViewModel
             {
                 Products = prd,
+                SliderProducts = _context.Products.Include(x => x.ProductImages)
+                .Include(x => x.CategoryBrandId.Brand)
+                .Include(x => x.CategoryBrandId.Category)
+                .Where(x => x.CategoryBrandId.CategoryId == prd.CategoryBrandId.CategoryId && x.CategoryBrandId.BrandId == prd.CategoryBrandId.BrandId).ToList(),
             };
             return View(detailVM);
 
