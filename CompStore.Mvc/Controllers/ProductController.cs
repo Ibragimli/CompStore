@@ -59,5 +59,10 @@ namespace CompStore.Mvc.Controllers
             return View(detailVM);
 
         }
+
+        public IActionResult Mehsullar()
+        {
+            return View();
+        }
     }
 }
