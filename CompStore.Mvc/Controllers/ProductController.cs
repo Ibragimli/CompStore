@@ -1,5 +1,7 @@
-﻿using CompStore.Data;
+﻿using CompStore.Core.Entites;
+using CompStore.Data;
 using CompStore.Mvc.ViewModels;
+using CompStore.Service.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -60,9 +62,30 @@ namespace CompStore.Mvc.Controllers
 
         }
 
-        public IActionResult Mehsullar()
+        public IActionResult Mehsullar(int page = 1, int? brandId = null)
         {
-            return View();
+            var products = _context.Products
+                .Include(x => x.CategoryBrandId.Category)
+                .Include(x => x.CategoryBrandId.Brand)
+                .Include(x => x.ProductImages)
+                .Where(x => x.IsDelete == false).AsQueryable();
+
+            if (brandId != null)
+            {
+                products = products.Where(x => x.CategoryBrandId.BrandId == brandId.Value);
+            }
+
+            ShopViewModel shopVM = new ShopViewModel
+            {
+                Products = _context.Products.Include(x => x.ProductImages).Include(x => x.CategoryBrandId.Category).Include(x => x.CategoryBrandId.Brand).Where(x => x.IsDelete == false).ToList(),
+                Brands = _context.Brands.Where(x => x.IsDelete == false).ToList(),
+                Categories = _context.Categories.Where(x => x.IsDelete == false).ToList(),
+                CategoryBrandIds = _context.CategoryBrandIds.Where(x => x.IsDelete == false).ToList(),
+                PagenatedProducts = PagenetedList<Product>.Create(products, page, 16),
+
+
+            };
+            return View(shopVM);
         }
     }
 }

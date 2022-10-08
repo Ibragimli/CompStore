@@ -25,6 +25,13 @@ namespace CompStore.Data.Repository
             return query.AsQueryable();
         }
 
+        //public IQueryable<TEntity> asQueryableWhere(string exp, int brandId, params string[] includes)
+        //{
+        //    var query = _query(_context, includes);
+        //    query.Where(x=>x.== brandId);
+        //    return query.AsQueryable();
+        //}
+
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> exp, params string[] includes)
         {
             var query = _query(_context, includes);
