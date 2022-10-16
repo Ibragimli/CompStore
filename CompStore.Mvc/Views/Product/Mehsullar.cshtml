@@ -18,57 +18,64 @@
 <div class="container-fluid">
     <div class="row px-xl-5">
         <!-- Shop Sidebar Start -->
+
         <div style="border:1px solid gray;" class="col-lg-3 col-md-4">
-            <!-- Category Start -->
+            <form asp-action="mehsullar" method="post">
 
-            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#categoryFilterFilter" aria-expanded="false" aria-controls="categoryFilterFilter">
-                <h5 class="m-0 section-title position-relative text-uppercase"><span class="bg-secondary pr-3">Category</span></h5>
-            </button>
+                <!-- Category Start -->
 
-            <div style="margin-bottom:10px;" class="collapse" id="categoryFilterFilter">
-                <div class="card card-body p-0">
-                    <div class="bg-light p-3">
-                        <form asp-action="mehsullar" method="post">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#categoryFilter" aria-expanded="false" aria-controls="categoryFilter">
+                    <h5 class="m-0 section-title position-relative text-uppercase"><span class="bg-secondary pr-3">Category</span></h5>
+                </button>
+
+                <div style="margin-bottom:10px;" class="collapse" id="categoryFilter">
+                    <div class="card card-body p-0">
+                        <div class="bg-light p-3">
                             @foreach (var item in Model.Categories)
                             {
 
                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" id="color-@item.Id">
-                    <label class="custom-control-label" for="color-@item.Id">@item.Name</label>
+                    <input type="checkbox" class="custom-control-input categoryInputFilter" id="category-@item.Id">
+                    <label class="custom-control-label" for="category-@item.Id">@item.Name</label>
                     <span style="color: #6C757D;" class="badge border font-weight-normal">21</span>
-                </div>}
-                        </form>
+                    <input value=" @(InputType.CheckBox ==0 ? (item.Id):(0))" asp-for="categoryId" type="hidden" />
+                </div>
+                }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Category End -->
-            <hr />
-            <!-- Brend Start -->
-            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#brendFilter" aria-expanded="false" aria-controls="brendFilter">
-                <h5 class="m-0 section-title position-relative text-uppercase"><span class="bg-secondary pr-3">Brend</span></h5>
-            </button>
+                <!-- Category End -->
+                <hr />
+                <!-- Brend Start -->
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#brendFilter" aria-expanded="false" aria-controls="brendFilter">
+                    <h5 class="m-0 section-title position-relative text-uppercase"><span class="bg-secondary pr-3">Brend</span></h5>
+                </button>
 
-            <div style="margin-bottom:10px;" class="collapse" id="brendFilter">
-                <div class="card card-body p-0">
+                <div style="margin-bottom:10px;" class="collapse" id="brendFilter">
+                    <div class="card card-body p-0">
 
-                    <div class="bg-light p-3">
-                        <form>
+                        <div class="bg-light p-3">
                             @foreach (var item in Model.Brands)
                             {
 
                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" id="color-@item.Id">
-                    <label class="custom-control-label" for="color-@item.Id">@item.Name</label>
+                    <input type="checkbox" class="custom-control-input" id="brend-@item.Id">
+                    <label class="custom-control-label" for="brend-@item.Id">@item.Name</label>
                     <span style="color: #6C757D;" class="badge border font-weight-normal">21</span>
+                    <input value=" @(InputType.CheckBox !=0 ? (item.Id):(0))" asp-for="brandId" type="hidden" />
+
                 </div>}
 
-                        </form>
-                    </div>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-            <!-- Brend End -->
+                <!-- Brend End -->
+                <button type="submit" class="btn ">Search</button>
+            </form>
         </div>
+
+
         <!-- Shop Sidebar End -->
         <!-- Shop Product Start -->
         <div class="col-lg-9 col-md-8">
@@ -135,3 +142,7 @@
     </div>
 </div>
 <!-- Shop End -->
+@section Scripts{
+    <script src="~/js/filter.js"></script>
+
+}

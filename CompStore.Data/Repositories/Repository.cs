@@ -28,7 +28,7 @@ namespace CompStore.Data.Repository
         //public IQueryable<TEntity> asQueryableWhere(string exp, int brandId, params string[] includes)
         //{
         //    var query = _query(_context, includes);
-        //    query.Where(x=>x.== brandId);
+        //    query.Where(x => x.Equals()== brandId);
         //    return query.AsQueryable();
         //}
 

@@ -62,18 +62,13 @@ namespace CompStore.Mvc.Controllers
 
         }
 
-        public IActionResult Mehsullar(int page = 1, int? brandId = null)
+        public IActionResult Mehsullar(int page = 1)
         {
             var products = _context.Products
                 .Include(x => x.CategoryBrandId.Category)
                 .Include(x => x.CategoryBrandId.Brand)
                 .Include(x => x.ProductImages)
                 .Where(x => x.IsDelete == false).AsQueryable();
-
-            if (brandId != null)
-            {
-                products = products.Where(x => x.CategoryBrandId.BrandId == brandId.Value);
-            }
 
             ShopViewModel shopVM = new ShopViewModel
             {
@@ -82,8 +77,36 @@ namespace CompStore.Mvc.Controllers
                 Categories = _context.Categories.Where(x => x.IsDelete == false).ToList(),
                 CategoryBrandIds = _context.CategoryBrandIds.Where(x => x.IsDelete == false).ToList(),
                 PagenatedProducts = PagenetedList<Product>.Create(products, page, 16),
+            };
+            return View(shopVM);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Mehsullar(int page = 1, int? brandId = null, int? categoryId = null)
+        {
+            var products = _context.Products
+                .Include(x => x.CategoryBrandId.Category)
+                .Include(x => x.CategoryBrandId.Brand)
+                .Include(x => x.ProductImages)
+                .Where(x => x.IsDelete == false).AsQueryable();
 
+            if (categoryId != null && categoryId != 0)
+            {
+                products = products.Where(x => x.CategoryBrandId.CategoryId == categoryId);
+            }
+
+            if (brandId != null && brandId != 0)
+            {
+                products = products.Where(x => x.CategoryBrandId.BrandId == brandId);
+            }
+            ShopViewModel shopVM = new ShopViewModel
+            {
+                Products = _context.Products.Include(x => x.ProductImages).Include(x => x.CategoryBrandId.Category).Include(x => x.CategoryBrandId.Brand).Where(x => x.IsDelete == false).ToList(),
+                Brands = _context.Brands.Where(x => x.IsDelete == false).ToList(),
+                Categories = _context.Categories.Where(x => x.IsDelete == false).ToList(),
+                CategoryBrandIds = _context.CategoryBrandIds.Where(x => x.IsDelete == false).ToList(),
+                PagenatedProducts = PagenetedList<Product>.Create(products, page, 16),
             };
             return View(shopVM);
         }

@@ -26,6 +26,7 @@ namespace CompStore.Service.Services.Implementations.User
         //    {
         //        products = products.(x => x.CategoryBrandId.BrandId == brandId.Value);
         //    }
+        //    products.
         //    return products;
         //}
 

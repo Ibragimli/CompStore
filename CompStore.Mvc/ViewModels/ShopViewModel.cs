@@ -17,6 +17,9 @@ namespace CompStore.Mvc.ViewModels
         public List<CategoryBrandId> CategoryBrandIds { get; set; }
         public ShopPostViewModel ShopPostVM { get; set; }
 
+        public int categoryId { get; set; }
+        public int brandId { get; set; }
+
     }
     public class ShopPostViewModel
     {
