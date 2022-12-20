@@ -30,17 +30,16 @@
 
                 <div style="margin-bottom:10px;" class="collapse" id="categoryFilter">
                     <div class="card card-body p-0">
-                        <div class="bg-light p-3">
+                        <div class="bg-light p-3 ">
                             @foreach (var item in Model.Categories)
                             {
 
-                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" id="categoryCheckBox">
                     <input type="checkbox" class="custom-control-input categoryInputFilter" id="category-@item.Id">
                     <label class="custom-control-label" for="category-@item.Id">@item.Name</label>
                     <span style="color: #6C757D;" class="badge border font-weight-normal">21</span>
                     <input value=" @(InputType.CheckBox ==0 ? (item.Id):(0))" asp-for="categoryId" type="hidden" />
-                </div>
-                }
+                </div>}
                         </div>
                     </div>
                 </div>
@@ -140,9 +139,72 @@
         </div>
         <!-- Shop Product End -->
     </div>
+
+
+    <div class="row">
+        <input type="button" id="delete" value="Submit" />
+        <table id="example" cellpadding="10" width="100%">
+            <thead>
+                <tr>
+                    <th><input id="checkAll" type="checkbox" /></th>
+                    <th style="text-align: center; border: 1px solid #eaeaea">Email Address</th>
+                    <th style="text-align: center; border: 1px solid #eaeaea">Select Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Categories)
+                {
+    <tr>
+        <th scope="row"><input type="checkbox" class="checkBox"  value="@row.Id"></th>
+
+        <td class="gfgusername" style="width: 20%; padding: 0px; text-align: center; border-left: 1px solid #eaeaea; border-right: 1px solid #eaeaea">
+            @row.Name s
+        </td>
+        <td style="width: 20%; padding: 0px; text-align: center; border-right: 1px solid #eaeaea">
+            <select class="priorityList" name="priorityList2">
+                <option>Yes</option>
+                <option>No</option>
+                <option>Delete Folder</option>
+            </select>
+        </td>
+    </tr>}
+
+            </tbody>
+        </table>
+    </div>
 </div>
 <!-- Shop End -->
 @section Scripts{
     <script src="~/js/filter.js"></script>
+    <script>
+        $(document).ready(function () {
+    $("#delete").click(function () {
+            var myCheckboxes = [];
+            $('input:checkbox.checkBox').each(function () {
+                if ($(this).prop('checked')) {
+                    myCheckboxes.push($(this).attr("value"));
+                }
+            });
+            var mySelectedValue= $('#priorityList2').find(":selected").text();
+            var json = {
+               myCheckboxes : myCheckboxes,
+               mySelectedValue: mySelectedValue
+            };
+
+            var options = {};
+            options.url = "@Url.Action("Delete", "product")";
+            options.type = "POST";
+            options.data = {"json": JSON.stringify(json)};
+            options.dataType = "json";
+            options.success = function (msg) {
+                alert(msg);
+            };
+            options.error = function () {
+                alert("Error while deleting the records!");
+            };
+            $.ajax(options);
+    })
+});
+    </script>
 
 }

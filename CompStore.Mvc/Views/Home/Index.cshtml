@@ -107,7 +107,7 @@
                     <div class="product-img position-relative overflow-hidden">
                         <img class="img-fluid product-featured-image w-100" src="~/uploads/product/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="">
                         <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" asp-action="addwishlist" asp-controller="product" asp-route-id="@product.Id"><i class="far fa-heart"></i></a>
+                            <a class="btn btn-outline-dark btn-square addWish" asp-action="addwishlist" asp-controller="product" asp-route-id="@product.Id"><i class="far fa-heart"></i></a>
                             <a class="btn btn-outline-dark btn-square" asp-action="detail" asp-controller="product" asp-route-id="@product.Id"><i class="fa fa-search"></i></a>
                         </div>
                     </div>

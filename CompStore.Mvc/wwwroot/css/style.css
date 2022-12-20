@@ -1806,6 +1806,15 @@ pre {
     }
 }
 
+.table > :not(caption) > * > * {
+    background-color: white;
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: white;
+}
+
+
 .table {
     width: 100%;
     margin-bottom: 1rem;
