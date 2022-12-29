@@ -1,5 +1,9 @@
-﻿@inject ILayoutServices services
+﻿@using Microsoft.AspNetCore.Identity;
+@inject ILayoutServices services
+@inject UserManager<AppUser> userManager;
 @{
+    AppUser user = User.Identity.IsAuthenticated ? userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && !x.IsAdmin) : null;
+
     List<Setting> settings = await services.GetSettingsAsync();
     List<Brand> brands = await services.GetBrandsAsync();
     List<Category> categories = await services.GetCategorysAsync();
@@ -44,6 +48,8 @@
 </head>
 
 <body>
+
+
     <!-- Topbar Start -->
     <div class="container-fluid">
 
@@ -144,16 +150,36 @@
                                 <span class="badge text-secondary border border-secondary rounded-circle"
                                       style="padding-bottom: 2px;">0</span>
                             </a>
-                            <div class="btn-group">
-                                <button style="font-size: 22px;" type="button" class="btn btn-sm  dropdown-toggle"
-                                        data-toggle="dropdown">
-                                    <i class="fa-solid fa-user text-primary"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <button class="dropdown-item" type="button">Daxil Ol</button>
-                                    <button class="dropdown-item" type="button">Qeydiyyat</button>
+                            @if (user != null && user.IsAdmin == false)
+                            {
+                                
+                                <div class="btn-group">
+                                    <button style="font-size: 22px;" type="button" class="btn btn-sm  dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <i class="fa-solid fa-user text-primary"></i>
+                                        <span> @user.FullName</span>
+                                    </button>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" asp-action="logout" asp-controller="account">Çıxmaq</a>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="btn-group">
+                                    <button style="font-size: 22px;" type="button" class="btn btn-sm  dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <i class="fa-solid fa-user text-primary"></i>
+                                    </button>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" asp-action="login" asp-controller="account">Daxil Ol</a>
+                                        <a class="dropdown-item" asp-action="register" asp-controller="account">Qeydiyyat</a>
+                                    </div>
+                                </div>
+                            }
+
 
                         </div>
                     </div>
@@ -162,9 +188,6 @@
         </div>
     </div>
     <!-- Navbar End -->
-
-
-
 
 
 

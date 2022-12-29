@@ -46,6 +46,7 @@ namespace CompStore.Data.UnitOfWork
 
         private IMainSpecialBoxRepository _mainSpecialBoxRepository;
         private IMainSliderRepository _mainSliderRepository;
+        private IWishItemRepository _wishItemRepository;
 
 
 
@@ -54,7 +55,7 @@ namespace CompStore.Data.UnitOfWork
         {
             _context = context;
         }
-
+        public IWishItemRepository WishItemRepository => _wishItemRepository = _wishItemRepository ?? new WishItemRepository(_context);
         public IRamDDRRepository RamDDRRepository => _ramDDRRepository = _ramDDRRepository ?? new RamDDRRepository(_context);
         public IRamGBRepository RamGBRepository => _ramGBRepository = _ramGBRepository ?? new RamGBRepository(_context);
         public IRamMhzRepository RamMhzRepository => _ramMhzRepository = _ramMhzRepository ?? new RamMhzRepository(_context);

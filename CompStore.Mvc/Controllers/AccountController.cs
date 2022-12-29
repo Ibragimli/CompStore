@@ -1,6 +1,7 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
 using CompStore.Mvc.ViewModels;
+using CompStore.Service.Dtos.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,12 +44,17 @@ namespace CompStore.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(MemberLoginViewModel user)
+        public async Task<IActionResult> Login(AppUserDto user)
         {
+            if (user.Password == null)
+            {
+                ModelState.AddModelError("", "Username və ya  Password  yanlışdır!");
+                return View();
+            }
             var UserExists = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == user.Username);
             if (UserExists == null)
             {
-                ModelState.AddModelError("", "Username or Password is incorrect!");
+                ModelState.AddModelError("", "Username və ya Password yanlışdır!");
                 return View();
             }
             if (!UserExists.IsAdmin)
@@ -57,37 +63,37 @@ namespace CompStore.Mvc.Controllers
                 var result = await _signInManager.PasswordSignInAsync(UserExists, user.Password, false, false);
                 if (!result.Succeeded)
                 {
-                    ModelState.AddModelError("", "Username or Password is incorrect!");
+                    ModelState.AddModelError("", "Username və ya Password yanlışdır!");
                     return View();
                 }
 
 
 
-                //var WishCookiesDelete = HttpContext.Request.Cookies["wishItemList"];
-                //if (WishCookiesDelete != null)
-                //{
-                //    var CookieDeleteJson = JsonConvert.DeserializeObject<List<WishItemViewModel>>(WishCookiesDelete);
-                //    foreach (var cookieItem in CookieDeleteJson)
-                //    {
-                //        WishItem wishItemAdd = new WishItem
-                //        {
-                //            AppUserId = UserExists.Id,
-                //            ProductId = cookieItem.ProductId
-                //        };
-                //        var productExist = _context.WishItems.Any(x => x.ProductId == wishItemAdd.ProductId);
-                //        if (!productExist)
-                //        {
-                //            _context.WishItems.Add(wishItemAdd);
-                //        }
-                //    }
-                //    HttpContext.Response.Cookies.Delete("wishItemList");
-                //    _context.SaveChanges();
-                //}
+                var WishCookiesDelete = HttpContext.Request.Cookies["wishItemList"];
+                if (WishCookiesDelete != null)
+                {
+                    var CookieDeleteJson = JsonConvert.DeserializeObject<List<WishItemViewModel>>(WishCookiesDelete);
+                    foreach (var cookieItem in CookieDeleteJson)
+                    {
+                        WishItem wishItemAdd = new WishItem
+                        {
+                            AppUserId = UserExists.Id,
+                            ProductId = cookieItem.ProductId
+                        };
+                        var productExist = _context.WishItems.Any(x => x.ProductId == wishItemAdd.ProductId);
+                        if (!productExist)
+                        {
+                            _context.WishItems.Add(wishItemAdd);
+                        }
+                    }
+                    HttpContext.Response.Cookies.Delete("wishItemList");
+                    _context.SaveChanges();
+                }
                 return RedirectToAction("index", "home");
             }
 
 
-            ModelState.AddModelError("", "Username or Password is incorrect!");
+            ModelState.AddModelError("", "Username və ya Password yanlışdır!");
             return View();
         }
 
@@ -105,8 +111,15 @@ namespace CompStore.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(MemberRegisterViewModel user)
+        public async Task<IActionResult> Register(UserRegisterDto user)
         {
+            if (user.Password == null) ModelState.AddModelError("", "Password-u daxili edin!");
+
+            if (user.ConfirmPassword == null) ModelState.AddModelError("", "ConfirmPassword-u daxili edin!");
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
 
             var userExistEmail = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == user.Email);
             if (userExistEmail != null)
@@ -118,18 +131,24 @@ namespace CompStore.Mvc.Controllers
             {
                 ModelState.AddModelError("Username", "Username is Already!");
             }
+            if (user.Password != user.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "ConfirmPassword is uncorrect!");
+            }
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(user);
             }
 
 
             AppUser newUser = new AppUser
             {
                 UserName = user.Username,
+                Surname = user.Surname,
+                Name = user.Name,
                 Email = user.Email,
                 IsAdmin = false,
-                FullName = user.Fullname,
+                FullName = user.Name + " " + user.Surname,
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);

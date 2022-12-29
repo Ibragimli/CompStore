@@ -1,5 +1,6 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
+using CompStore.Service.Dtos.User;
 using CompStore.Service.Services.Interfaces.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,8 @@ namespace CompStore.Service.Services.Implementations.User
             _context = context;
         }
 
+       
+
         public async Task<List<Brand>> GetBrandsAsync()
         {
             return await _context.Brands.ToListAsync();
@@ -26,7 +29,7 @@ namespace CompStore.Service.Services.Implementations.User
 
         public async Task<List<CategoryBrandId>> GetCategoryBrandsAsync()
         {
-            return await _context.CategoryBrandIds.Include(x=>x.Brand).Include(x=>x.Category).ToListAsync();
+            return await _context.CategoryBrandIds.Include(x => x.Brand).Include(x => x.Category).ToListAsync();
 
         }
 
