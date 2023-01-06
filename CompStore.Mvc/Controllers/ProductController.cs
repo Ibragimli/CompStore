@@ -180,46 +180,50 @@ namespace CompStore.Mvc.Controllers
                 user = await _userManager.FindByNameAsync(User.Identity.Name);
             }
 
-            //if (user != null && user.IsAdmin == false)
-            //{
-
-            //    WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.AppUserId == user.Id && x.ProductId == id);
-
-            //    if (wishItem == null)
-            //    {
-            //        wishItem = new WishItem
-            //        {
-            //            AppUserId = user.Id,
-            //            ProductId = id,
-            //        };
-            //        _context.WishItems.Add(wishItem);
-            //    }
-
-            //    _context.SaveChanges();
-
-            //    wishData = _getWishItems(_context.WishItems.Include(x => x.Product).Where(x => x.AppUserId == user.Id).ToList());
-
-            //}
-
-            List<CookieWishItemViewModel> wishItems = new List<CookieWishItemViewModel>();
-            string existWishItem = HttpContext.Request.Cookies["wishItemList"];
-            if (existWishItem != null)
+            if (user != null && user.IsAdmin == false)
             {
-                wishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(existWishItem);
-            }
-            CookieWishItemViewModel item = wishItems.FirstOrDefault(x => x.ProductId == id);
-            if (item == null)
-            {
-                item = new CookieWishItemViewModel
+
+                WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.AppUserId == user.Id && x.ProductId == id);
+
+                if (wishItem == null)
                 {
-                    ProductId = id,
-                };
-                wishItems.Add(item);
+                    wishItem = new WishItem
+                    {
+                        AppUserId = user.Id,
+                        ProductId = id,
+                    };
+                    _context.WishItems.Add(wishItem);
+                }
+
+                _context.SaveChanges();
+
+                wishData = _getWishItems(_context.WishItems.Include(x => x.Product).Where(x => x.AppUserId == user.Id).ToList());
+
+            }
+            else
+            {
+                List<CookieWishItemViewModel> wishItems = new List<CookieWishItemViewModel>();
+                string existWishItem = HttpContext.Request.Cookies["wishItemList"];
+                if (existWishItem != null)
+                {
+                    wishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(existWishItem);
+                }
+                CookieWishItemViewModel item = wishItems.FirstOrDefault(x => x.ProductId == id);
+                if (item == null)
+                {
+                    item = new CookieWishItemViewModel
+                    {
+                        ProductId = id,
+                    };
+                    wishItems.Add(item);
+                }
+
+                var productIdStr = JsonConvert.SerializeObject(wishItems);
+                HttpContext.Response.Cookies.Append("wishItemList", productIdStr);
+                wishData = _getWishItems(wishItems);
             }
 
-            var productIdStr = JsonConvert.SerializeObject(wishItems);
-            HttpContext.Response.Cookies.Append("wishItemList", productIdStr);
-            wishData = _getWishItems(wishItems);
+          
             TempData["Success"] = "Product add wishlist";
 
             return Ok(wishData);
@@ -234,28 +238,32 @@ namespace CompStore.Mvc.Controllers
                 return RedirectToAction("error", "error");
             }
             List<WishItemViewModel> wishItems = new List<WishItemViewModel>();
-            
-            //if (user != null && !user.IsAdmin)
-            //{
-            //    WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.ProductId == id);
-            //    if (wishItem == null)
-            //    {
-            //        return RedirectToAction("error", "error");
-            //    }
 
-            //    _context.WishItems.Remove(wishItem);
-            //    _context.SaveChanges();
-            //}
-
-            string wish = HttpContext.Request.Cookies["wishItemList"];
-            wishItems = JsonConvert.DeserializeObject<List<WishItemViewModel>>(wish);
-            WishItemViewModel productWish = wishItems.FirstOrDefault(x => x.ProductId == id);
-            if (productWish == null)
+            if (user != null && !user.IsAdmin)
             {
-                return RedirectToAction("error", "error");
+                WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.ProductId == id);
+                if (wishItem == null)
+                {
+                    return RedirectToAction("error", "error");
+                }
+
+                _context.WishItems.Remove(wishItem);
+                _context.SaveChanges();
+            }
+            else
+            {
+                string wish = HttpContext.Request.Cookies["wishItemList"];
+                wishItems = JsonConvert.DeserializeObject<List<WishItemViewModel>>(wish);
+                WishItemViewModel productWish = wishItems.FirstOrDefault(x => x.ProductId == id);
+                if (productWish == null)
+                {
+                    return RedirectToAction("error", "error");
+                }
+
+                wishItems.Remove(productWish);
+
             }
 
-            wishItems.Remove(productWish);
 
             HttpContext.Response.Cookies.Append("wishItemList", JsonConvert.SerializeObject(wishItems));
             return Ok(wishItems);
@@ -285,24 +293,24 @@ namespace CompStore.Mvc.Controllers
             return wishItems;
 
         }
-        //private WishViewModel _getWishItems(List<WishItem> wishItems)
-        //{
-        //    WishViewModel wish = new WishViewModel
-        //    {
-        //        WishItems = new List<WishItemViewModel>(),
-        //    };
-        //    foreach (var item in wishItems)
-        //    {
-        //        WishItemViewModel wishItem = new WishItemViewModel
-        //        {
-        //            Name = item.Product.Name,
-        //            Price = item.Product.DiscountPercent > 0 ? (item.Product.SalePrice * (1 - item.Product.DiscountPercent / 100)) : item.Product.SalePrice,
-        //            ProductId = item.Product.Id,
-        //            StockStatus = item.Product.StockStatus,
-        //        };
-        //        wish.WishItems.Add(wishItem);
-        //    }
-        //    return wish;
-        //}
+        private WishViewModel _getWishItems(List<WishItem> wishItems)
+        {
+            WishViewModel wish = new WishViewModel
+            {
+                WishItems = new List<WishItemViewModel>(),
+            };
+            foreach (var item in wishItems)
+            {
+                WishItemViewModel wishItem = new WishItemViewModel
+                {
+                    Name = item.Product.Name,
+                    Price = item.Product.DiscountPercent > 0 ? (decimal)(item.Product.Price * (1 - item.Product.DiscountPercent / 100)) : (decimal)item.Product.Price,
+                    ProductId = item.Product.Id,
+                    //StockStatus = item.Product.StockStatus,
+                };
+                wish.WishItems.Add(wishItem);
+            }
+            return wish;
+        }
     }
 }

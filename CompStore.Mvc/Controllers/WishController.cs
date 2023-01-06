@@ -42,34 +42,38 @@ namespace CompStore.Mvc.Controllers
                 user = await _userManager.FindByNameAsync(User.Identity.Name);
             }
 
-            //if (user != null && user.IsAdmin == false)
-            //{
-            //    List<WishItem> wishItems = _context.WishItems.Include(x => x.Product).ThenInclude(x => x.ProductImages).Where(x => x.AppUserId == user.Id).ToList();
-
-            //    foreach (var item in wishItems)
-            //    {
-            //        WishlistItemViewModel wishlistItem = new WishlistItemViewModel
-            //        {
-            //            Product = item.Product,
-
-            //        };
-            //        wishlistItems.Add(wishlistItem);
-            //    }
-            //}
-            string wishItemsStr = HttpContext.Request.Cookies["wishItemList"];
-            if (wishItemsStr != null)
+            if (user != null && user.IsAdmin == false)
             {
-                List<CookieWishItemViewModel> cookieWishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(wishItemsStr);
+                List<WishItem> wishItems = _context.WishItems.Include(x => x.Product).ThenInclude(x => x.ProductImages).Where(x => x.AppUserId == user.Id).ToList();
 
-                foreach (var item in cookieWishItems)
+                foreach (var item in wishItems)
                 {
-                    WishlistItemViewModel checkoutItem = new WishlistItemViewModel
+                    WishlistItemViewModel wishlistItem = new WishlistItemViewModel
                     {
-                        Product = _context.Products.Include(x => x.ProductImages).FirstOrDefault(x => x.Id == item.ProductId),
+                        Product = item.Product,
 
                     };
-                    wishlistItems.Add(checkoutItem);
+                    wishlistItems.Add(wishlistItem);
                 }
+            }
+            else
+            {
+                string wishItemsStr = HttpContext.Request.Cookies["wishItemList"];
+                if (wishItemsStr != null)
+                {
+                    List<CookieWishItemViewModel> cookieWishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(wishItemsStr);
+
+                    foreach (var item in cookieWishItems)
+                    {
+                        WishlistItemViewModel checkoutItem = new WishlistItemViewModel
+                        {
+                            Product = _context.Products.Include(x => x.ProductImages).FirstOrDefault(x => x.Id == item.ProductId),
+
+                        };
+                        wishlistItems.Add(checkoutItem);
+                    }
+                }
+
             }
 
             return wishlistItems;

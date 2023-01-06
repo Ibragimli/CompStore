@@ -145,19 +145,19 @@
                             <a asp-action="contactUs" asp-controller="contact" class="nav-item nav-link">@settings.FirstOrDefault(x => x.Key == "Nav3").Value</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a style="font-size: 22px;" asp-action="WishList" asp-controller="wish" class="btn px-0">
+                            <a style="font-size: 22px;border: none;" asp-action="WishList" asp-controller="wish" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle"
-                                      style="padding-bottom: 2px;">0</span>
+                                @*<span class="badge text-secondary border border-secondary rounded-circle"
+                                      style="padding-bottom: 2px;">0</span>*@
                             </a>
                             @if (user != null && user.IsAdmin == false)
                             {
                                 
                                 <div class="btn-group">
-                                    <button style="font-size: 22px;" type="button" class="btn btn-sm  dropdown-toggle"
+                                    <button style="font-size: 22px; border: none;" type="button" class="btn btn-sm  dropdown-toggle"
                                             data-toggle="dropdown">
                                         <i class="fa-solid fa-user text-primary"></i>
-                                        <span> @user.FullName</span>
+                                        <span style="color:snow"> @user.FullName</span>
                                     </button>
 
                                     <div class="dropdown-menu dropdown-menu-right">
