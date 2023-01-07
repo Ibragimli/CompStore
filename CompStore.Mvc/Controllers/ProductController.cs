@@ -197,59 +197,6 @@ namespace CompStore.Mvc.Controllers
             }
 
 
-
-            //if (!_context.Products.Any(x => x.Id == id))
-            //{
-            //    return RedirectToAction("error", "error");
-            //}
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //}
-
-            //if (user != null && user.IsAdmin == false)
-            //{
-
-            //    WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.AppUserId == user.Id && x.ProductId == id);
-
-            //    if (wishItem == null)
-            //    {
-            //        wishItem = new WishItem
-            //        {
-            //            AppUserId = user.Id,
-            //            ProductId = id,
-            //        };
-            //        _context.WishItems.Add(wishItem);
-            //    }
-
-            //    _context.SaveChanges();
-
-            //    wishData = _getWishItems(_context.WishItems.Include(x => x.Product).Where(x => x.AppUserId == user.Id).ToList());
-
-            //}
-            //else
-            //{
-            //    List<CookieWishItemViewModel> wishItems = new List<CookieWishItemViewModel>();
-            //    string existWishItem = HttpContext.Request.Cookies["wishItemList"];
-            //    if (existWishItem != null)
-            //    {
-            //        wishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(existWishItem);
-            //    }
-            //    CookieWishItemViewModel item = wishItems.FirstOrDefault(x => x.ProductId == id);
-            //    if (item == null)
-            //    {
-            //        item = new CookieWishItemViewModel
-            //        {
-            //            ProductId = id,
-            //        };
-            //        wishItems.Add(item);
-            //    }
-
-            //    var productIdStr = JsonConvert.SerializeObject(wishItems);
-            //    HttpContext.Response.Cookies.Append("wishItemList", productIdStr);
-            //    wishData = _getWishItems(wishItems);
-            //}
-
             TempData["Success"] = "Product add wishlist";
 
             return Ok(wishData);
