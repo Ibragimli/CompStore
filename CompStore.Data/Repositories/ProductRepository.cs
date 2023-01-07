@@ -29,7 +29,7 @@ namespace CompStore.Data.Repositories
                .AsQueryable();
             return products;
         }
+   
 
-       
     }
 }

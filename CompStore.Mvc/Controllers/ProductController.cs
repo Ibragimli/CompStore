@@ -2,6 +2,7 @@
 using CompStore.Data;
 using CompStore.Mvc.ViewModels;
 using CompStore.Service.Helper;
+using CompStore.Service.Services.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,13 @@ namespace CompStore.Mvc.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IProductWishlistAddServices _productWishlistAddServices;
 
-
-        public ProductController(DataContext context, UserManager<AppUser> userManager)
+        public ProductController(DataContext context, UserManager<AppUser> userManager, IProductWishlistAddServices productWishlistAddServices)
         {
             _context = context;
             _userManager = userManager;
+            _productWishlistAddServices = productWishlistAddServices;
         }
         public IActionResult Detail(int id)
         {
@@ -169,66 +171,89 @@ namespace CompStore.Mvc.Controllers
 
         public async Task<IActionResult> AddWishList(int id)
         {
-            if (!_context.Products.Any(x => x.Id == id))
-            {
-                return RedirectToAction("error", "error");
-            }
+            
             WishViewModel wishData = null;
-            AppUser user = null;
-            if (User.Identity.IsAuthenticated)
+            //AppUser user = null;
+           
+            
+            try
             {
-                user = await _userManager.FindByNameAsync(User.Identity.Name);
+                await _productWishlistAddServices.IsProduct(id);
+                var user = await _productWishlistAddServices.IsAuthenticated();
+                if (user != null && user.IsAdmin == false)
+                {
+                  await _productWishlistAddServices.UserAddWish(id,user);
+                }
+                else
+                {
+                     _productWishlistAddServices.CookieAddWish(id);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError("", ex.Message);
+                return View();
             }
 
-            if (user != null && user.IsAdmin == false)
-            {
 
-                WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.AppUserId == user.Id && x.ProductId == id);
 
-                if (wishItem == null)
-                {
-                    wishItem = new WishItem
-                    {
-                        AppUserId = user.Id,
-                        ProductId = id,
-                    };
-                    _context.WishItems.Add(wishItem);
-                }
+            //if (!_context.Products.Any(x => x.Id == id))
+            //{
+            //    return RedirectToAction("error", "error");
+            //}
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //}
 
-                _context.SaveChanges();
+            //if (user != null && user.IsAdmin == false)
+            //{
 
-                wishData = _getWishItems(_context.WishItems.Include(x => x.Product).Where(x => x.AppUserId == user.Id).ToList());
+            //    WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.AppUserId == user.Id && x.ProductId == id);
 
-            }
-            else
-            {
-                List<CookieWishItemViewModel> wishItems = new List<CookieWishItemViewModel>();
-                string existWishItem = HttpContext.Request.Cookies["wishItemList"];
-                if (existWishItem != null)
-                {
-                    wishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(existWishItem);
-                }
-                CookieWishItemViewModel item = wishItems.FirstOrDefault(x => x.ProductId == id);
-                if (item == null)
-                {
-                    item = new CookieWishItemViewModel
-                    {
-                        ProductId = id,
-                    };
-                    wishItems.Add(item);
-                }
+            //    if (wishItem == null)
+            //    {
+            //        wishItem = new WishItem
+            //        {
+            //            AppUserId = user.Id,
+            //            ProductId = id,
+            //        };
+            //        _context.WishItems.Add(wishItem);
+            //    }
 
-                var productIdStr = JsonConvert.SerializeObject(wishItems);
-                HttpContext.Response.Cookies.Append("wishItemList", productIdStr);
-                wishData = _getWishItems(wishItems);
-            }
+            //    _context.SaveChanges();
 
-          
+            //    wishData = _getWishItems(_context.WishItems.Include(x => x.Product).Where(x => x.AppUserId == user.Id).ToList());
+
+            //}
+            //else
+            //{
+            //    List<CookieWishItemViewModel> wishItems = new List<CookieWishItemViewModel>();
+            //    string existWishItem = HttpContext.Request.Cookies["wishItemList"];
+            //    if (existWishItem != null)
+            //    {
+            //        wishItems = JsonConvert.DeserializeObject<List<CookieWishItemViewModel>>(existWishItem);
+            //    }
+            //    CookieWishItemViewModel item = wishItems.FirstOrDefault(x => x.ProductId == id);
+            //    if (item == null)
+            //    {
+            //        item = new CookieWishItemViewModel
+            //        {
+            //            ProductId = id,
+            //        };
+            //        wishItems.Add(item);
+            //    }
+
+            //    var productIdStr = JsonConvert.SerializeObject(wishItems);
+            //    HttpContext.Response.Cookies.Append("wishItemList", productIdStr);
+            //    wishData = _getWishItems(wishItems);
+            //}
+
             TempData["Success"] = "Product add wishlist";
 
             return Ok(wishData);
         }
-
 
         public IActionResult DeleteWish(int id)
         {

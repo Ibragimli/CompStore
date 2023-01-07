@@ -231,10 +231,14 @@ namespace CompStore.Mvc
             services.AddScoped<IMainSpecialBoxCreateServices, MainSpecialBoxCreateServices>();
             services.AddScoped<IMainSpecialBoxIndexServices, MainSpecialBoxIndexServices>();
 
+
             services.AddScoped<ICategoryBrandIdEditServices, CategoryBrandIdEditServices>();
             services.AddScoped<ICategoryBrandIdDeleteServices, CategoryBrandIdDeleteServices>();
             services.AddScoped<ICategoryBrandIdCreateServices, CategoryBrandIdCreateServices>();
             services.AddScoped<ICategoryBrandIdIndexServices, CategoryBrandIdIndexServices>();
+
+            services.AddScoped<IProductWishlistAddServices, ProductWishlistAddServices>();
+
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {
