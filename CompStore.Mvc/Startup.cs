@@ -238,6 +238,7 @@ namespace CompStore.Mvc
             services.AddScoped<ICategoryBrandIdIndexServices, CategoryBrandIdIndexServices>();
 
             services.AddScoped<IProductWishlistAddServices, ProductWishlistAddServices>();
+            services.AddScoped<IProductWishlistDeleteServices, ProductWishlistDeleteServices>();
 
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>

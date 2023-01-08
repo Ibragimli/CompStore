@@ -15,7 +15,5 @@ namespace CompStore.Service.Services.Interfaces.User
          WishProductCreateDto _getUserWishItems(IEnumerable<WishItem> wishItems);
          WishProductCreateDto _getCookieWishItems(List<CookieWishItemDto> cookieWishItems);
         Task<AppUser> IsAuthenticated();
-
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
 using CompStore.Mvc.ViewModels;
+using CompStore.Service.Dtos.User;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces.User;
 using Microsoft.AspNetCore.Http;
@@ -21,12 +22,14 @@ namespace CompStore.Mvc.Controllers
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IProductWishlistAddServices _productWishlistAddServices;
+        private readonly IProductWishlistDeleteServices _productWishlistDeleteServices;
 
-        public ProductController(DataContext context, UserManager<AppUser> userManager, IProductWishlistAddServices productWishlistAddServices)
+        public ProductController(DataContext context, UserManager<AppUser> userManager, IProductWishlistAddServices productWishlistAddServices, IProductWishlistDeleteServices productWishlistDeleteServices)
         {
             _context = context;
             _userManager = userManager;
             _productWishlistAddServices = productWishlistAddServices;
+            _productWishlistDeleteServices = productWishlistDeleteServices;
         }
         public IActionResult Detail(int id)
         {
@@ -100,13 +103,10 @@ namespace CompStore.Mvc.Controllers
 
             List<CategoryFilterViewModel> items = new List<CategoryFilterViewModel>();
 
-
             //if (categoryItemsStr != null)
             //{
             //    items = JsonConvert.DeserializeObject<List<CategoryFilterViewModel>>(categoryItemsStr);
             //}
-
-
 
             //foreach (var item in categoryItemsStr)
             //{
@@ -123,8 +123,6 @@ namespace CompStore.Mvc.Controllers
             };
             return View(shopVM);
         }
-
-
         [HttpPost]
         public IActionResult FilterMehsul(string arry = null)
         {
@@ -165,124 +163,42 @@ namespace CompStore.Mvc.Controllers
             //Do your stuff
             return Json(mySelectedValue);
         }
-
-
-
-
         public async Task<IActionResult> AddWishList(int id)
         {
-            
             WishViewModel wishData = null;
-            //AppUser user = null;
-           
-            
             try
             {
                 await _productWishlistAddServices.IsProduct(id);
                 var user = await _productWishlistAddServices.IsAuthenticated();
-                if (user != null && user.IsAdmin == false)
-                {
-                  await _productWishlistAddServices.UserAddWish(id,user);
-                }
-                else
-                {
-                     _productWishlistAddServices.CookieAddWish(id);
-                }
+                if (user != null && user.IsAdmin == false) await _productWishlistAddServices.UserAddWish(id, user);
+                else _productWishlistAddServices.CookieAddWish(id);
             }
             catch (Exception ex)
             {
-
                 ModelState.AddModelError("", ex.Message);
                 return View();
             }
-
-
             TempData["Success"] = "Product add wishlist";
-
             return Ok(wishData);
         }
 
-        public IActionResult DeleteWish(int id)
+        public async Task<IActionResult> DeleteWish(int id)
         {
-            AppUser user = _userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && x.IsAdmin == false);
-            if (!_context.Products.Any(x => x.Id == id))
+            List<WishItemDto> wishItems = null;
+            try
             {
-                return RedirectToAction("error", "error");
+                await _productWishlistDeleteServices.IsProduct(id);
+                var user = await _productWishlistAddServices.IsAuthenticated();
+                if (user != null && user.IsAdmin == false) await _productWishlistDeleteServices.UserDeleteWish(id, user);
+                else wishItems = _productWishlistDeleteServices.CookieDeleteWish(id, wishItems);
             }
-            List<WishItemViewModel> wishItems = new List<WishItemViewModel>();
-
-            if (user != null && !user.IsAdmin)
+            catch (Exception ex)
             {
-                WishItem wishItem = _context.WishItems.FirstOrDefault(x => x.ProductId == id);
-                if (wishItem == null)
-                {
-                    return RedirectToAction("error", "error");
-                }
-
-                _context.WishItems.Remove(wishItem);
-                _context.SaveChanges();
+                ModelState.AddModelError("", ex.Message);
+                return View();
             }
-            else
-            {
-                string wish = HttpContext.Request.Cookies["wishItemList"];
-                wishItems = JsonConvert.DeserializeObject<List<WishItemViewModel>>(wish);
-                WishItemViewModel productWish = wishItems.FirstOrDefault(x => x.ProductId == id);
-                if (productWish == null)
-                {
-                    return RedirectToAction("error", "error");
-                }
-
-                wishItems.Remove(productWish);
-
-            }
-
-
             HttpContext.Response.Cookies.Append("wishItemList", JsonConvert.SerializeObject(wishItems));
             return Ok(wishItems);
-
-        }
-
-        private WishViewModel _getWishItems(List<CookieWishItemViewModel> cookieWishItems)
-        {
-
-            WishViewModel wishItems = new WishViewModel()
-            {
-                WishItems = new List<WishItemViewModel>(),
-            };
-            foreach (var item in cookieWishItems)
-            {
-                Product product = _context.Products.FirstOrDefault(x => x.Id == item.ProductId);
-                WishItemViewModel wishItem = new WishItemViewModel
-                {
-                    Name = product.Name,
-                    Price = (decimal)(product.DiscountPercent > 0 ? (product.Price * (1 - product.DiscountPercent / 100)) : product.Price),
-                    SalePrice = (decimal)product.Price,
-                    ProductId = product.Id,
-                    StockStatus = product.IsFeatured,
-                    DiscountPercent = (decimal)product.DiscountPercent,
-                };
-            }
-            return wishItems;
-
-        }
-        private WishViewModel _getWishItems(List<WishItem> wishItems)
-        {
-            WishViewModel wish = new WishViewModel
-            {
-                WishItems = new List<WishItemViewModel>(),
-            };
-            foreach (var item in wishItems)
-            {
-                WishItemViewModel wishItem = new WishItemViewModel
-                {
-                    Name = item.Product.Name,
-                    Price = item.Product.DiscountPercent > 0 ? (decimal)(item.Product.Price * (1 - item.Product.DiscountPercent / 100)) : (decimal)item.Product.Price,
-                    ProductId = item.Product.Id,
-                    //StockStatus = item.Product.StockStatus,
-                };
-                wish.WishItems.Add(wishItem);
-            }
-            return wish;
         }
     }
 }
