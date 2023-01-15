@@ -1,5 +1,6 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
+using CompStore.Mvc.Areas.Manage.Dtos;
 using CompStore.Mvc.Areas.Manage.ViewModels;
 using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos.Area.Products;
@@ -22,16 +23,18 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         private readonly DataContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly IProductIndexServices _productIndex;
+        private readonly IProductCommentIndexServices _productCommentIndexServices;
         private readonly IProductCreateServices _productCreate;
         private readonly IProductEditServices _productEdit;
         private readonly IProductDeleteServices _productDelete;
         private readonly IProductDetailServices _detailServices;
 
-        public ProductController(DataContext context, IWebHostEnvironment env, IProductIndexServices productIndex, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
+        public ProductController(DataContext context, IWebHostEnvironment env, IProductIndexServices productIndex, IProductCommentIndexServices productCommentIndexServices, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
         {
             _context = context;
             _env = env;
             _productIndex = productIndex;
+            _productCommentIndexServices = productCommentIndexServices;
             _productCreate = productCreate;
             _productEdit = productEdit;
             _productDelete = productDelete;
@@ -66,6 +69,20 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
 
             return View(await _detailServices.isProduct(id));
 
+        }
+
+
+        public async Task<IActionResult> Comments(int page = 1, string search = null, int productId = 0)
+        {
+            ViewBag.Page = page;
+
+            var comments = _productCommentIndexServices.SearchCheck(search, productId);
+
+            ProductCommentIndexDto productCommentsIndexDto = new ProductCommentIndexDto
+            {
+                PagenatedComments = PagenetedList<Comment>.Create(await comments, page, 6),
+            };
+            return View(productCommentsIndexDto);
         }
 
         // GET: Manage/Product/Create
@@ -190,6 +207,61 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             SaveContext();
             TempData["Success"] = ("Proses uğurlu oldu!");
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteComment(int id, int page = 1, string search = null, int productId = 0)
+        {
+            Comment comment = _context.Comments.FirstOrDefault(x => x.Id == id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            _context.Comments.Remove(comment);
+            _context.SaveChanges();
+            ViewBag.Page = page;
+
+            var comments = _productCommentIndexServices.SearchCheck(search, productId);
+
+            ProductCommentIndexDto productCommentsIndexDto = new ProductCommentIndexDto
+            {
+                PagenatedComments = PagenetedList<Comment>.Create(await comments, page, 6),
+            };
+
+            return RedirectToAction("comments", new { productId = comment.ProductId });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectComment(int id)
+        {
+            Comment comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            comment.CommentStatus = false;
+            _context.SaveChanges();
+            return RedirectToAction("comments", new { productId = comment.ProductId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AcceptComment(int id)
+        {
+            Comment comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            comment.CommentStatus = true;
+            _context.SaveChanges();
+            return RedirectToAction("comments", new { productId = comment.ProductId });
         }
 
         private CreateViewModel _createViewModel(DataContext _context)

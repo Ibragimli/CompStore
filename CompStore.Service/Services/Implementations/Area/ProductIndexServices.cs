@@ -46,6 +46,7 @@ namespace CompStore.Service.Services.Implementations.Area
                 if (modelSearch)
                     productLast = productLast.Where(x => x.Model.Name.ToLower().Contains(search));
             }
+            
             return productLast;
         }
     }

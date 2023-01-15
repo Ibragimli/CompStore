@@ -1,0 +1,114 @@
+﻿@model ProductCommentIndexDto
+@{
+    ViewData["Title"] = "Comment";
+    int count = 0;
+}
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Index</h4>
+
+
+
+        <!-- Bordered Table -->
+        <div class="card">
+            <div class="card-body">
+                @* Pagination *@
+                <div class="row">
+                    <div class="d-flex align-comments-center col-5">
+                        <form asp-action="comments" asp-controller="product" asp-route-page="@ViewBag.Page" class="d-flex">
+                            <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="d-flex align-comments-center col-5" style="display:flex; justify-content:flex-end;">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                @if (Model.PagenatedComments.HasPrev)
+                                {
+                                    <li class="page-comment">
+                                        <a asp-action="Comments" asp-controller="product" asp-route-page="@(Model.PagenatedComments.PageIndex-1)" class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= Model.PagenatedComments.TotalPages; i++)
+                                {
+                                    <li aria-current="page" class="page-comment" @(Model.PagenatedComments.PageIndex == i ? "active" : "")>
+                                        <a asp-action="Comments" asp-controller="product" asp-route-page="@i" class="page-link">@i</a>
+                                    </li>
+                                }
+                                @if (Model.PagenatedComments.HasNext)
+                                {
+                                    <li class="page-comment">
+                                        <a asp-action="Comments" asp-controller="product" asp-route-page="@(Model.PagenatedComments.PageIndex+1)" class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                   
+                </div>
+                <br />
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ad Soyad</th>
+                                <th>Email</th>
+                                <th>Rate</th>
+                                <th>Rəy</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var comment in Model.PagenatedComments)
+                            {
+                                count++;
+                                TempData["InfoModal"] = count;
+                                <tr>
+                                    <td>@comment.Fullname</td>
+                                    <td>@comment.Email</td>
+                                    <td>@comment.Rate</td>
+
+                                    <td>@(comment.Text==null || comment.Text.Length<=250?comment.Text:comment.Text.Substring(0,250)+"...")</td>
+
+                                    <td>
+                                        <span class="badge bg-@(comment.CommentStatus?"success":"info")">@(comment.CommentStatus ? "Tesdiqlenib":"Gözlemededir")</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-sm-around">
+                                            <a style="border: 1px solid;" data-bs-toggle="modal" data-bs-target="#infoModal-@count" class="btn "><i style="color:blue; font-size:14px; "  class="fa-solid fa-info"></i> </a>
+                                            <form asp-action="deletecomment" method="post">
+                                                <input name="Id" value="@comment.Id" type="hidden">
+                                                <input name="productId" value="@comment.ProductId" type="hidden">
+                                                <input name="page" value="@ViewBag.Page" type="hidden">
+                                                <button style="border: 1px solid;" class="btn  delete-btn"><i style="color:red" class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @await Html.PartialAsync("_CommentInfoModalPartial", comment)
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!--/ Bordered Table -->
+
+
+    </div>
+    <!-- / Content -->
+
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}

@@ -78,7 +78,7 @@
                         }
                     </div>
 
-                    <small class="pt-1">(@ViewBag.RatePoint  Reviews)</small>
+                    <small class="pt-1">(@ViewBag.RatePoint  Rəylər)</small>
                 </div>
                 @* Price *@
                 @if (product.DiscountPercent > 0)
@@ -92,7 +92,6 @@
 
                 }
 
-
                 @* Description *@
                 <p class="mb-4">
                     Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit
@@ -104,10 +103,10 @@
 
                 <div class="d-flex align-items-center justify-content-end mb-4 pt-2">
 
-                    <button class="btn btn-primary px-3">
+                    <a asp-action="addwishlist" asp-controller="product" asp-route-id="@product.Id" class="btn btn-primary px-3 addWish">
                         <i class="fa-regular fa-heart"></i>
                         Sevimlilərə əlavə et
-                    </button>
+                    </a>
                 </div>
 
             </div>

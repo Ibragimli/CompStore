@@ -243,6 +243,7 @@ namespace CompStore.Mvc
             services.AddScoped<ICommentAddServices, CommentAddServices>();
             services.AddScoped<ICommentRepository, CommentRepository>();
 
+            services.AddScoped<IProductCommentIndexServices, ProductCommentIndexServices>();
 
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>

@@ -88,16 +88,17 @@
                                     <td>
                                         @product.Model.Name
                                     </td>
-
                                     <td>
                                         <div class="d-flex justify-content-sm-around">
+                                            <a style="font-size:20px;"   asp-action="Comments" asp-controller="product" asp-route-productId="@product.Id">
+                                                <i class="fa-regular fa-comment"></i>(@product.Comments.Count())
+                                            </a>
                                             <a style="font-size:20px;" asp-route-id="@product.Id" asp-action="detail" asp-controller="product"><i class="fa-solid fa-info"></i> </a>
                                             <a style="font-size:20px;" asp-route-id="@product.Id" asp-action="edit" asp-controller="product"><i class="bx bx-edit-alt me-1"></i> </a>
                                             <a style="font-size:20px;" asp-route-id="@product.Id" asp-action="delete" asp-controller="product"><i class="bx bx-trash me-1"></i> </a>
                                         </div>
                                     </td>
                                 </tr>
-
                             }
                         </tbody>
                     </table>

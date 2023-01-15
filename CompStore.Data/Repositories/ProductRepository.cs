@@ -24,6 +24,7 @@ namespace CompStore.Data.Repositories
             var products = _context.Products
                .Include(x => x.ProductImages)
                .Include(x => x.Model)
+               .Include(x => x.Comments)
                .Include(x => x.CategoryBrandId)
                .ThenInclude(x => x.Category)
                .AsQueryable();
