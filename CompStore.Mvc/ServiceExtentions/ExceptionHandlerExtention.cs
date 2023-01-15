@@ -42,6 +42,8 @@ namespace CompStore.Mvc.ServiceExtentions
                             code = 400;
                         else if (contextFeature.Error is ItemUseException)
                             code = 400;
+                        else if (contextFeature.Error is ItemNullException)
+                            code = 400;
                     }
 
                     context.Response.StatusCode = code;

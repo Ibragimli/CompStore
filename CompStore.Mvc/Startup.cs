@@ -240,6 +240,10 @@ namespace CompStore.Mvc
             services.AddScoped<IProductWishlistAddServices, ProductWishlistAddServices>();
             services.AddScoped<IProductWishlistDeleteServices, ProductWishlistDeleteServices>();
 
+            services.AddScoped<ICommentAddServices, CommentAddServices>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
+
 
             services.AddSingleton(provider => new MapperConfiguration(mc =>
             {

@@ -43,6 +43,7 @@ namespace CompStore.Data
         public DbSet<MainSlider> MainSliders { get; set; }
         public DbSet<MainSpecialBox> MainSpecialBox { get; set; }
         public DbSet<WishItem> WishItems { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

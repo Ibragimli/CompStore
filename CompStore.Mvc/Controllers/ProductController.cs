@@ -1,6 +1,7 @@
 ﻿using CompStore.Core.Entites;
 using CompStore.Data;
 using CompStore.Mvc.ViewModels;
+using CompStore.Service.CustomExceptions;
 using CompStore.Service.Dtos.User;
 using CompStore.Service.Helper;
 using CompStore.Service.Services.Interfaces.User;
@@ -23,19 +24,22 @@ namespace CompStore.Mvc.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IProductWishlistAddServices _productWishlistAddServices;
         private readonly IProductWishlistDeleteServices _productWishlistDeleteServices;
+        private readonly ICommentAddServices _commentAddServices;
 
-        public ProductController(DataContext context, UserManager<AppUser> userManager, IProductWishlistAddServices productWishlistAddServices, IProductWishlistDeleteServices productWishlistDeleteServices)
+        public ProductController(DataContext context, UserManager<AppUser> userManager, IProductWishlistAddServices productWishlistAddServices, IProductWishlistDeleteServices productWishlistDeleteServices, ICommentAddServices commentAddServices)
         {
             _context = context;
             _userManager = userManager;
             _productWishlistAddServices = productWishlistAddServices;
             _productWishlistDeleteServices = productWishlistDeleteServices;
+            _commentAddServices = commentAddServices;
         }
         public IActionResult Detail(int id)
         {
             var prd = _context.Products
                 .Include(x => x.ProductImages)
                 .Include(x => x.Model)
+                .Include(x => x.Comments)
                 .Include(x => x.ProductParametr)
                 .Include(x => x.ProductParametr).ThenInclude(x => x.Color)
                 .Include(x => x.ProductParametr).ThenInclude(x => x.DaxiliYaddaş)
@@ -62,17 +66,87 @@ namespace CompStore.Mvc.Controllers
                 .Where(x => x.IsDelete == false).FirstOrDefault(x => x.Id == id);
             if (prd == null) return RedirectToAction("notfound", "error");
 
-            DetailViewModel detailVM = new DetailViewModel
+            ViewBag.productId = id;
+            ViewBag.RatePoint = 0;
+            int ratePoint = 0;
+            int countRate = 0;
+            Product product = _getProductContext(id); ;
+            if (product == null)
             {
+                return RedirectToAction("error", "error");
+            }
+
+            if (product.Comments.Count() > 0)
+            {
+                foreach (var comment in product.Comments.Where(x => x.CommentStatus == true))
+                {
+                    countRate++;
+                    ratePoint += comment.Rate;
+                }
+                if (countRate != 0)
+                {
+                    ratePoint = ratePoint / countRate;
+                    ViewBag.RatePoint = ratePoint;
+                }
+            }
+        
+            ProductDetailDto detailDto = new ProductDetailDto
+            {
+                Comments = new Comment(),
+                UserComments = _context.Comments.Where(x => x.ProductId == id).ToList(),
                 Products = prd,
+                ProductCommentPostDto = new ProductCommentPostDto
+                {
+                    Comment = new Comment(),
+                    ProductId = id,
+                },
                 SliderProducts = _context.Products.Include(x => x.ProductImages)
                 .Include(x => x.CategoryBrandId.Brand)
                 .Include(x => x.CategoryBrandId.Category)
                 .Where(x => x.CategoryBrandId.CategoryId == prd.CategoryBrandId.CategoryId && x.CategoryBrandId.BrandId == prd.CategoryBrandId.BrandId).ToList(),
             };
-            return View(detailVM);
-
+            return View(detailDto);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Comment(ProductCommentPostDto productCommentPostDto)
+        {
+            var commentNew = new Comment();
+            try
+            {
+                commentNew = await _commentAddServices.CreateComment(productCommentPostDto.Comment);
+            }
+            catch (SizeFormatException ex)
+            {
+                //ModelState.AddModelError("", ex.Message);
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("detail", new { Id = productCommentPostDto.Comment.ProductId });
+            }
+            catch (Exception ex)
+            {
+                //ModelState.AddModelError("", ex.Message);
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("detail", new { Id = productCommentPostDto.Comment.ProductId });
+            }
+            TempData["Success"] = "Comment added successfully";
+            return RedirectToAction("detail", new { Id = productCommentPostDto.Comment.ProductId });
+        }
+
+        private Product _getProductContext(int id)
+        {
+            Product product = _context.Products.Include(x => x.ProductImages)
+                .Include(x => x.CategoryBrandId).ThenInclude(x => x.Brand)
+                .Include(x => x.CategoryBrandId).ThenInclude(x => x.Category)
+                .Include(x => x.Comments)
+                .FirstOrDefault(x => x.Id == id);
+            return product;
+        }
+
+
+
+
+
+
 
         //public IActionResult Mehsullar(int page = 1)
         //{

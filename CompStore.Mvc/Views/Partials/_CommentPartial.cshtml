@@ -1,0 +1,52 @@
+﻿@model ProductCommentPostDto
+<div class="col-md-6">
+    <h4 class="mb-">Rəy əlavə et</h4>
+    <small>
+        Qiymətləndirin: *
+    </small>
+
+
+
+    <form asp-action="Comment" method="post">
+        <div class="starCenter">
+            <div class="stars">
+                <input type="radio" id="five" name="Comment.rate" value="5">
+                <label for="five"></label>
+                <input type="radio" id="four" name="Comment.rate" value="4">
+                <label for="four"></label>
+                <input type="radio" id="three" name="Comment.rate" value="3">
+                <label for="three"></label>
+                <input type="radio" id="two" name="Comment.rate" value="2">
+                <label for="two"></label>
+                <input type="radio" id="one" name="Comment.rate" value="1">
+                <label for="one"></label>
+                <span class="result"></span>
+            </div>
+            <span class="text-danger" @*asp-validation-for="Rate"*@></span>
+        </div>
+        <div class="my-rating"></div>
+        <div class="form-group">
+            <label for="message">Rəyiniz *</label>
+            <textarea asp-for="Comment.Text" cols="30" rows="5" class="form-control"></textarea>
+        </div>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="form-group">
+                <label for="name">Ad soyad *</label>
+                <input asp-for="Comment.Fullname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input asp-for="Comment.Email" type="email" class="form-control">
+            </div>
+        }
+
+        <div class="form-group">
+            <span asp-validation-for="Comment" class="text-danger"></span>
+            <input type="hidden" asp-for="Comment.ProductId" value="@Model.ProductId" />
+        </div>
+        <div style=" display: flex; justify-content: end; " class="form-group mb-0">
+            <button type="submit" class="btn btn-primary px-3">Göndər</button>
+        </div>
+    </form>
+</div>

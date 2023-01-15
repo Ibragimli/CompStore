@@ -9,6 +9,8 @@ namespace CompStore.Mvc.ViewModels
     public class DetailViewModel
     {
         public Product Products { get; set; }
+        public Comment Comments { get; set; }
+        public List<Comment> UserComments { get; set; }
         public ICollection<Product> SliderProducts { get; set; }
     }
 }

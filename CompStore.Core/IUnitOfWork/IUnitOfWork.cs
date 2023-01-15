@@ -43,6 +43,7 @@ namespace CompStore.Core.Repositories
         IMainSliderRepository MainSliderRepository { get; }
         IMainSpecialBoxRepository MainSpecialBoxRepository { get; }
         IWishItemRepository WishItemRepository { get; }
+        ICommentRepository CommentRepository { get; }
 
         Task<int> CommitAsync();
     }

@@ -30,6 +30,8 @@ namespace CompStore.Core.Entites
         public IFormFile PosterImageFile { get; set; }
         [NotMapped]
         public List<int> ProductImagesIds { get; set; }
+        public List<Comment> Comments { get; set; }
+
 
     }
 }
