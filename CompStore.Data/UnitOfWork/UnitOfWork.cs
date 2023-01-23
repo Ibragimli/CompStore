@@ -48,9 +48,11 @@ namespace CompStore.Data.UnitOfWork
         private IMainSliderRepository _mainSliderRepository;
         private IWishItemRepository _wishItemRepository;
         private ICommentRepository _commentRepository;
+        private IContactUsRepository _contactUsRepository;
+        private ISubscribeRepository _subscribeRepository;
 
 
-        
+
 
         public UnitOfWork(DataContext context)
         {
@@ -106,6 +108,10 @@ namespace CompStore.Data.UnitOfWork
 
         public IMainSpecialBoxRepository MainSpecialBoxRepository => _mainSpecialBoxRepository = _mainSpecialBoxRepository ?? new MainSpecialBoxRepository(_context);
         public ICommentRepository CommentRepository => _commentRepository = _commentRepository ?? new CommentRepository(_context);
+
+        public IContactUsRepository ContactUsRepository => _contactUsRepository = _contactUsRepository ?? new ContactUsRepository(_context);
+
+        public ISubscribeRepository SubscribeRepository => _subscribeRepository = _subscribeRepository ?? new SubscribeRepository(_context);
 
 
         public async Task<int> CommitAsync()

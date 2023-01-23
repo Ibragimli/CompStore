@@ -28,8 +28,9 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         private readonly IProductEditServices _productEdit;
         private readonly IProductDeleteServices _productDelete;
         private readonly IProductDetailServices _detailServices;
+        private readonly IProductCommentActionServices _productCommentActionServices;
 
-        public ProductController(DataContext context, IWebHostEnvironment env, IProductIndexServices productIndex, IProductCommentIndexServices productCommentIndexServices, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices)
+        public ProductController(DataContext context, IWebHostEnvironment env, IProductIndexServices productIndex, IProductCommentIndexServices productCommentIndexServices, IProductCreateServices productCreate, IProductEditServices productEdit, IProductDeleteServices productDelete, IProductDetailServices detailServices, IProductCommentActionServices productCommentActionServices)
         {
             _context = context;
             _env = env;
@@ -39,6 +40,7 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
             _productEdit = productEdit;
             _productDelete = productDelete;
             _detailServices = detailServices;
+            _productCommentActionServices = productCommentActionServices;
         }
 
         // GET: Manage/Product
@@ -214,21 +216,23 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteComment(int id, int page = 1, string search = null, int productId = 0)
         {
-            Comment comment = _context.Comments.FirstOrDefault(x => x.Id == id);
-            if (comment == null)
+            Comment comment;
+            try
             {
-                return NotFound();
+                comment = await _productCommentActionServices.DeleteComment(id);
+                ViewBag.Page = page;
+
+                var comments = _productCommentIndexServices.SearchCheck(search, productId);
+
+                ProductCommentIndexDto productCommentsIndexDto = new ProductCommentIndexDto
+                {
+                    PagenatedComments = PagenetedList<Comment>.Create(await comments, page, 6),
+                };
             }
-            _context.Comments.Remove(comment);
-            _context.SaveChanges();
-            ViewBag.Page = page;
-
-            var comments = _productCommentIndexServices.SearchCheck(search, productId);
-
-            ProductCommentIndexDto productCommentsIndexDto = new ProductCommentIndexDto
+            catch (Exception)
             {
-                PagenatedComments = PagenetedList<Comment>.Create(await comments, page, 6),
-            };
+                return RedirectToAction("notfound", "error");
+            }
 
             return RedirectToAction("comments", new { productId = comment.ProductId });
         }
@@ -238,14 +242,15 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RejectComment(int id)
         {
-            Comment comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (comment == null)
+            Comment comment;
+            try
             {
-                return NotFound();
+                comment = await _productCommentActionServices.RejectComment(id);
             }
-            comment.CommentStatus = false;
-            _context.SaveChanges();
+            catch (Exception)
+            {
+                return RedirectToAction("notfound", "error");
+            }
             return RedirectToAction("comments", new { productId = comment.ProductId });
         }
 
@@ -253,14 +258,15 @@ namespace CompStore.Mvc.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AcceptComment(int id)
         {
-            Comment comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (comment == null)
+            Comment comment;
+            try
             {
-                return NotFound();
+                comment = await _productCommentActionServices.RejectComment(id);
             }
-            comment.CommentStatus = true;
-            _context.SaveChanges();
+            catch (Exception)
+            {
+                return RedirectToAction("notfound", "error");
+            }
             return RedirectToAction("comments", new { productId = comment.ProductId });
         }
 

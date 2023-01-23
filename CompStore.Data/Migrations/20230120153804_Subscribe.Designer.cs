@@ -4,14 +4,16 @@ using CompStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompStore.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230120153804_Subscribe")]
+    partial class Subscribe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,6 +199,9 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -226,6 +231,8 @@ namespace CompStore.Data.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("ContactUs");
                 });
@@ -1347,6 +1354,15 @@ namespace CompStore.Data.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("CompStore.Core.Entites.ContactUs", b =>
+                {
+                    b.HasOne("CompStore.Core.Entites.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("CompStore.Core.Entites.DaxiliYaddaş", b =>

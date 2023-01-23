@@ -30,20 +30,22 @@ namespace CompStore.Mvc.ServiceExtentions
                             code = 404;
                         if (contextFeature.Error is ItemNameAlreadyExists)
                             code = 404;
-                        else if (contextFeature.Error is FileFormatException)
+                        if (contextFeature.Error is FileFormatException)
                             code = 400;
-                        else if (contextFeature.Error is UserNotFoundException)
+                        if (contextFeature.Error is UserNotFoundException)
                             code = 404;
-                        else if (contextFeature.Error is ImageCountException)
+                        if (contextFeature.Error is ImageCountException)
                             code = 404;
-                        else if (contextFeature.Error is ImageFormatException)
+                        if (contextFeature.Error is ImageFormatException)
                             code = 400;
-                        else if (contextFeature.Error is SizeFormatException)
+                        if (contextFeature.Error is SizeFormatException)
                             code = 400;
-                        else if (contextFeature.Error is ItemUseException)
+                        if (contextFeature.Error is ItemUseException)
                             code = 400;
-                        else if (contextFeature.Error is ItemNullException)
+                        if (contextFeature.Error is ItemNullException)
                             code = 400;
+                        if (contextFeature.Error is ValueFormatException)
+                            code = 404;
                     }
 
                     context.Response.StatusCode = code;

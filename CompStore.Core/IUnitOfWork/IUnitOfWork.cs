@@ -44,6 +44,8 @@ namespace CompStore.Core.Repositories
         IMainSpecialBoxRepository MainSpecialBoxRepository { get; }
         IWishItemRepository WishItemRepository { get; }
         ICommentRepository CommentRepository { get; }
+        IContactUsRepository ContactUsRepository { get; }
+        ISubscribeRepository SubscribeRepository { get; }
 
         Task<int> CommitAsync();
     }

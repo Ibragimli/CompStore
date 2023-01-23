@@ -227,11 +227,11 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">@settings.FirstOrDefault(x => x.Key == "FooterSagTitle").Value</h5>
                         <p>@settings.FirstOrDefault(x => x.Key == "FooterSagText").Value</p>
-                        <form action="">
+                        <form asp-action="Subscribe" asp-controller="home" method="post">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Email">
+                                <input name="email" type="text" class="form-control" placeholder="Email">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary">Göndər</button>
+                                    <button type="submit" class="btn btn-primary">Göndər</button>
                                 </div>
                             </div>
                         </form>
@@ -288,7 +288,7 @@
             "positionClass": "toast-top-right",
             "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "300",
+            "showDuration": "500",
             "hideDuration": "1000",
             "timeOut": "5000",
             "extendedTimeOut": "1000",

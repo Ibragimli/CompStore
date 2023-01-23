@@ -44,6 +44,8 @@ namespace CompStore.Data
         public DbSet<MainSpecialBox> MainSpecialBox { get; set; }
         public DbSet<WishItem> WishItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Subscribe> Subscribes { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

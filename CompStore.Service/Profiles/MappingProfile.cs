@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using CompStore.Service.Dtos.User;
 
 namespace CompStore.Service.Profiles
 {
@@ -18,6 +19,7 @@ namespace CompStore.Service.Profiles
 
             CreateMap<Brand, BrandListItemDto>();
             CreateMap<Brand, BrandEditDto>();
+            CreateMap<ContactUs, ContactUsPostDto>();
 
         }
     }
