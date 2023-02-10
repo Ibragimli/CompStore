@@ -121,6 +121,7 @@ namespace CompStore.Mvc
             services.AddScoped<IScreenFrequencieRepository, ScreenFrequencieRepository>();
             services.AddScoped<IMainSpecialBoxRepository, MainSpecialBoxRepository>();
             services.AddScoped<IMainSliderRepository, MainSliderRepository>();
+            services.AddScoped<IEmailSettingRepository, EmailSettingRepository>();
 
 
             services.AddScoped<IProcessorCacheCreateServices, ProcessorCacheCreateServices>();
@@ -252,8 +253,10 @@ namespace CompStore.Mvc
             services.AddScoped<IContactUsDeleteServices, ContactUsDeleteServices>();
             services.AddScoped<IContactUsIndexServices, ContactUsIndexServices>();
 
-            //services.AddScoped<IContactRespondServices, ContactRespondServices>();
-            //services.AddScoped<IContactUsDetailServices, ContactUsDetailServices>();
+            services.AddScoped<IContactRespondServices, ContactRespondServices>();
+
+            services.AddScoped<IEmailServices, EmailServices>();
+            services.AddScoped<IEmailSettingEditServices, EmailSettingEditServices>();
 
 
 

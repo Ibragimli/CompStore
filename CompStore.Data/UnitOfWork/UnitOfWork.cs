@@ -50,6 +50,7 @@ namespace CompStore.Data.UnitOfWork
         private ICommentRepository _commentRepository;
         private IContactUsRepository _contactUsRepository;
         private ISubscribeRepository _subscribeRepository;
+        private IEmailSettingRepository _emailSettingRepository;
 
 
 
@@ -112,7 +113,8 @@ namespace CompStore.Data.UnitOfWork
         public IContactUsRepository ContactUsRepository => _contactUsRepository = _contactUsRepository ?? new ContactUsRepository(_context);
 
         public ISubscribeRepository SubscribeRepository => _subscribeRepository = _subscribeRepository ?? new SubscribeRepository(_context);
-
+        
+        public IEmailSettingRepository EmailSettingRepository => _emailSettingRepository = EmailSettingRepository ?? new EmailSettingRepository(_context);
 
         public async Task<int> CommitAsync()
         {

@@ -46,7 +46,8 @@ namespace CompStore.Core.Repositories
         ICommentRepository CommentRepository { get; }
         IContactUsRepository ContactUsRepository { get; }
         ISubscribeRepository SubscribeRepository { get; }
-
+        IEmailSettingRepository EmailSettingRepository { get; }
+        
         Task<int> CommitAsync();
     }
 }

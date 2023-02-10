@@ -46,6 +46,7 @@ namespace CompStore.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<ContactUs> ContactUs { get; set; }
+        public DbSet<EmailSetting> EmailSettings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
